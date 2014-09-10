@@ -1,5 +1,7 @@
 package com.slothwerks.hearthstone.compendiumforhearthstone.data;
 
+import android.content.Context;
+
 import com.slothwerks.hearthstone.compendiumforhearthstone.models.Card;
 
 import java.util.Collection;
@@ -13,15 +15,19 @@ public class CollectionManager {
 
     protected static CollectionManager sInstance;
     protected HashMap<String, Integer> mCardToQuantityMap;
+    protected Context mContext;
 
-    protected CollectionManager() {
+    protected CollectionManager(Context context) {
+
+        mContext = context;
         mCardToQuantityMap = new HashMap<String, Integer>();
+        initWithCardList(CardManager.getInstance(context).getAllCards());
     }
 
-    public static CollectionManager getInstance() {
+    public static CollectionManager getInstance(Context context) {
 
         if(sInstance == null) {
-            sInstance = new CollectionManager();
+            sInstance = new CollectionManager(context);
         }
 
         return sInstance;
@@ -36,6 +42,11 @@ public class CollectionManager {
     }
 
     public int quantityForCardId(String id) {
+
         return mCardToQuantityMap.get(id);
+    }
+
+    public void addQuantityForId(int quantity, String id) {
+        mCardToQuantityMap.put(id, quantity + mCardToQuantityMap.get(id));
     }
 }

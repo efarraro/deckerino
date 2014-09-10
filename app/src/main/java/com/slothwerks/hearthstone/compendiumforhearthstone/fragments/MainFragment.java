@@ -15,6 +15,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.slothwerks.hearthstone.compendiumforhearthstone.R;
+import com.slothwerks.hearthstone.compendiumforhearthstone.adapters.CardListItemAdapter;
 import com.slothwerks.hearthstone.compendiumforhearthstone.data.CardManager;
 import com.slothwerks.hearthstone.compendiumforhearthstone.models.Card;
 
@@ -31,9 +32,8 @@ public class MainFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_main, container, false);
 
         final ArrayAdapter<Card> adapter =
-                new ArrayAdapter<Card>(
-                        getActivity(),
-                        android.R.layout.simple_list_item_1,
+                new CardListItemAdapter(
+                        getActivity(), R.layout.card_list_item, 0,
                         CardManager.getInstance(getActivity()).getAllCards());
 
         ListView listView = (ListView)v.findViewById(R.id.main_list_view);

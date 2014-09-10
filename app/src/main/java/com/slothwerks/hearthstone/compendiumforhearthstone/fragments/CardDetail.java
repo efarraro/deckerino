@@ -14,17 +14,21 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.os.Build;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.slothwerks.hearthstone.compendiumforhearthstone.R;
 import com.slothwerks.hearthstone.compendiumforhearthstone.common.ImageDownloader;
 import com.slothwerks.hearthstone.compendiumforhearthstone.data.CardManager;
+import com.slothwerks.hearthstone.compendiumforhearthstone.data.CollectionManager;
 import com.slothwerks.hearthstone.compendiumforhearthstone.models.Card;
 
 import java.lang.reflect.Array;
 
 public class CardDetail extends Activity {
+
+    protected TextView mQuantityOwnedTextView;
 
     public static final String BASE_IMAGE_URL_FORMAT =
             "http://wow.zamimg.com/images/hearthstone/cards/enus/original/%s.png";
@@ -74,6 +78,8 @@ public class CardDetail extends Activity {
         protected ImageView mHeaderImageView;
         protected Intent mIntent;
         protected ImageDownloader<ImageView> mImageDownloadThread;
+        protected String mCardId;
+        protected TextView mQuantityOwnedTextView;
 
         public PlaceholderFragment(Intent intent) {
 
@@ -84,6 +90,7 @@ public class CardDetail extends Activity {
         public void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
 
+            // prepare thread for downloading card image
             mImageDownloadThread = new ImageDownloader<ImageView>(new Handler());
             mImageDownloadThread.setListener(new ImageDownloader.Listener<ImageView>() {
                 @Override
@@ -121,6 +128,23 @@ public class CardDetail extends Activity {
             TextView setView = (TextView)rootView.findViewById(R.id.card_detail_set_value);
             setView.setText(card.getSet().toString());
 
+            // get and set the quantity owned
+            int quantityOwned =
+                    CollectionManager.getInstance(getActivity()).quantityForCardId(cardId);
+            mQuantityOwnedTextView =
+                    (TextView)rootView.findViewById(R.id.card_detail_quantity_value);
+            mQuantityOwnedTextView.setText(Integer.toString(quantityOwned));
+
+            // set up the 'Add to Collection' button
+            Button addToCollectionButton =
+                    (Button)rootView.findViewById(R.id.card_detail_add_to_collection_button);
+            addToCollectionButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    addCurrentCardToCollection();
+                }
+            });
+
             return rootView;
         }
 
@@ -137,6 +161,16 @@ public class CardDetail extends Activity {
             super.onDestroyView();
 
             mImageDownloadThread.clearQueue();
+        }
+
+        protected void addCurrentCardToCollection() {
+            CollectionManager.getInstance(
+                    getActivity()).addQuantityForId(1, mIntent.getStringExtra(Card.CARD_ID));
+
+            mQuantityOwnedTextView.setText(
+                    Integer.toString(CollectionManager.getInstance(getActivity()).quantityForCardId(
+                            mIntent.getStringExtra(Card.CARD_ID)
+                    )));
         }
     }
 }

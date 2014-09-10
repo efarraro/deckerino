@@ -61,16 +61,18 @@
 
                         <TableRow>
                             <TextView
+                                android:textStyle="bold"
                                 android:text="@string/set"
                                 android:layout_weight="1"/>
                             <TextView
                                 android:id="@+id/card_detail_set_value"
-                                android:text="Naxxramas"
+                                android:text="Curse of Naxxramas Test Set"
                                 android:layout_weight="2"/>
                         </TableRow>
 
                         <TableRow>
                             <TextView
+                                android:textStyle="bold"
                                 android:text="@string/quantity_owned"
                                 android:layout_weight="1"/>
                             <TextView
@@ -94,6 +96,7 @@
             </ScrollView>
 
             <Button
+                android:id="@+id/card_detail_add_to_collection_button"
                 android:layout_below="@id/card_detail_scrollview"
                 android:layout_weight="0"
                 android:text="Add to Collection"
