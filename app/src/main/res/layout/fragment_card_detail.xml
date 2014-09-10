@@ -1,0 +1,105 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.slothwerks.hearthstone.compendiumforhearthstone.fragments.CardDetail$PlaceholderFragment">
+
+        <FrameLayout
+            android:id="@+id/card_detail_header"
+            android:padding="-16dp"
+            android:layout_width="match_parent"
+            android:layout_height="150dp">
+
+            <ImageView
+                android:id="@+id/card_detail_header_image"
+                android:src="@drawable/temp_image"
+                android:layout_gravity="center"
+                android:layout_marginTop="250dp"
+                android:layout_width="1000dp"
+                android:layout_height="1000dp"/>
+
+            <FrameLayout
+                android:background="@android:color/holo_blue_light"
+                android:layout_gravity="bottom"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"></FrameLayout>
+
+        </FrameLayout>
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ScrollView
+                android:id="@+id/card_detail_scrollview"
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <RelativeLayout
+                    android:layout_below="@id/card_detail_header"
+                    android:paddingLeft="@dimen/activity_horizontal_margin"
+                    android:paddingRight="@dimen/activity_horizontal_margin"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <ImageView
+                        android:id="@+id/card_detail_image"
+                        android:src="@drawable/temp_image"
+                        android:layout_marginBottom="16dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="400dp"/>
+
+                    <TableLayout
+                        android:id="@+id/card_detail_table"
+                        android:stretchColumns="true"
+                        android:layout_below="@id/card_detail_image"
+                        android:layout_marginBottom="16dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <TableRow>
+                            <TextView
+                                android:text="@string/set"
+                                android:layout_weight="1"/>
+                            <TextView
+                                android:id="@+id/card_detail_set_value"
+                                android:text="Naxxramas"
+                                android:layout_weight="2"/>
+                        </TableRow>
+
+                        <TableRow>
+                            <TextView
+                                android:text="@string/quantity_owned"
+                                android:layout_weight="1"/>
+                            <TextView
+                                android:id="@+id/card_detail_quantity_value"
+                                android:text="2"
+                                android:layout_weight="2"/>
+                        </TableRow>
+
+                    </TableLayout>
+
+                    <TextView
+                        android:id="@+id/card_detail_flavor"
+                        android:layout_below="@id/card_detail_table"
+                        android:textStyle="italic"
+                        android:text="Flavor text"
+                        android:layout_marginBottom="16dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"/>
+
+                </RelativeLayout>
+            </ScrollView>
+
+            <Button
+                android:layout_below="@id/card_detail_scrollview"
+                android:layout_weight="0"
+                android:text="Add to Collection"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+        </LinearLayout>
+
+</RelativeLayout>

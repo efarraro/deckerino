@@ -1,0 +1,12 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="android:Theme.Holo.Light.DarkActionBar">
+        <item name="android:textViewStyle">@style/DefaultTextStyle</item>
+    </style>
+
+    <style name="DefaultTextStyle" parent="android:Widget.TextView">
+        <item name="android:textSize">18sp</item>
+    </style>
+
+</resources>

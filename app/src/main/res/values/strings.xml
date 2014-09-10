@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Compendium for Hearthstone</string>
+    <string name="hello_world">Hello world2!</string>
+    <string name="action_settings">Settings</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_card_detail">CardDetail</string>
+
+    <!-- card detail -->
+    <string name="set">Set</string>
+    <string name="quantity_owned">Quantity owned</string>
+</resources>
