@@ -10,4 +10,8 @@
     <!-- card detail -->
     <string name="set">Set</string>
     <string name="quantity_owned">Quantity owned</string>
+
+    <!-- errors -->
+    <string name="fatal_error">Fatal error</string>
+    <string name="error_sql_unable_to_open_db">Unable to open database</string>
 </resources>

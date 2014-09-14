@@ -22,6 +22,7 @@ import com.slothwerks.hearthstone.compendiumforhearthstone.R;
 import com.slothwerks.hearthstone.compendiumforhearthstone.common.ImageDownloader;
 import com.slothwerks.hearthstone.compendiumforhearthstone.data.CardManager;
 import com.slothwerks.hearthstone.compendiumforhearthstone.data.CollectionManager;
+import com.slothwerks.hearthstone.compendiumforhearthstone.data.database.CardDbAdapter;
 import com.slothwerks.hearthstone.compendiumforhearthstone.models.Card;
 
 import java.lang.reflect.Array;
@@ -116,7 +117,8 @@ public class CardDetail extends Activity {
             mHeaderImageView = (ImageView)rootView.findViewById(R.id.card_detail_header_image);
 
             String cardId = mIntent.getStringExtra(Card.CARD_ID);
-            Card card = CardManager.getInstance(getActivity()).cardById(cardId);
+            //Card card = CardManager.getInstance(getActivity()).cardById(cardId);
+            Card card = new CardDbAdapter(getActivity()).cardById(cardId);
             String url = String.format(BASE_IMAGE_URL_FORMAT, cardId);
             mImageDownloadThread.queueImage(imageView, url);
 

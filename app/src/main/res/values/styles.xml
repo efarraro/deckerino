@@ -3,10 +3,16 @@
     <!-- Base application theme. -->
     <style name="AppTheme" parent="android:Theme.Holo.Light.DarkActionBar">
         <item name="android:textViewStyle">@style/DefaultTextStyle</item>
+        <item name="android:actionBarStyle">@style/CustomActionBar</item>
+    </style>
+    
+    <style name="CustomActionBar" parent="android:Widget.Holo.Light.ActionBar.Solid.Inverse">
+        <item name="android:background">#23A8FF</item>
     </style>
 
     <style name="DefaultTextStyle" parent="android:Widget.TextView">
         <item name="android:textSize">18sp</item>
+        <item name="android:textColor">#444444</item>
     </style>
 
 </resources>
