@@ -1,3 +1,3 @@
 hs_compendium
 =============
-HEarthstone tracker/deck builder for Android, as a learning exercise in how to build/architect Android apps.
+Hearthstone tracker/deck builder for Android, as a learning exercise in how to build/architect Android apps.
