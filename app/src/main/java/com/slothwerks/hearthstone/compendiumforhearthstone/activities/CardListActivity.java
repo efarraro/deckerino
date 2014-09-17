@@ -1,45 +1,37 @@
-package com.slothwerks.hearthstone.compendiumforhearthstone;
+package com.slothwerks.hearthstone.compendiumforhearthstone.activities;
 
-
-import android.app.ActionBar;
 import android.app.Activity;
-
-import android.content.Context;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.widget.DrawerLayout;
-import android.util.AttributeSet;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
-import android.os.Build;
+import android.widget.ListView;
 
-import com.slothwerks.hearthstone.compendiumforhearthstone.fragments.MainFragment;
+import com.slothwerks.hearthstone.compendiumforhearthstone.R;
+import com.slothwerks.hearthstone.compendiumforhearthstone.fragments.CardListFragment;
 
-
-public class MainActivity extends FragmentActivity {
+public class CardListActivity extends FragmentActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_card_list);
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
-                    .add(R.id.container, new MainFragment())
+                    .add(R.id.container, new CardListFragment())
                     .commit();
         }
 
         DrawerLayout drawerLayout = (DrawerLayout)findViewById(R.id.drawer_layout);
-        drawerLayout.openDrawer(View.LAYOUT_DIRECTION_RTL);
+        drawerLayout.openDrawer((ListView)findViewById((R.id.left_drawer)));
     }
 
-    /* @Override
+    /*@Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
+        getMenuInflater().inflate(R.menu.card_list, menu);
         return true;
     }
 
@@ -54,4 +46,5 @@ public class MainActivity extends FragmentActivity {
         }
         return super.onOptionsItemSelected(item);
     }*/
+
 }

@@ -14,4 +14,17 @@
     <!-- errors -->
     <string name="fatal_error">Fatal error</string>
     <string name="error_sql_unable_to_open_db">Unable to open database</string>
+
+    <!-- classes -->
+    <string name="paladin">Paladin</string>
+    <string name="warrior">Warrior</string>
+    <string name="druid">Druid</string>
+    <string name="rogue">Rogue</string>
+    <string name="mage">Mage</string>
+    <string name="priest">Priest</string>
+    <string name="shaman">Shaman</string>
+    <string name="hunter">Hunter</string>
+    <string name="warlock">Warlock</string>
+    <string name="title_activity_card_list">CardListActivity</string>
+
 </resources>

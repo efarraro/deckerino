@@ -7,6 +7,8 @@ import android.database.sqlite.SQLiteDatabase;
 
 import com.slothwerks.hearthstone.compendiumforhearthstone.models.Card;
 import com.slothwerks.hearthstone.compendiumforhearthstone.models.CardSet;
+import com.slothwerks.hearthstone.compendiumforhearthstone.models.PlayerClass;
+import com.slothwerks.hearthstone.compendiumforhearthstone.models.Rarity;
 import com.slothwerks.hearthstone.compendiumforhearthstone.util.Utility;
 
 import java.sql.SQLException;
@@ -28,6 +30,7 @@ public class CardDbAdapter extends DbAdapter {
     public static final String COST = "cost";
     public static final String ATTACK = "attack";
     public static final String HEALTH = "health";
+    public static final String TEXT = "text";
     public static final String FLAVOR = "flavor";
     public static final String ARTIST = "artist";
     public static final String COLLECTIBLE = "collectible";
@@ -56,6 +59,11 @@ public class CardDbAdapter extends DbAdapter {
         initialValues.put(NAME, card.getName());
         initialValues.put(SET, card.getSet().toString());
         initialValues.put(FLAVOR, card.getFlavor());
+        initialValues.put(TEXT, card.getText());
+        initialValues.put(RARITY, card.getRarity().toString());
+
+        if(card.getPlayerClass() != null)
+            initialValues.put(CLASS, card.getPlayerClass().toString());
 
         return mDb.insert(TABLE_NAME, null, initialValues);
     }
@@ -76,7 +84,16 @@ public class CardDbAdapter extends DbAdapter {
         return cursor;
     }
 
-    public Cursor findCardsLike(String query)
+    public Cursor getCardsByClass(PlayerClass c)
+    {
+        Cursor cursor = mDb.rawQuery(
+                "select * from " + TABLE_NAME +" where " + CLASS + " = ?",
+                new String[]{ c.toString() });
+
+        return cursor;
+    }
+
+    public Cursor getCardsLike(String query)
     {
         Cursor cursor = mDb.rawQuery(
                 "select * from " + TABLE_NAME + " where " + NAME + " like ? ",
@@ -112,6 +129,9 @@ public class CardDbAdapter extends DbAdapter {
         card.setName(c.getString(c.getColumnIndex(NAME)));
         card.setSet(Utility.stringToCardSet(c.getString(c.getColumnIndex(SET))));
         card.setFlavor(c.getString(c.getColumnIndex(FLAVOR)));
+        card.setClass(Utility.stringToPlayerClass(c.getString(c.getColumnIndex(CLASS))));
+        card.setText(c.getString((c.getColumnIndex(TEXT))));
+        card.setRarity(Rarity.valueOf(c.getString(c.getColumnIndex(RARITY))));
 
         return card;
     }

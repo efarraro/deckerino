@@ -1,5 +1,7 @@
 package com.slothwerks.hearthstone.compendiumforhearthstone.models;
 
+import com.slothwerks.hearthstone.compendiumforhearthstone.util.Utility;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -28,6 +30,9 @@ public class Card {
             "Battlecry"
          ]
      */
+
+    public static final String BASE_IMAGE_URL_FORMAT =
+            "http://wow.zamimg.com/images/hearthstone/cards/enus/original/%s.png";
 
     public static final String CARD_ID = "CARD_ID";
 
@@ -194,6 +199,11 @@ public class Card {
         mHowToGet = howToGet;
     }
 
+    public String getImageUrl()
+    {
+        return String.format(BASE_IMAGE_URL_FORMAT, mId);
+    }
+
     @Override
     public String toString() {
         return mName;
@@ -221,11 +231,19 @@ public class Card {
         if(o.has("health"))
             card.setHealth(o.getInt("health"));
 
+        if(o.has("text"))
+            card.setText(o.getString("text"));
+
         if(o.has("collectible"))
             card.setCollectible(o.getBoolean("collectible"));
 
         if(o.has("flavor"))
             card.setFlavor(o.getString("flavor"));
+
+        if(o.has("playerClass"))
+        {
+            card.setClass(Utility.stringToPlayerClass(o.getString("playerClass")));
+        }
 
         if(set != null) {
             if(set.equals("Curse of Naxxramas"))

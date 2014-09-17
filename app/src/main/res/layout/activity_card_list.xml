@@ -9,13 +9,22 @@
         android:id="@+id/container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".MainActivity"
+        tools:context="com.slothwerks.hearthstone.compendiumforhearthstone.activities.CardListActivity"
         tools:ignore="MergeRootFrame" />
 
     <ListView android:id="@+id/left_drawer"
               android:layout_width="240dp"
               android:layout_height="match_parent"
-              android:layout_gravity="start"
+              android:layout_gravity="left"
+              android:choiceMode="singleChoice"
+              android:divider="@android:color/transparent"
+              android:dividerHeight="0dp"
+              android:background="#111"/>
+
+    <ListView android:id="@+id/right_drawer"
+              android:layout_width="240dp"
+              android:layout_height="match_parent"
+              android:layout_gravity="right"
               android:choiceMode="singleChoice"
               android:divider="@android:color/transparent"
               android:dividerHeight="0dp"

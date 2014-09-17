@@ -1,33 +1,36 @@
 package com.slothwerks.hearthstone.compendiumforhearthstone.fragments;
 
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.app.Fragment;
+import android.support.v4.app.Fragment;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
+import android.widget.FilterQueryProvider;
 import android.widget.ListView;
 import android.widget.SearchView;
 
 import com.slothwerks.hearthstone.compendiumforhearthstone.R;
 import com.slothwerks.hearthstone.compendiumforhearthstone.adapters.CardListCursorAdapter;
 import com.slothwerks.hearthstone.compendiumforhearthstone.data.database.CardDbAdapter;
-import com.slothwerks.hearthstone.compendiumforhearthstone.data.CardManager;
-import com.slothwerks.hearthstone.compendiumforhearthstone.data.database.CollectionDbAdapter;
 import com.slothwerks.hearthstone.compendiumforhearthstone.models.Card;
+import com.slothwerks.hearthstone.compendiumforhearthstone.models.PlayerClass;
 
 import java.sql.SQLException;
 
 public class MainFragment extends Fragment {
 
     public static final String TAG = "MainFragment";
+
+    public static final String PLAYER_CLASS = "PLAYER_CLASS";
+
+    protected CardDbAdapter mCardDbAdapter;
 
     public MainFragment() {
         // Required empty public constructor
@@ -36,6 +39,24 @@ public class MainFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        try {
+            mCardDbAdapter = (CardDbAdapter) new CardDbAdapter(getActivity()).open();
+
+        } catch(SQLException e)
+        {
+            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+            builder.setTitle(getString(R.string.fatal_error));
+            builder.setMessage(getString(R.string.error_sql_unable_to_open_db));
+            builder.show();
+        }
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+
+        // Inflate the menu; this adds items to the action bar if it is present.
+        inflater.inflate(R.menu.main, menu);
     }
 
     @Override
@@ -47,27 +68,30 @@ public class MainFragment extends Fragment {
         Cursor cursor = null;
 
         // get a list of all the cards from the database
-        try {
-            CardDbAdapter adapter = (CardDbAdapter) new CardDbAdapter(getActivity()).open();
-            cursor = adapter.getAllCards();
 
-        } catch(SQLException e)
-        {
-           e.printStackTrace();
+        Bundle args = getArguments();
+        String playerClassStr = args.getString(PLAYER_CLASS);
+        PlayerClass playerClass = PlayerClass.None;
+        if(playerClassStr != null)
+            playerClass = PlayerClass.valueOf(playerClassStr);
 
-            AlertDialog.Builder dialog = new AlertDialog.Builder(getActivity());
-            dialog.setTitle(R.string.fatal_error);
-            dialog.setMessage(R.string.error_sql_unable_to_open_db);
-            dialog.show();
-
-            getActivity().finish();
-        }
+        //cursor = mCardDbAdapter.getAllCards();
+        cursor = mCardDbAdapter.getCardsByClass(playerClass);
 
         // set up the adapter for the list view
         final CardListCursorAdapter adapter =
                 new CardListCursorAdapter(getActivity(), cursor);
 
-        ListView listView = (ListView)v.findViewById(R.id.main_list_view);
+        adapter.setFilterQueryProvider(new FilterQueryProvider() {
+            @Override
+            public Cursor runQuery(CharSequence constraint) {
+
+                Log.d(TAG, "Searching for " + constraint.toString());
+                return mCardDbAdapter.getCardsLike(constraint.toString());
+            }
+        });
+
+        final ListView listView = (ListView)v.findViewById(R.id.main_list_view);
         listView.setAdapter(adapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -82,7 +106,7 @@ public class MainFragment extends Fragment {
         });
 
         // set up the search view
-        SearchView searchView = (SearchView)v.findViewById(R.id.main_search_view);
+        /*SearchView searchView = (SearchView)v.findViewById(R.id.main_search_view);
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
 
             @Override
@@ -93,27 +117,14 @@ public class MainFragment extends Fragment {
             @Override
             public boolean onQueryTextChange(String newText) {
 
-                try {
-                    CardDbAdapter adapter = (CardDbAdapter) new CardDbAdapter(getActivity()).open();
+                CardListCursorAdapter cursorAdapter =
+                        (CardListCursorAdapter)listView.getAdapter();
 
-                    Cursor c = adapter.findCardsLike(newText);
-                    c.moveToFirst();
+                cursorAdapter.getFilter().filter(newText);
 
-                    while(!c.isAfterLast() && !c.isBeforeFirst())
-                    {
-                        Log.d(TAG, c.getString(c.getColumnIndex("name")));
-                        c.moveToNext();
-                    }
-
-                    adapter.close();
-
-                } catch(SQLException e) {
-                    e.printStackTrace();
-                }
-
-                return false;
+                return true;
             }
-        });
+        });*/
 
         return v;
     }

@@ -31,9 +31,6 @@ public class CardDetail extends Activity {
 
     protected TextView mQuantityOwnedTextView;
 
-    public static final String BASE_IMAGE_URL_FORMAT =
-            "http://wow.zamimg.com/images/hearthstone/cards/enus/original/%s.png";
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -119,8 +116,8 @@ public class CardDetail extends Activity {
             String cardId = mIntent.getStringExtra(Card.CARD_ID);
             //Card card = CardManager.getInstance(getActivity()).cardById(cardId);
             Card card = new CardDbAdapter(getActivity()).cardById(cardId);
-            String url = String.format(BASE_IMAGE_URL_FORMAT, cardId);
-            mImageDownloadThread.queueImage(imageView, url);
+
+            mImageDownloadThread.queueImage(imageView, card.getImageUrl());
 
             // set flavor
             TextView flavorView = (TextView)rootView.findViewById(R.id.card_detail_flavor);
