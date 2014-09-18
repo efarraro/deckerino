@@ -30,6 +30,9 @@ public class CardListPagerAdapter extends FragmentPagerAdapter {
         mPlayerClasses.add(PlayerClass.Hunter);
         mPlayerClasses.add(PlayerClass.Warlock);
         mPlayerClasses.add(PlayerClass.Shaman);
+        mPlayerClasses.add(PlayerClass.Paladin);
+        mPlayerClasses.add(PlayerClass.Rogue);
+        mPlayerClasses.add(PlayerClass.Neutral);
     }
 
     @Override

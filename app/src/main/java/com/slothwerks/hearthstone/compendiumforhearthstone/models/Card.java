@@ -231,8 +231,15 @@ public class Card {
         if(o.has("health"))
             card.setHealth(o.getInt("health"));
 
-        if(o.has("text"))
-            card.setText(o.getString("text"));
+        if(o.has("text")) {
+
+            //clean up the string we get from JSON
+            String text = o.getString("text");
+            text = text.replace("#", "");
+            text = text.replace("$", "");
+
+            card.setText(text);
+        }
 
         if(o.has("collectible"))
             card.setCollectible(o.getBoolean("collectible"));

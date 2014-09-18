@@ -61,9 +61,14 @@ public class CardDbAdapter extends DbAdapter {
         initialValues.put(FLAVOR, card.getFlavor());
         initialValues.put(TEXT, card.getText());
         initialValues.put(RARITY, card.getRarity().toString());
+        initialValues.put(COST, card.getCost());
+        initialValues.put(ATTACK, card.getAttack());
+        initialValues.put(HEALTH, card.getHealth());
 
         if(card.getPlayerClass() != null)
             initialValues.put(CLASS, card.getPlayerClass().toString());
+        else
+            initialValues.put(CLASS, PlayerClass.Neutral.toString());
 
         return mDb.insert(TABLE_NAME, null, initialValues);
     }
@@ -132,6 +137,9 @@ public class CardDbAdapter extends DbAdapter {
         card.setClass(Utility.stringToPlayerClass(c.getString(c.getColumnIndex(CLASS))));
         card.setText(c.getString((c.getColumnIndex(TEXT))));
         card.setRarity(Rarity.valueOf(c.getString(c.getColumnIndex(RARITY))));
+        card.setAttack(c.getInt(c.getColumnIndex(ATTACK)));
+        card.setHealth(c.getInt(c.getColumnIndex(HEALTH)));
+        card.setCost(c.getInt(c.getColumnIndex(COST)));
 
         return card;
     }

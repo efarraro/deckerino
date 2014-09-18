@@ -16,6 +16,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.os.Build;
+import android.widget.ListView;
 
 import com.slothwerks.hearthstone.compendiumforhearthstone.fragments.MainFragment;
 
@@ -32,8 +33,10 @@ public class MainActivity extends FragmentActivity {
                     .commit();
         }
 
-        DrawerLayout drawerLayout = (DrawerLayout)findViewById(R.id.drawer_layout);
-        drawerLayout.openDrawer(View.LAYOUT_DIRECTION_RTL);
+        /*DrawerLayout drawerLayout = (DrawerLayout)findViewById(R.id.drawer_layout);
+        drawerLayout.openDrawer(View.LAYOUT_DIRECTION_RTL);*/
+
+
     }
 
     /* @Override

@@ -26,5 +26,6 @@
     <string name="hunter">Hunter</string>
     <string name="warlock">Warlock</string>
     <string name="title_activity_card_list">CardListActivity</string>
+    <string name="title_activity_deck_builder">DeckBuilderActivity</string>
 
 </resources>

@@ -19,6 +19,7 @@
     <color name="rare">#0000FF</color>
     <color name="epic">#AA00FF</color>
     <color name="legendary">#FFAA00</color>
+    <color name="basic">#666</color>
 
     <color name="background">#EEEEEE</color>
 

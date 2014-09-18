@@ -71,7 +71,7 @@ public class MainFragment extends Fragment {
 
         Bundle args = getArguments();
         String playerClassStr = args.getString(PLAYER_CLASS);
-        PlayerClass playerClass = PlayerClass.None;
+        PlayerClass playerClass = PlayerClass.Neutral;
         if(playerClassStr != null)
             playerClass = PlayerClass.valueOf(playerClassStr);
 

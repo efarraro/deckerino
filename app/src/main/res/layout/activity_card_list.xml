@@ -12,15 +12,23 @@
         tools:context="com.slothwerks.hearthstone.compendiumforhearthstone.activities.CardListActivity"
         tools:ignore="MergeRootFrame" />
 
-    <ListView android:id="@+id/left_drawer"
+        <ListView android:id="@+id/left_drawer"
               android:layout_width="240dp"
               android:layout_height="match_parent"
               android:layout_gravity="left"
               android:choiceMode="singleChoice"
               android:divider="@android:color/transparent"
               android:dividerHeight="0dp"
-              android:background="#111"/>
+              android:background="#6a7ca4"/>
 
+<!--
+    <TextView
+        android:layout_gravity="left"
+        android:text="Test"
+        android:layout_width="140dp"
+        android:layout_height="match_parent"/>-->
+
+    <!--
     <ListView android:id="@+id/right_drawer"
               android:layout_width="240dp"
               android:layout_height="match_parent"
@@ -28,6 +36,6 @@
               android:choiceMode="singleChoice"
               android:divider="@android:color/transparent"
               android:dividerHeight="0dp"
-              android:background="#111"/>
+              android:background="#111"/>-->
 
 </android.support.v4.widget.DrawerLayout>

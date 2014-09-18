@@ -34,6 +34,9 @@ public abstract class DbAdapter {
                     CardDbAdapter.TEXT + " TEXT, " +
                     CardDbAdapter.CLASS + " TEXT, " +
                     CardDbAdapter.RARITY + " TEXT, " +
+                    CardDbAdapter.ATTACK + " INT, " +
+                    CardDbAdapter.HEALTH + " INT, " +
+                    CardDbAdapter.COST + " INT, " +
                     CardDbAdapter.NAME + " TEXT);";
 
     private static final String CREATE_TABLE_COLLECTION =

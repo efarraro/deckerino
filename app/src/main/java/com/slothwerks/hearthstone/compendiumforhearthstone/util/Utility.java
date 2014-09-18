@@ -23,7 +23,7 @@ public class Utility {
     public static PlayerClass stringToPlayerClass(String s)
     {
         if(s == null)
-            return PlayerClass.None;
+            return PlayerClass.Neutral;
 
         try
         {
@@ -34,6 +34,6 @@ public class Utility {
             e.printStackTrace();
         }
 
-        return PlayerClass.Unknown;
+        return PlayerClass.Neutral;
     }
 }

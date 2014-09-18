@@ -15,6 +15,7 @@ import android.widget.CursorAdapter;
 import android.widget.Filter;
 import android.widget.FilterQueryProvider;
 import android.widget.Filterable;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -22,6 +23,7 @@ import com.slothwerks.hearthstone.compendiumforhearthstone.R;
 import com.slothwerks.hearthstone.compendiumforhearthstone.common.ImageDownloader;
 import com.slothwerks.hearthstone.compendiumforhearthstone.data.database.CardDbAdapter;
 import com.slothwerks.hearthstone.compendiumforhearthstone.models.Card;
+import com.slothwerks.hearthstone.compendiumforhearthstone.models.CardType;
 import com.slothwerks.hearthstone.compendiumforhearthstone.models.Rarity;
 
 import java.util.List;
@@ -72,10 +74,42 @@ public class CardListCursorAdapter extends CursorAdapter implements Filterable {
             listItemName.setTextColor(context.getResources().getColor(R.color.legendary));
         else if(card.getRarity() == Rarity.Common)
             listItemName.setTextColor(context.getResources().getColor(R.color.common));
+        else
+            listItemName.setTextColor(context.getResources().getColor(R.color.basic));
 
         if(card.getText() != null) {
             TextView listItemText = (TextView) view.findViewById(R.id.card_list_item_text);
             listItemText.setText(Html.fromHtml(card.getText()));
+        }
+
+        // set the cost
+        TextView costText = (TextView)view.findViewById(R.id.card_list_item_cost);
+        costText.setText(String.valueOf(card.getCost()));
+
+        // set attack
+        TextView attackText = (TextView)view.findViewById(R.id.card_list_item_attack);
+        attackText.setText(String.valueOf(card.getAttack()));
+
+        // set health
+        TextView healthText = (TextView)view.findViewById(R.id.card_list_item_health);
+        healthText.setText(String.valueOf(card.getHealth()));
+
+
+        // determine if we should hide the attack/health sections
+        FrameLayout attackLayout =
+                (FrameLayout)view.findViewById(R.id.card_list_item_attack_container);
+        FrameLayout healthLayout =
+                (FrameLayout)view.findViewById(R.id.card_list_item_health_container);
+
+        if(card.getHealth() == 0 && card.getAttack() == 0) {
+
+            attackLayout.setVisibility(View.GONE);
+            healthLayout.setVisibility(View.GONE);
+        }
+        else {
+
+            attackLayout.setVisibility(View.VISIBLE);
+            healthLayout.setVisibility(View.VISIBLE);
         }
 
         /*Card card = CardDbAdapter.cursorToCard(cursor);
