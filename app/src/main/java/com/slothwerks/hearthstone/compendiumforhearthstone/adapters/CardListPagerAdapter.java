@@ -5,11 +5,10 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
-import com.slothwerks.hearthstone.compendiumforhearthstone.fragments.MainFragment;
+import com.slothwerks.hearthstone.compendiumforhearthstone.fragments.CardListFragment;
 import com.slothwerks.hearthstone.compendiumforhearthstone.models.PlayerClass;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by Eric on 9/16/2014.
@@ -38,10 +37,10 @@ public class CardListPagerAdapter extends FragmentPagerAdapter {
     @Override
     public Fragment getItem(int i) {
 
-        MainFragment fragment = new MainFragment();
+        CardListFragment fragment = new CardListFragment();
 
         Bundle args = new Bundle();
-        args.putString(MainFragment.PLAYER_CLASS, mPlayerClasses.get(i).toString());
+        args.putString(CardListFragment.PLAYER_CLASS, mPlayerClasses.get(i).toString());
         fragment.setArguments(args);
 
         return fragment;

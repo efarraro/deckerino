@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import com.astuetz.PagerSlidingTabStrip;
 import com.slothwerks.hearthstone.compendiumforhearthstone.R;
 import com.slothwerks.hearthstone.compendiumforhearthstone.adapters.DeckBuilderPagerAdapter;
+import com.slothwerks.hearthstone.compendiumforhearthstone.models.Deck;
 
 /**
  * Created by Eric on 9/17/2014.
@@ -18,6 +19,7 @@ import com.slothwerks.hearthstone.compendiumforhearthstone.adapters.DeckBuilderP
 public class DeckBuilderFragment extends Fragment {
 
     public DeckBuilderFragment() {
+
     }
 
     @Override

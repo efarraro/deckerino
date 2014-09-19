@@ -5,6 +5,7 @@
               android:layout_width="match_parent"
               android:layout_height="48dp">
 
+    <!-- the title of the navigation link -->
     <TextView
         android:id="@+id/nav_item_link_title"
         android:text="Link text"
@@ -13,6 +14,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
 
+    <!-- divider ('gone' by default, used by nav items of type 'title') -->
     <View
         android:id="@+id/nav_item_divider"
         android:background="#ddd"

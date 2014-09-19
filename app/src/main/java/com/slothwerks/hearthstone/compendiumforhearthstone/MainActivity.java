@@ -1,24 +1,10 @@
 package com.slothwerks.hearthstone.compendiumforhearthstone;
 
 
-import android.app.ActionBar;
-import android.app.Activity;
-
-import android.content.Context;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentActivity;
-import android.support.v4.widget.DrawerLayout;
-import android.util.AttributeSet;
-import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
-import android.os.Build;
-import android.widget.ListView;
 
-import com.slothwerks.hearthstone.compendiumforhearthstone.fragments.MainFragment;
+import com.slothwerks.hearthstone.compendiumforhearthstone.fragments.CardListFragment;
 
 
 public class MainActivity extends FragmentActivity {
@@ -26,10 +12,10 @@ public class MainActivity extends FragmentActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.fragment_home_card_list);
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
-                    .add(R.id.container, new MainFragment())
+                    .add(R.id.container, new CardListFragment())
                     .commit();
         }
 
