@@ -1,19 +1,38 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<android.support.v4.widget.DrawerLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="com.slothwerks.hearthstone.compendiumforhearthstone.activities.DeckBuilderActivity"
-    tools:ignore="MergeRootFrame" >
+    android:layout_height="match_parent">
 
-    <FrameLayout
-        android:id="@+id/activity_deck_summary"
+    <!-- main content-->
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="match_parent"
+        tools:context="com.slothwerks.hearthstone.compendiumforhearthstone.activities.DeckBuilderActivity"
+        tools:ignore="MergeRootFrame" >
 
-    <FrameLayout
-        android:id="@+id/container"
-        android:layout_below="@id/activity_deck_summary"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"></FrameLayout>
+        <FrameLayout
+            android:id="@+id/activity_deck_summary"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
 
-</RelativeLayout>
+        <FrameLayout
+            android:id="@+id/container"
+            android:layout_below="@id/activity_deck_summary"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"></FrameLayout>
+
+    </RelativeLayout>
+
+    <!-- nav drawer -->
+    <ListView android:id="@+id/deck_builder_deck_drawer"
+              android:layout_width="240dp"
+              android:layout_height="match_parent"
+              android:layout_gravity="right"
+              android:choiceMode="singleChoice"
+              android:divider="@android:color/transparent"
+              android:dividerHeight="0dp"
+              android:background="#03a9f4"/>
+
+</android.support.v4.widget.DrawerLayout>

@@ -64,6 +64,7 @@ public class CardDbAdapter extends DbAdapter {
         initialValues.put(COST, card.getCost());
         initialValues.put(ATTACK, card.getAttack());
         initialValues.put(HEALTH, card.getHealth());
+        initialValues.put(ELITE, card.getElite());
 
         if(card.getPlayerClass() != null)
             initialValues.put(CLASS, card.getPlayerClass().toString());
@@ -92,7 +93,7 @@ public class CardDbAdapter extends DbAdapter {
     public Cursor getCardsByClass(PlayerClass c)
     {
         Cursor cursor = mDb.rawQuery(
-                "select * from " + TABLE_NAME +" where " + CLASS + " = ?",
+                "select * from " + TABLE_NAME +" where " + CLASS + " = ? order by cost",
                 new String[]{ c.toString() });
 
         return cursor;
@@ -140,6 +141,7 @@ public class CardDbAdapter extends DbAdapter {
         card.setAttack(c.getInt(c.getColumnIndex(ATTACK)));
         card.setHealth(c.getInt(c.getColumnIndex(HEALTH)));
         card.setCost(c.getInt(c.getColumnIndex(COST)));
+        card.setElite(c.getInt(c.getColumnIndex(ELITE)) > 0);
 
         return card;
     }

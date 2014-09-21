@@ -18,6 +18,7 @@ import android.widget.ListView;
 import com.slothwerks.hearthstone.compendiumforhearthstone.R;
 import com.slothwerks.hearthstone.compendiumforhearthstone.adapters.CardListCursorAdapter;
 import com.slothwerks.hearthstone.compendiumforhearthstone.data.database.CardDbAdapter;
+import com.slothwerks.hearthstone.compendiumforhearthstone.events.EventCardQuantityUpdated;
 import com.slothwerks.hearthstone.compendiumforhearthstone.events.EventCardTapped;
 import com.slothwerks.hearthstone.compendiumforhearthstone.models.Card;
 import com.slothwerks.hearthstone.compendiumforhearthstone.models.PlayerClass;
@@ -33,6 +34,7 @@ public class CardListFragment extends Fragment {
     public static final String PLAYER_CLASS = "PLAYER_CLASS";
 
     protected CardDbAdapter mCardDbAdapter;
+    protected ListView mListView;
 
     public CardListFragment() {
         // Required empty public constructor
@@ -93,14 +95,14 @@ public class CardListFragment extends Fragment {
             }
         });
 
-        final ListView listView = (ListView)v.findViewById(R.id.main_list_view);
-        listView.setAdapter(adapter);
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        mListView = (ListView)v.findViewById(R.id.main_list_view);
+        mListView.setAdapter(adapter);
+        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
                 Card card = CardDbAdapter.cursorToCard(
-                        (Cursor)listView.getAdapter().getItem(position));
+                        (Cursor)mListView.getAdapter().getItem(position));
 
                 EventBus.getDefault().post(new EventCardTapped(card));
             }
@@ -128,5 +130,25 @@ public class CardListFragment extends Fragment {
         });*/
 
         return v;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+
+        EventBus.getDefault().unregister(this);
+    }
+
+    public void onEventMainThread(EventCardQuantityUpdated e) {
+
+        CardListCursorAdapter adapter = (CardListCursorAdapter)mListView.getAdapter();
+        adapter.updateQuantityForCard(e.getCard(), e.getQuantity());
     }
 }

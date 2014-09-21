@@ -42,20 +42,17 @@ public class DeckBuilderPagerAdapter extends FragmentPagerAdapter {
             fragment.setArguments(args);
             return fragment;
         }
-        else if(i == 1) {
+        else {
             Bundle args = new Bundle();
             args.putString(CardListFragment.PLAYER_CLASS, PlayerClass.Neutral.toString());
             fragment.setArguments(args);
             return fragment;
         }
-        else {
-            return new DeckListFragment();
-        }
     }
 
     @Override
     public int getCount() {
-        return 3;
+        return 2;
     }
 
     @Override
@@ -65,15 +62,8 @@ public class DeckBuilderPagerAdapter extends FragmentPagerAdapter {
         if(position == 0) {
             return PlayerClass.Druid.toString();
         }
-        else if(position == 1) {
-            return PlayerClass.Neutral.toString();
-        }
         else {
-            // TODO localize
-            if(mCurrentDeck == null)
-                return "Deck 0/30";
-            else
-                return "Deck " + mCurrentDeck.getCards().size() + "30";
+            return PlayerClass.Neutral.toString();
         }
     }
 

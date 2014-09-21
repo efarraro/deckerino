@@ -5,6 +5,7 @@ import com.slothwerks.hearthstone.compendiumforhearthstone.util.Utility;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -241,6 +242,11 @@ public class Card {
             card.setText(text);
         }
 
+        if(o.has("elite"))
+            card.setElite(o.getBoolean("elite"));
+        else
+            card.setElite(false);
+
         if(o.has("collectible"))
             card.setCollectible(o.getBoolean("collectible"));
 
@@ -264,5 +270,15 @@ public class Card {
         return card;
     }
 
+    /**
+     * Used to sort cards by their mana (resource) cost
+     */
+    public static class CostComparator implements Comparator<CardQuantityPair> {
+
+        @Override
+        public int compare(CardQuantityPair lhs, CardQuantityPair rhs) {
+            return lhs.getCard().getCost() - rhs.getCard().getCost();
+        }
+    }
 
 }

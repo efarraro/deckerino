@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.content.Context;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Handler;
 import android.text.Html;
 import android.util.Log;
@@ -26,6 +28,7 @@ import com.slothwerks.hearthstone.compendiumforhearthstone.models.Card;
 import com.slothwerks.hearthstone.compendiumforhearthstone.models.CardType;
 import com.slothwerks.hearthstone.compendiumforhearthstone.models.Rarity;
 
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -35,13 +38,19 @@ public class CardListCursorAdapter extends CursorAdapter implements Filterable {
 
     public static final String TAG = "CardListCursorAdapter";
     protected ImageDownloader<ImageView> mImageDownloadThread;
+    protected HashMap<String, Integer> mCardIdToQuantityMap;
 
     public CardListCursorAdapter(Context context, Cursor c)
     {
         super(context, c, 0);
+        mCardIdToQuantityMap = new HashMap<String, Integer>();
     }
 
+    public void updateQuantityForCard(Card card, int newQuantity) {
+        mCardIdToQuantityMap.put(card.getId(), new Integer(newQuantity));
 
+        notifyDataSetChanged();
+    }
 
     @Override
     public View newView(Context context, Cursor cursor, ViewGroup parent) {
@@ -60,10 +69,17 @@ public class CardListCursorAdapter extends CursorAdapter implements Filterable {
 
         // TODO use view holder
         TextView listItemName = (TextView)view.findViewById(R.id.card_list_item_name);
-        if(card.getPlayerClass() != null)
-            listItemName.setText(card.getName());
-        else
-            listItemName.setText(card.getName());
+        String name = card.getName();
+        int quantity = mCardIdToQuantityMap.containsKey(card.getId()) ?
+                mCardIdToQuantityMap.get(card.getId()) : 0;
+        if(quantity > 0) {
+            name += " x " + quantity;
+            view.setBackgroundColor(0xffd0d9ff);
+        }
+        else {
+            view.setBackgroundColor(Color.WHITE);
+        }
+        listItemName.setText(name);
 
         // set the color of the card's name depending on rarity
         if(card.getRarity() == Rarity.Epic)

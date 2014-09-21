@@ -28,4 +28,7 @@
     <string name="title_activity_card_list">CardListActivity</string>
     <string name="title_activity_deck_builder">DeckBuilderActivity</string>
 
+    <!-- deck summary -->
+    <string name="show_deck">Show Deck</string>
+
 </resources>
