@@ -26,12 +26,13 @@ import com.slothwerks.hearthstone.compendiumforhearthstone.fragments.DeckSummary
 import com.slothwerks.hearthstone.compendiumforhearthstone.models.Card;
 import com.slothwerks.hearthstone.compendiumforhearthstone.models.CardQuantityPair;
 import com.slothwerks.hearthstone.compendiumforhearthstone.models.Deck;
+import com.slothwerks.hearthstone.compendiumforhearthstone.models.PlayerClass;
 
 import java.util.ArrayList;
 
 import de.greenrobot.event.EventBus;
 
-public class DeckBuilderActivity extends FragmentActivity {
+public class DeckBuilderActivity extends BaseFragmentActivity {
 
     protected Deck mDeck;
     protected DrawerLayout mDeckDrawerLayout;
@@ -64,6 +65,9 @@ public class DeckBuilderActivity extends FragmentActivity {
         mListAdapter =
                 new DeckListArrayAdapter(this, mDeck.getCards());
         mDeckDrawer.setAdapter(mListAdapter);
+
+        // TODO look to instance for the player's class
+        setTitle(String.format(getString(R.string.activity_deck_builder), PlayerClass.Druid));
     }
 
     @Override

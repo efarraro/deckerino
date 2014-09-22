@@ -33,8 +33,12 @@ public class DeckListArrayAdapter extends ArrayAdapter<CardQuantityPair> {
 
         Card card = getItem(position).getCard();
 
+        // TODO localize properly
         TextView name = (TextView)convertView.findViewById(R.id.list_item_deck_list_name);
         name.setText(card.getName() + " (" + getItem(position).getQuantity() + ")");
+
+        TextView cost = (TextView)convertView.findViewById(R.id.list_item_deck_list_cost);
+        cost.setText(Integer.toString(card.getCost()));
 
         return convertView;
     }

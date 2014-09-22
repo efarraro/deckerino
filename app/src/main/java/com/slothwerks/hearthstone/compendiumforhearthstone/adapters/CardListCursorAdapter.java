@@ -34,10 +34,9 @@ import java.util.List;
 /**
  * Created by Eric on 9/9/2014.
  */
-public class CardListCursorAdapter extends CursorAdapter implements Filterable {
+public class CardListCursorAdapter extends CursorAdapter {
 
     public static final String TAG = "CardListCursorAdapter";
-    protected ImageDownloader<ImageView> mImageDownloadThread;
     protected HashMap<String, Integer> mCardIdToQuantityMap;
 
     public CardListCursorAdapter(Context context, Cursor c)
@@ -74,24 +73,28 @@ public class CardListCursorAdapter extends CursorAdapter implements Filterable {
                 mCardIdToQuantityMap.get(card.getId()) : 0;
         if(quantity > 0) {
             name += " x " + quantity;
-            view.setBackgroundColor(0xffd0d9ff);
+            view.setBackgroundColor(context.getResources().getColor(R.color.primary_light));
         }
         else {
             view.setBackgroundColor(Color.WHITE);
         }
         listItemName.setText(name);
 
+        // get the rarity indicator (vertical colored bar)
+        View rarityIndicator =
+                (View)view.findViewById(R.id.card_list_item_rarity_indicator);
+
         // set the color of the card's name depending on rarity
         if(card.getRarity() == Rarity.Epic)
-            listItemName.setTextColor(context.getResources().getColor(R.color.epic));
+            rarityIndicator.setBackgroundColor(context.getResources().getColor(R.color.epic));
         else if(card.getRarity() == Rarity.Rare)
-            listItemName.setTextColor(context.getResources().getColor(R.color.rare));
+            rarityIndicator.setBackgroundColor(context.getResources().getColor(R.color.rare));
         else if(card.getRarity() == Rarity.Legendary)
-            listItemName.setTextColor(context.getResources().getColor(R.color.legendary));
+            rarityIndicator.setBackgroundColor(context.getResources().getColor(R.color.legendary));
         else if(card.getRarity() == Rarity.Common)
-            listItemName.setTextColor(context.getResources().getColor(R.color.common));
+            rarityIndicator.setBackgroundColor(context.getResources().getColor(R.color.common));
         else
-            listItemName.setTextColor(context.getResources().getColor(R.color.basic));
+            rarityIndicator.setBackgroundColor(context.getResources().getColor(R.color.basic));
 
         if(card.getText() != null) {
             TextView listItemText = (TextView) view.findViewById(R.id.card_list_item_text);
@@ -127,10 +130,5 @@ public class CardListCursorAdapter extends CursorAdapter implements Filterable {
             attackLayout.setVisibility(View.VISIBLE);
             healthLayout.setVisibility(View.VISIBLE);
         }
-
-        /*Card card = CardDbAdapter.cursorToCard(cursor);
-
-        ImageView imageView = (ImageView)view.findViewById(R.id.card_image_item_imageview);
-        mImageDownloadThread.queueImage(imageView, card.getImageUrl());*/
     }
 }

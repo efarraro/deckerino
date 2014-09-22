@@ -7,7 +7,7 @@
     </style>
     
     <style name="CustomActionBar" parent="android:Widget.Holo.Light.ActionBar.Solid.Inverse">
-        <item name="android:background">#23A8FF</item>
+        <item name="android:background">@color/primary</item>
     </style>
 
     <style name="DefaultTextStyle" parent="android:Widget.TextView">
@@ -15,11 +15,26 @@
         <item name="android:textColor">#444444</item>
     </style>
 
+    <!-- card colors -->
     <color name="common">#00AA00</color>
     <color name="rare">#0000FF</color>
     <color name="epic">#AA00FF</color>
     <color name="legendary">#FFAA00</color>
     <color name="basic">#666</color>
+
+    <color name="mana_crystal_blue">#5677fc</color>
+
+    <!-- primary theme colors -->
+    <color name="primary">#03a9f4</color>
+    <color name="primary_dark">#01579b</color>
+    <color name="primary_light">#b3e5fc</color>
+    <color name="accent">#ffc107</color>
+
+    <!-- alternate theme colors -->
+    <!--
+    <color name="primary">#ffc107</color>
+    <color name="primary_dark">#ffab00</color>
+    <color name="accent">#03a9f4</color>-->
 
     <color name="background">#EEEEEE</color>
 

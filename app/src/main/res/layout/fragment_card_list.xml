@@ -5,12 +5,6 @@
     android:layout_height="match_parent"
 
     tools:context=".MainActivity$PlaceholderFragment">
-<!--
-    <ImageView
-        android:id="@+id/main_banner"
-        android:src="@drawable/banner"
-        android:layout_width="match_parent"
-        android:layout_height="80dp"/>-->
 
     <RelativeLayout
         android:paddingLeft="@dimen/activity_horizontal_margin"
@@ -20,14 +14,15 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <!--
-        <SearchView
-            android:id="@+id/main_search_view"
+        <EditText
+            android:id="@+id/card_list_search_box"
+            android:hint="@string/card_list_search_hint"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"></SearchView>-->
+            android:layout_height="wrap_content"/>
 
         <ListView
             android:id="@+id/main_list_view"
+            android:layout_below="@id/card_list_search_box"
             android:divider="@android:color/transparent"
             android:dividerHeight="10dp"
             android:layout_width="match_parent"

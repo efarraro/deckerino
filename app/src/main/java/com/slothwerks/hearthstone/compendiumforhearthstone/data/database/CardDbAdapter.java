@@ -109,6 +109,16 @@ public class CardDbAdapter extends DbAdapter {
         return cursor;
     }
 
+    public Cursor getCardsLike(String query, PlayerClass playerClass)
+    {
+        Cursor cursor = mDb.rawQuery(
+                "select * from " + TABLE_NAME + " where " + NAME + " like ? and class = ?",
+                new String[] { "%" + query + "%", playerClass.toString() }
+        );
+
+        return cursor;
+    }
+
     public Card cardById(String id)
     {
         Card card = null;

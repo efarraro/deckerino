@@ -5,15 +5,20 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.EditText;
 import android.widget.FilterQueryProvider;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.slothwerks.hearthstone.compendiumforhearthstone.R;
 import com.slothwerks.hearthstone.compendiumforhearthstone.adapters.CardListCursorAdapter;
@@ -35,6 +40,7 @@ public class CardListFragment extends Fragment {
 
     protected CardDbAdapter mCardDbAdapter;
     protected ListView mListView;
+    protected PlayerClass mPlayerClass;
 
     public CardListFragment() {
         // Required empty public constructor
@@ -75,12 +81,12 @@ public class CardListFragment extends Fragment {
 
         Bundle args = getArguments();
         String playerClassStr = args.getString(PLAYER_CLASS);
-        PlayerClass playerClass = PlayerClass.Neutral;
+        mPlayerClass = PlayerClass.Neutral;
         if(playerClassStr != null)
-            playerClass = PlayerClass.valueOf(playerClassStr);
+            mPlayerClass = PlayerClass.valueOf(playerClassStr);
 
         //cursor = mCardDbAdapter.getAllCards();
-        cursor = mCardDbAdapter.getCardsByClass(playerClass);
+        cursor = mCardDbAdapter.getCardsByClass(mPlayerClass);
 
         // set up the adapter for the list view
         final CardListCursorAdapter adapter =
@@ -91,7 +97,7 @@ public class CardListFragment extends Fragment {
             public Cursor runQuery(CharSequence constraint) {
 
                 Log.d(TAG, "Searching for " + constraint.toString());
-                return mCardDbAdapter.getCardsLike(constraint.toString());
+                return mCardDbAdapter.getCardsLike(constraint.toString(), mPlayerClass);
             }
         });
 
@@ -108,26 +114,33 @@ public class CardListFragment extends Fragment {
             }
         });
 
-        // set up the search view
-        /*SearchView searchView = (SearchView)v.findViewById(R.id.main_search_view);
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+        // set up the search box
+        final EditText searchTextView = (EditText)v.findViewById(R.id.card_list_search_box);
+        searchTextView.setHint(
+                String.format(getString(R.string.card_list_search_hint), mPlayerClass.toString()));
 
+        searchTextView.addTextChangedListener(new TextWatcher() {
             @Override
-            public boolean onQueryTextSubmit(String query) {
-                return false;
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                // do nothing
             }
 
             @Override
-            public boolean onQueryTextChange(String newText) {
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
 
-                CardListCursorAdapter cursorAdapter =
-                        (CardListCursorAdapter)listView.getAdapter();
+                if(getUserVisibleHint()) {
+                    CardListCursorAdapter cursorAdapter =
+                            (CardListCursorAdapter) mListView.getAdapter();
 
-                cursorAdapter.getFilter().filter(newText);
-
-                return true;
+                    cursorAdapter.getFilter().filter(s);
+                }
             }
-        });*/
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                // do nothing
+            }
+        });
 
         return v;
     }
@@ -135,6 +148,8 @@ public class CardListFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
+
+        Log.d(TAG, mPlayerClass.toString() + getUserVisibleHint());
 
         EventBus.getDefault().register(this);
     }
