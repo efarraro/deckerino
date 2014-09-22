@@ -7,6 +7,7 @@ import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Handler;
+import android.provider.CalendarContract;
 import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -81,20 +82,20 @@ public class CardListCursorAdapter extends CursorAdapter {
         listItemName.setText(name);
 
         // get the rarity indicator (vertical colored bar)
-        View rarityIndicator =
-                (View)view.findViewById(R.id.card_list_item_rarity_indicator);
+        FrameLayout rarityGem =
+                (FrameLayout)view.findViewById(R.id.card_list_item_rarity_gem);
 
         // set the color of the card's rarity indicator depending on rarity
         if(card.getRarity() == Rarity.Epic)
-            rarityIndicator.setBackgroundColor(context.getResources().getColor(R.color.epic));
+            rarityGem.setBackground(context.getResources().getDrawable(R.drawable.gem_epic));
         else if(card.getRarity() == Rarity.Rare)
-            rarityIndicator.setBackgroundColor(context.getResources().getColor(R.color.rare));
+            rarityGem.setBackground(context.getResources().getDrawable(R.drawable.gem_rare));
         else if(card.getRarity() == Rarity.Legendary)
-            rarityIndicator.setBackgroundColor(context.getResources().getColor(R.color.legendary));
+            rarityGem.setBackground(context.getResources().getDrawable(R.drawable.gem_legendary));
         else if(card.getRarity() == Rarity.Common)
-            rarityIndicator.setBackgroundColor(context.getResources().getColor(R.color.common));
+            rarityGem.setBackground(context.getResources().getDrawable(R.drawable.gem_common));
         else
-            rarityIndicator.setBackgroundColor(context.getResources().getColor(R.color.basic));
+            rarityGem.setBackgroundColor(Color.TRANSPARENT);
 
         // set the info for the card
         TextView listItemText = (TextView) view.findViewById(R.id.card_list_item_text);

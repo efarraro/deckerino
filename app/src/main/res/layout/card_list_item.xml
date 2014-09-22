@@ -4,15 +4,16 @@
               android:orientation="horizontal"
               android:background="@android:color/background_light"
               android:paddingRight="12dp"
+              android:paddingLeft="12dp"
               android:layout_width="match_parent"
               android:layout_height="wrap_content">
-
+<!--
     <View
         android:id="@+id/card_list_item_rarity_indicator"
         android:background="#ffff0000"
         android:layout_width="12dp"
         android:layout_marginRight="8dp"
-        android:layout_height="fill_parent" />
+        android:layout_height="fill_parent" />-->
 
     <!-- card name -->
     <RelativeLayout
@@ -22,9 +23,48 @@
         android:layout_weight="5"
         android:layout_height="wrap_content">
 
+        <!-- mana cost -->
+        <RelativeLayout
+            android:id="@+id/card_list_item_left_section"
+            android:orientation="vertical"
+            android:layout_marginRight="12dp"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent">
+
+            <FrameLayout
+                android:id="@+id/card_list_item_mana_cost_layout"
+                android:background="@drawable/circle"
+                android:layout_centerHorizontal="true"
+                android:layout_width="25dp"
+                android:layout_height="25dp">
+
+                <TextView
+                    android:id="@+id/card_list_item_cost"
+                    android:text="5"
+                    android:textColor="#FFFFFF"
+                    android:textStyle="bold"
+                    android:gravity="center"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"/>
+
+            </FrameLayout>
+
+            <!-- rarity gem -->
+            <FrameLayout
+                android:id="@+id/card_list_item_rarity_gem"
+                android:layout_below="@id/card_list_item_mana_cost_layout"
+                android:background="@drawable/gem_epic"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="6dp"
+                android:layout_width="12dp"
+                android:layout_height="12dp" />
+
+        </RelativeLayout>
+
         <!-- card name -->
         <TextView
             android:id="@+id/card_list_item_name"
+            android:layout_toRightOf="@id/card_list_item_left_section"
             android:text="Card name"
             android:textSize="18sp"
             android:layout_height="wrap_content"
@@ -52,26 +92,6 @@
         android:paddingTop="6dp"
         android:layout_weight="1"
         android:layout_height="wrap_content">
-
-        <!-- mana cost -->
-        <FrameLayout
-            android:background="@drawable/circle"
-            android:layout_weight="1"
-            android:layout_marginBottom="2dp"
-            android:layout_gravity="right"
-            android:layout_width="25dp"
-            android:layout_height="0dp">
-
-            <TextView
-                android:id="@+id/card_list_item_cost"
-                android:text="5"
-                android:textColor="#FFFFFF"
-                android:textStyle="bold"
-                android:gravity="center"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"/>
-
-        </FrameLayout>
 
         <!-- attack -->
         <FrameLayout

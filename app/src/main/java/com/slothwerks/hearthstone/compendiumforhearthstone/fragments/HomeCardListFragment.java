@@ -29,6 +29,9 @@ public class HomeCardListFragment extends Fragment {
                 (PagerSlidingTabStrip)rootView.findViewById(R.id.card_list_pager_title_strip);
         tabs.setViewPager(pager);
 
+        //tabs.setTabBackground(R.color.warlock_tab);
+        //tabs.getChildAt(0).setBackground(getResources().getDrawable(R.drawable.warlock_tab));
+
         //tabs.setTabBackground(R.drawable.warlock_tab);
         //tabs.setIndicatorColor(getResources().getColor(R.color.epic));
         /*

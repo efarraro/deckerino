@@ -16,22 +16,30 @@
     </style>
 
     <!-- card colors -->
-    <color name="common">#00AA00</color>
-    <color name="rare">#0000FF</color>
-    <color name="epic">#AA00FF</color>
-    <color name="legendary">#FFAA00</color>
+    <color name="common">#cfd8dc</color>
+    <color name="rare">#304ffe</color>
+    <color name="epic">#9c27b0</color>
+    <color name="legendary">#ff9800</color>
     <color name="basic">#666</color>
 
     <color name="mana_crystal_blue">#5677fc</color>
 
     <!-- class colors -->
+    <color name="hunter_primary">#259b24</color>
+    <color name="hunter_dark">#0d5302</color>
+    <color name="hunter_light">#a3e9a4</color>
+
     <color name="warlock_primary">#ff673ab7</color>
+    <color name="warlock_dark">#311b92</color>
+    <color name="warlock_light">#d1c4e9</color>
 
     <!-- primary theme colors -->
     <color name="primary">#03a9f4</color>
     <color name="primary_dark">#01579b</color>
     <color name="primary_light">#b3e5fc</color>
     <color name="accent">#ffc107</color>
+
+    <drawable name="tab_warlock">@color/warlock_primary</drawable>
 
     <!-- alternate theme colors -->
     <!--
