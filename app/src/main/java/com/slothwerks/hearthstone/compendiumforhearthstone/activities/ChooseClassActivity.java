@@ -17,6 +17,8 @@ import com.slothwerks.hearthstone.compendiumforhearthstone.fragments.ChooseClass
 
 public class ChooseClassActivity extends FragmentActivity {
 
+    public final static String PLAYER_CLASS = "PlayerClass";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -26,6 +28,8 @@ public class ChooseClassActivity extends FragmentActivity {
                     .add(R.id.container, new ChooseClassFragment())
                     .commit();
         }
+
+        setTitle(getString(R.string.activity_choose_class));
     }
 
     @Override

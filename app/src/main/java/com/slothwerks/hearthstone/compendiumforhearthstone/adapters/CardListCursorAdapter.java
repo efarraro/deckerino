@@ -84,7 +84,7 @@ public class CardListCursorAdapter extends CursorAdapter {
         View rarityIndicator =
                 (View)view.findViewById(R.id.card_list_item_rarity_indicator);
 
-        // set the color of the card's name depending on rarity
+        // set the color of the card's rarity indicator depending on rarity
         if(card.getRarity() == Rarity.Epic)
             rarityIndicator.setBackgroundColor(context.getResources().getColor(R.color.epic));
         else if(card.getRarity() == Rarity.Rare)
@@ -96,9 +96,12 @@ public class CardListCursorAdapter extends CursorAdapter {
         else
             rarityIndicator.setBackgroundColor(context.getResources().getColor(R.color.basic));
 
+        // set the info for the card
+        TextView listItemText = (TextView) view.findViewById(R.id.card_list_item_text);
         if(card.getText() != null) {
-            TextView listItemText = (TextView) view.findViewById(R.id.card_list_item_text);
             listItemText.setText(Html.fromHtml(card.getText()));
+        } else {
+            listItemText.setText(new String());
         }
 
         // set the cost

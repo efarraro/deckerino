@@ -55,4 +55,6 @@ public class CardListPagerAdapter extends FragmentPagerAdapter {
     public CharSequence getPageTitle(int position) {
         return mPlayerClasses.get(position).toString();
     }
+
+
 }

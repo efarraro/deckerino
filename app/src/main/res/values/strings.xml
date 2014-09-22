@@ -25,6 +25,10 @@
     <string name="shaman">Shaman</string>
     <string name="hunter">Hunter</string>
     <string name="warlock">Warlock</string>
+    <string name="neutral">Neutral</string>
+    <string name="unknown">Unknown</string>
+
+    <!-- TODO remove these? -->
     <string name="title_activity_card_list">CardListActivity</string>
     <string name="title_activity_deck_builder">DeckBuilderActivity</string>
 
@@ -37,5 +41,6 @@
 
     <!-- activity titles -->
     <string name="activity_deck_builder">Building a %s deck</string>
+    <string name="activity_choose_class">Choose a class</string>
 
 </resources>

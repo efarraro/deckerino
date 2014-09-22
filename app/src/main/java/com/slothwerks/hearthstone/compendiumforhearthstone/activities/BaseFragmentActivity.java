@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.widget.DrawerLayout;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -12,6 +13,8 @@ import android.widget.ListView;
 
 import com.slothwerks.hearthstone.compendiumforhearthstone.R;
 import com.slothwerks.hearthstone.compendiumforhearthstone.adapters.nav.NavDrawerListAdapter;
+import com.slothwerks.hearthstone.compendiumforhearthstone.fragments.CardListFragment;
+import com.slothwerks.hearthstone.compendiumforhearthstone.models.PlayerClass;
 import com.slothwerks.hearthstone.compendiumforhearthstone.models.nav.NavDrawerItem;
 import com.slothwerks.hearthstone.compendiumforhearthstone.models.nav.NavDrawerItemType;
 
@@ -21,6 +24,8 @@ import java.util.ArrayList;
  * Created by Eric on 9/21/2014.
  */
 public class BaseFragmentActivity extends FragmentActivity {
+
+    public final static String PLAYER_CLASS = "PlayerClass";
 
     protected ActionBarDrawerToggle mToggle;
 
@@ -57,18 +62,15 @@ public class BaseFragmentActivity extends FragmentActivity {
 
                 NavDrawerItem item = (NavDrawerItem)drawer.getAdapter().getItem(position);
 
-                if(!item.getTitle().equals("Create")) {
+                // TODO consider effect of localization
+                if(item.getTitle().equals("Create")) {
                     Intent intent = new Intent(getBaseContext(), ChooseClassActivity.class);
                     startActivityForResult(intent, 0);
-                }
-                else {
-                    Intent intent = new Intent(getBaseContext(), DeckBuilderActivity.class);
-                    startActivity(intent);
                 }
             }
         });
 
-        // TODO purpose of open/close strings?
+        // TODO purpose of open/close strings?  update: accessibility
         mToggle = new ActionBarDrawerToggle(
                 this, drawerLayout, R.drawable.ic_navigation_drawer,
                 R.string.app_name, R.string.app_name) {
@@ -98,6 +100,14 @@ public class BaseFragmentActivity extends FragmentActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
+        // for now, the only result we expect here is to select a class
+        // TODO but at some point, we probably need to check the request code
+        PlayerClass selectedClass =
+                PlayerClass.valueOf(data.getStringExtra(ChooseClassActivity.PLAYER_CLASS));
+
+        Intent intent = new Intent(this, DeckBuilderActivity.class);
+        intent.putExtra(PLAYER_CLASS, selectedClass.toString());
+        startActivity(intent);
     }
 
     @Override

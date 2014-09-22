@@ -21,12 +21,15 @@ import de.greenrobot.event.EventBus;
  */
 public class DeckBuilderPagerAdapter extends FragmentPagerAdapter {
 
-    protected Deck mCurrentDeck;
+    //protected Deck mCurrentDeck;
+    protected PlayerClass mCurrentClass;
 
-    public DeckBuilderPagerAdapter(FragmentManager fm) {
+    public DeckBuilderPagerAdapter(FragmentManager fm, PlayerClass playerClass) {
         super(fm);
 
-        EventBus.getDefault().register(this);
+        mCurrentClass = playerClass;
+
+        //EventBus.getDefault().register(this);
     }
 
     @Override
@@ -36,9 +39,9 @@ public class DeckBuilderPagerAdapter extends FragmentPagerAdapter {
 
         // 3 tabs -- cards for current class, neutral cards, current deck under construction
         if(i == 0) {
-            // TODO replace this with the class that the player has chosen
+
             Bundle args = new Bundle();
-            args.putString(CardListFragment.PLAYER_CLASS, PlayerClass.Druid.toString());
+            args.putString(CardListFragment.PLAYER_CLASS, mCurrentClass.toString());
             fragment.setArguments(args);
             return fragment;
         }
@@ -67,6 +70,7 @@ public class DeckBuilderPagerAdapter extends FragmentPagerAdapter {
         }
     }
 
+    /*
     public void onEventMainThread(EventDeckUpdated e) {
 
         mCurrentDeck = e.getDeck();
@@ -78,5 +82,5 @@ public class DeckBuilderPagerAdapter extends FragmentPagerAdapter {
         super.unregisterDataSetObserver(observer);
     }
 
-    // TODO unregister EventBus - where?
+    // TODO unregister EventBus - where?*/
 }

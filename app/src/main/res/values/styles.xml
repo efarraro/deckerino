@@ -24,6 +24,9 @@
 
     <color name="mana_crystal_blue">#5677fc</color>
 
+    <!-- class colors -->
+    <color name="warlock_primary">#ff673ab7</color>
+
     <!-- primary theme colors -->
     <color name="primary">#03a9f4</color>
     <color name="primary_dark">#01579b</color>

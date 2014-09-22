@@ -1,5 +1,6 @@
 package com.slothwerks.hearthstone.compendiumforhearthstone.fragments;
 
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
@@ -24,9 +25,33 @@ public class HomeCardListFragment extends Fragment {
         ViewPager pager = (ViewPager)rootView.findViewById(R.id.card_list_pager);
         pager.setAdapter(new CardListPagerAdapter(getActivity().getSupportFragmentManager()));
 
-        PagerSlidingTabStrip tabs =
+        final PagerSlidingTabStrip tabs =
                 (PagerSlidingTabStrip)rootView.findViewById(R.id.card_list_pager_title_strip);
         tabs.setViewPager(pager);
+
+        //tabs.setTabBackground(R.drawable.warlock_tab);
+        //tabs.setIndicatorColor(getResources().getColor(R.color.epic));
+        /*
+        tabs.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int i, float v, int i2) {
+
+            }
+
+            @Override
+            public void onPageSelected(int i) {
+
+                if(i % 2 == 0)
+                    tabs.setIndicatorColor(getResources().getColor(R.color.epic));
+                else
+                    tabs.setIndicatorColor(getResources().getColor(R.color.rare));
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int i) {
+
+            }
+        });*/
 
         return rootView;
     }

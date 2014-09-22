@@ -3,6 +3,7 @@ package com.slothwerks.hearthstone.compendiumforhearthstone.activities;
 import android.app.Activity;
 import android.app.Fragment;
 import android.content.Context;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentActivity;
@@ -36,6 +37,7 @@ public class DeckBuilderActivity extends BaseFragmentActivity {
 
     protected Deck mDeck;
     protected DrawerLayout mDeckDrawerLayout;
+    protected PlayerClass mCurrentClass;
     protected ListView mDeckDrawer;
     protected ArrayAdapter<CardQuantityPair> mListAdapter;
 
@@ -43,6 +45,11 @@ public class DeckBuilderActivity extends BaseFragmentActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_deck_builder);
+
+        // figure out what type of class deck this
+        // TODO figure out a better way for Intent constants
+        String playerClassString = getIntent().getStringExtra(BaseFragmentActivity.PLAYER_CLASS);
+        mCurrentClass = PlayerClass.valueOf(playerClassString);
 
         mDeck = new Deck();
 
@@ -54,8 +61,14 @@ public class DeckBuilderActivity extends BaseFragmentActivity {
                     .commit();
 
             // add the rest of the deck builder
+            DeckBuilderFragment deckBuilderFragment = new DeckBuilderFragment();
+            Bundle bundle = new Bundle();
+
+            // pass in the class we want to build a deck for
+            bundle.putString(BaseFragmentActivity.PLAYER_CLASS, mCurrentClass.toString());
+            deckBuilderFragment.setArguments(bundle);
             getSupportFragmentManager().beginTransaction()
-                    .add(R.id.container, new DeckBuilderFragment())
+                    .add(R.id.container, deckBuilderFragment)
                     .commit();
         }
 
@@ -66,8 +79,12 @@ public class DeckBuilderActivity extends BaseFragmentActivity {
                 new DeckListArrayAdapter(this, mDeck.getCards());
         mDeckDrawer.setAdapter(mListAdapter);
 
-        // TODO look to instance for the player's class
-        setTitle(String.format(getString(R.string.activity_deck_builder), PlayerClass.Druid));
+        setTitle(String.format(getString(R.string.activity_deck_builder), mCurrentClass));
+
+        // TODO testing class specific color header
+        getActionBar().setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.warlock_primary)));
+        getActionBar().setDisplayShowTitleEnabled(false);
+        getActionBar().setDisplayShowTitleEnabled(true);
     }
 
     @Override
