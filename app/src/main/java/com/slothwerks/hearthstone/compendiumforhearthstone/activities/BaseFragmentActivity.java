@@ -1,6 +1,7 @@
 package com.slothwerks.hearthstone.compendiumforhearthstone.activities;
 
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.app.FragmentActivity;
@@ -13,11 +14,15 @@ import android.widget.ListView;
 
 import com.slothwerks.hearthstone.compendiumforhearthstone.R;
 import com.slothwerks.hearthstone.compendiumforhearthstone.adapters.nav.NavDrawerListAdapter;
+import com.slothwerks.hearthstone.compendiumforhearthstone.data.database.DeckDbAdapter;
 import com.slothwerks.hearthstone.compendiumforhearthstone.fragments.CardListFragment;
 import com.slothwerks.hearthstone.compendiumforhearthstone.models.PlayerClass;
 import com.slothwerks.hearthstone.compendiumforhearthstone.models.nav.NavDrawerItem;
 import com.slothwerks.hearthstone.compendiumforhearthstone.models.nav.NavDrawerItemType;
 
+import junit.framework.Assert;
+
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 /**
@@ -39,12 +44,15 @@ public class BaseFragmentActivity extends FragmentActivity {
         // TODO localize these
         // expects a ListView called left_drawer to be present
         final ListView drawer = (ListView)findViewById(R.id.left_drawer);
+
+        Assert.assertTrue("Expected View with ID R.id.left_drawer!", drawer != null);
+
         ArrayList<NavDrawerItem> items = new ArrayList<NavDrawerItem>();
         items.add(new NavDrawerItem("Main", NavDrawerItemType.Title));
         items.add(new NavDrawerItem("Browse Cards", NavDrawerItemType.Nav));
         items.add(new NavDrawerItem("Deck", NavDrawerItemType.Title));
         items.add(new NavDrawerItem("Create", NavDrawerItemType.Nav));
-        items.add(new NavDrawerItem("View", NavDrawerItemType.Nav));
+        items.add(new NavDrawerItem("Manage", NavDrawerItemType.Nav));
         items.add(new NavDrawerItem("Utilities", NavDrawerItemType.Title));
         items.add(new NavDrawerItem("Deck Tracker", NavDrawerItemType.Nav));
         items.add(new NavDrawerItem("About", NavDrawerItemType.Nav));
@@ -66,6 +74,10 @@ public class BaseFragmentActivity extends FragmentActivity {
                 if(item.getTitle().equals("Create")) {
                     Intent intent = new Intent(getBaseContext(), ChooseClassActivity.class);
                     startActivityForResult(intent, 0);
+                }
+                else if(item.getTitle().equals("Manage")) {
+                    Intent intent = new Intent(getBaseContext(), DeckManagementActivity.class);
+                    startActivity(intent);
                 }
             }
         });
@@ -104,6 +116,34 @@ public class BaseFragmentActivity extends FragmentActivity {
         // TODO but at some point, we probably need to check the request code
         PlayerClass selectedClass =
                 PlayerClass.valueOf(data.getStringExtra(ChooseClassActivity.PLAYER_CLASS));
+
+        // create a deck in the database
+        // TODO is this too much for this class?
+        try {
+            DeckDbAdapter a = (DeckDbAdapter) new DeckDbAdapter(this).open();
+
+            long id = a.createEmptyDeck(selectedClass);
+
+            Log.d("TEST", "new deck " + id);
+
+            Cursor allDeckCursor = a.getAllDecks();
+            allDeckCursor.moveToFirst();
+            while(true) {
+
+                Log.d("z", "Z: " + allDeckCursor.getString(0) + " " + allDeckCursor.getString(1) + " " + allDeckCursor.getString(2));
+
+                if(allDeckCursor.isLast())
+                    break;
+                else
+                    allDeckCursor.moveToNext();
+            }
+
+        } catch(SQLException e) {
+
+            // TODO indicate fatal error
+            e.printStackTrace();
+            finishActivity(0);
+        }
 
         Intent intent = new Intent(this, DeckBuilderActivity.class);
         intent.putExtra(PLAYER_CLASS, selectedClass.toString());

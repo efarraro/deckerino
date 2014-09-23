@@ -25,9 +25,10 @@
         </activity>
         <activity
             android:name=".activities.CardListActivity"
-            android:label="@string/title_activity_card_list" >
+            android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -38,6 +39,14 @@
         <activity
             android:name=".activities.ChooseClassActivity"
             android:label="@string/title_activity_choose_class" >
+        </activity>
+        <activity
+            android:name=".activities.ChooseDeckActivity"
+            android:label="@string/title_activity_choose_deck" >
+        </activity>
+        <activity
+            android:name=".activities.DeckManagementActivity"
+            android:label="@string/title_activity_deck_management" >
         </activity>
     </application>
 

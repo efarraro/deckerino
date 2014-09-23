@@ -42,5 +42,7 @@
     <!-- activity titles -->
     <string name="activity_deck_builder">Building a %s deck</string>
     <string name="activity_choose_class">Choose a class</string>
+    <string name="title_activity_choose_deck">ChooseDeckActivity</string>
+    <string name="title_activity_deck_management">DeckManagementActivity</string>
 
 </resources>
