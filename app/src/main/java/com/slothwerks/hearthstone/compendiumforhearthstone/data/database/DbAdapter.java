@@ -26,7 +26,6 @@ public abstract class DbAdapter {
     protected SQLiteDatabase mDb;
     protected SQLiteOpenHelper mDbHelper;
 
-
     private static final String CREATE_TABLE_CARDS =
             "create table cards (" + CardDbAdapter.ROW_ID + " TEXT primary key, " +
                     CardDbAdapter.FLAVOR + " TEXT, " +
@@ -40,14 +39,13 @@ public abstract class DbAdapter {
                     CardDbAdapter.ELITE + " INT, " +
                     CardDbAdapter.NAME + " TEXT);";
 
-    private static final String CREATE_TABLE_COLLECTION =
-            "create table collection (_id integer primary key autoincrement, " +
-                    CollectionDbAdapter.QUANTITY + " INTEGER, " +
-                    CollectionDbAdapter.CARD_ID + " STRING, " +
-                    "FOREIGN KEY (" + CollectionDbAdapter.CARD_ID + ") REFERENCES " +
-                    CardDbAdapter.TABLE_NAME + "(" + CardDbAdapter.ROW_ID + ") ON DELETE CASCADE" +
-                    ");";
-
+    private static final String CREATE_TABLE_DECKS =
+            "create table " + DeckDbAdapter.TABLE_NAME +
+                    "(" + DeckDbAdapter.ROW_ID + " TEXT primary key, " +
+                    DeckDbAdapter.NAME + " TEXT, " +
+                    DeckDbAdapter.CLASS + " TEXT, " +
+                    DeckDbAdapter.VERSION + " TEXT, "  +
+                    DeckDbAdapter.CARD_DATA + " TEXT);";
 
     protected static class DatabaseHelper extends SQLiteOpenHelper
     {
@@ -65,7 +63,7 @@ public abstract class DbAdapter {
             Log.d("test", "creating databases");
 
             db.execSQL(CREATE_TABLE_CARDS);
-            db.execSQL(CREATE_TABLE_COLLECTION);
+            db.execSQL(CREATE_TABLE_DECKS);
 
             // load the database up with the list of cards
             loadCardDatabase(db);
@@ -85,14 +83,12 @@ public abstract class DbAdapter {
             //db.beginTransaction();
 
             CardDbAdapter cardAdapter = new CardDbAdapter(mContext, db);
-            CollectionDbAdapter collectionAdapter = new CollectionDbAdapter(mContext, db);
 
             // TODO move the loading/reading of JSON into cardDbAdapter
             List<Card> cards = CardManager.getInstance(mContext).getAllCards();
             for(Card c : cards)
             {
                 cardAdapter.insertCard(c);
-                collectionAdapter.insertCard(c);
             }
 
             //db.endTransaction();
