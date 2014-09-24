@@ -18,6 +18,7 @@ import java.util.HashMap;
  */
 public class Deck {
 
+    protected long mId;
     protected ArrayList<CardQuantityPair> mCards;
 
     public Deck() {
@@ -118,6 +119,7 @@ public class Deck {
         StringBuffer buffer = new StringBuffer();
 
         // TODO add the actual app version
+        // TODO add player class?
         buffer.append("v.1.0#");
         for(CardQuantityPair pair : mCards) {
             buffer.append(pair.getCard().getId());
@@ -137,6 +139,9 @@ public class Deck {
      */
     public static Deck fromDeckerinoFormat(Context context, String deckerinoString) {
         Deck deck = new Deck();
+
+        if(deckerinoString == null)
+            return deck;
 
         String[] tokens = deckerinoString.split("#");
         String version = tokens[0];
@@ -172,5 +177,13 @@ public class Deck {
         }
 
         return deck;
+    }
+
+    public long getId() {
+        return mId;
+    }
+
+    public void setId(long id) {
+        mId = id;
     }
 }

@@ -41,7 +41,7 @@ public abstract class DbAdapter {
 
     private static final String CREATE_TABLE_DECKS =
             "create table " + DeckDbAdapter.TABLE_NAME +
-                    "(" + DeckDbAdapter.ROW_ID + " TEXT primary key, " +
+                    "(" + DeckDbAdapter.ROW_ID + " INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, " +
                     DeckDbAdapter.NAME + " TEXT, " +
                     DeckDbAdapter.CLASS + " TEXT, " +
                     DeckDbAdapter.VERSION + " TEXT, "  +

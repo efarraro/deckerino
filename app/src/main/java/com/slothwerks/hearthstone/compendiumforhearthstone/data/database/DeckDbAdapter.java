@@ -1,11 +1,16 @@
 package com.slothwerks.hearthstone.compendiumforhearthstone.data.database;
 
+import android.app.Activity;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.util.Log;
 
+import com.slothwerks.hearthstone.compendiumforhearthstone.models.Deck;
 import com.slothwerks.hearthstone.compendiumforhearthstone.models.PlayerClass;
 import com.slothwerks.hearthstone.compendiumforhearthstone.util.Utility;
+
+import java.sql.SQLException;
 
 /**
  * Created by Eric on 9/22/2014.
@@ -24,6 +29,8 @@ public class DeckDbAdapter extends DbAdapter {
     public DeckDbAdapter(Context context) {
         super(context);
     }
+
+    public static final String TAG = "DeckDbAdapter";
 
     public long createEmptyDeck(PlayerClass playerClass) {
 
@@ -45,7 +52,43 @@ public class DeckDbAdapter extends DbAdapter {
 
     }
 
-    public void updateCardData(String cardData) {
+    public void updateCardData(Deck deck) {
+        updateCardData(deck.getId(), deck.toDeckerinoFormat());
+    }
 
+    public void updateCardData(long deckId, String cardData) {
+
+        ContentValues values = new ContentValues();
+        values.put(CARD_DATA, cardData);
+
+        mDb.update(TABLE_NAME, values, ROW_ID + "= ?", new String[] { Long.toString(deckId) });
+    }
+
+    public Deck getDeckById(long id) {
+        try {
+            open();
+            Cursor cursor = mDb.rawQuery(
+                    "select * from " + TABLE_NAME + " where " + ROW_ID + " = ?",
+                    new String[] { Long.toString(id) });
+
+            cursor.moveToFirst();
+
+            Log.d(TAG, cursor.getCount() + " decks found with that ID");
+            Log.d(TAG, "Getting data for deck ID " + id);
+
+            // TODO move this elsewhere
+            Deck deck = Deck.fromDeckerinoFormat(mContext,
+                    cursor.getString(cursor.getColumnIndex(CARD_DATA)));
+            deck.setId(cursor.getLong(cursor.getColumnIndex(ROW_ID)));
+
+            // TODO get player class'
+            return deck;
+
+        } catch(SQLException e) {
+            e.printStackTrace();
+            return null;
+        } finally {
+            close();
+        }
     }
 }

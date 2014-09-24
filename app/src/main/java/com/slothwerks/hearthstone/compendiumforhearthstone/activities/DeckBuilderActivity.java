@@ -16,6 +16,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import com.slothwerks.hearthstone.compendiumforhearthstone.IntentConstants;
 import com.slothwerks.hearthstone.compendiumforhearthstone.R;
 import com.slothwerks.hearthstone.compendiumforhearthstone.adapters.DeckListArrayAdapter;
 import com.slothwerks.hearthstone.compendiumforhearthstone.events.EventCardQuantityUpdated;
@@ -29,15 +30,17 @@ import com.slothwerks.hearthstone.compendiumforhearthstone.models.CardQuantityPa
 import com.slothwerks.hearthstone.compendiumforhearthstone.models.Deck;
 import com.slothwerks.hearthstone.compendiumforhearthstone.models.PlayerClass;
 
+import junit.framework.Assert;
+
 import java.util.ArrayList;
 
 import de.greenrobot.event.EventBus;
 
-public class DeckBuilderActivity extends BaseFragmentActivity {
+public class DeckBuilderActivity extends BaseFragmentActivity implements IntentConstants {
 
-    protected Deck mDeck;
     protected DrawerLayout mDeckDrawerLayout;
     protected PlayerClass mCurrentClass;
+    protected long mDeckId;
     protected ListView mDeckDrawer;
     protected ArrayAdapter<CardQuantityPair> mListAdapter;
 
@@ -46,13 +49,17 @@ public class DeckBuilderActivity extends BaseFragmentActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_deck_builder);
 
-        // figure out what type of class deck this
-        // TODO figure out a better way for Intent constants
-        String playerClassString = getIntent().getStringExtra(BaseFragmentActivity.PLAYER_CLASS);
-        mCurrentClass = PlayerClass.valueOf(playerClassString);
+        // check to see if we have a deck ID for this deck
+        String deckIdString = getIntent().getStringExtra((DECK_ID));
+        if(deckIdString != null)
+            mDeckId = Long.parseLong(deckIdString);
 
-        mDeck = new Deck();
+        Assert.assertTrue("Expects deck_id", deckIdString != null);
 
+        // TODO debug, for now
+        mCurrentClass = PlayerClass.Hunter;
+
+        // TODO understand savedInstanceState better
         if (savedInstanceState == null) {
 
             // add the deck summary at the top of the page (card count etc... )
@@ -64,22 +71,23 @@ public class DeckBuilderActivity extends BaseFragmentActivity {
             DeckBuilderFragment deckBuilderFragment = new DeckBuilderFragment();
             Bundle bundle = new Bundle();
 
-            // pass in the class we want to build a deck for
-            bundle.putString(BaseFragmentActivity.PLAYER_CLASS, mCurrentClass.toString());
+            // pass in the ID of the deck we're working with
+            bundle.putLong(DECK_ID, mDeckId);
             deckBuilderFragment.setArguments(bundle);
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.container, deckBuilderFragment)
                     .commit();
+
+            // set up for the right-bar deck list
+            mDeckDrawerLayout = (DrawerLayout)findViewById(R.id.drawer_layout);
+            mDeckDrawer = (ListView)findViewById(R.id.deck_builder_deck_drawer);
+
+            mListAdapter =
+                    new DeckListArrayAdapter(this, deckBuilderFragment.getDeck().getCards());
+            mDeckDrawer.setAdapter(mListAdapter);
+
+            setTitle(String.format(getString(R.string.activity_deck_builder), mCurrentClass));
         }
-
-        mDeckDrawerLayout = (DrawerLayout)findViewById(R.id.drawer_layout);
-        mDeckDrawer = (ListView)findViewById(R.id.deck_builder_deck_drawer);
-
-        mListAdapter =
-                new DeckListArrayAdapter(this, mDeck.getCards());
-        mDeckDrawer.setAdapter(mListAdapter);
-
-        setTitle(String.format(getString(R.string.activity_deck_builder), mCurrentClass));
 
         // TODO testing class specific color header
         getActionBar().setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.warlock_primary)));
@@ -101,45 +109,16 @@ public class DeckBuilderActivity extends BaseFragmentActivity {
         EventBus.getDefault().unregister(this);
     }
 
-    public void onEventMainThread(EventCardTapped e) {
-
-        // TODO need to push this into the Deck itself
-        // add card to deck, if possible
-        if(mDeck.canAddToDeck(e.getCard())) {
-            mDeck.addToDeck(e.getCard());
-        }
-        else {
-            // if we couldn't add the card due to quantity constraints, set the quantity to 0
-            // allows the user to repeatedly tap a card to add/remove to get the quanity they want
-            mDeck.removeAllCopies(e.getCard());
-        }
-
-        // notify listeners that the current deck has been updated
-        EventBus.getDefault().post(new EventDeckUpdated(mDeck));
-
-        // notify listeners which card was updated, specifically
-        EventBus.getDefault().post(new EventCardQuantityUpdated
-                (e.getCard(), mDeck.getCountForCard(e.getCard())));
-
-        mListAdapter.notifyDataSetChanged();
-    }
-
     public void onEventMainThread(EventRequestDisplayDeck e) {
 
         mDeckDrawerLayout.openDrawer(mDeckDrawer);
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
+    /**
+     * Updates the deck list, whenever the deck is updated
+     */
+    public void onEventMainThread(EventDeckUpdated e) {
 
-        String deckerino = mDeck.toDeckerinoFormat();
-        Log.d("deckerino", deckerino);
-
-        Deck d = Deck.fromDeckerinoFormat(this, deckerino);
-        for(CardQuantityPair pair : d.getCards())
-        {
-            Log.d("TEST", pair.getCard().getName() + " " + pair.getQuantity());
-        }
+        mListAdapter.notifyDataSetChanged();
     }
 }

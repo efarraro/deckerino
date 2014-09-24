@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import com.slothwerks.hearthstone.compendiumforhearthstone.IntentConstants;
 import com.slothwerks.hearthstone.compendiumforhearthstone.R;
 import com.slothwerks.hearthstone.compendiumforhearthstone.adapters.nav.NavDrawerListAdapter;
 import com.slothwerks.hearthstone.compendiumforhearthstone.data.database.DeckDbAdapter;
@@ -28,9 +29,7 @@ import java.util.ArrayList;
 /**
  * Created by Eric on 9/21/2014.
  */
-public class BaseFragmentActivity extends FragmentActivity {
-
-    public final static String PLAYER_CLASS = "PlayerClass";
+public class BaseFragmentActivity extends FragmentActivity implements IntentConstants {
 
     protected ActionBarDrawerToggle mToggle;
 
@@ -124,13 +123,15 @@ public class BaseFragmentActivity extends FragmentActivity {
             return;
 
         PlayerClass selectedClass = PlayerClass.valueOf(playerClassStr);
+        long id = -1;
 
         // create a deck in the database
         // TODO is this too much for this class?
+        // TODO refactor this into DeckBuilder and specify 'create deck' action in bundle
         try {
             DeckDbAdapter a = (DeckDbAdapter) new DeckDbAdapter(this).open();
 
-            long id = a.createEmptyDeck(selectedClass);
+            id = a.createEmptyDeck(selectedClass);
 
             Log.d("TEST", "new deck " + id);
 
@@ -138,7 +139,7 @@ public class BaseFragmentActivity extends FragmentActivity {
             allDeckCursor.moveToFirst();
             while(true) {
 
-                Log.d("z", "Z: " + allDeckCursor.getString(0) + " " + allDeckCursor.getString(1) + " " + allDeckCursor.getString(2));
+                Log.d("z", "Z: " + allDeckCursor.getString(allDeckCursor.getColumnIndex(DeckDbAdapter.ROW_ID)) + " " + allDeckCursor.getString(1) + " " + allDeckCursor.getString(2) + " " + allDeckCursor.getString(4));
 
                 if(allDeckCursor.isLast())
                     break;
@@ -153,9 +154,11 @@ public class BaseFragmentActivity extends FragmentActivity {
             finishActivity(0);
         }
 
-        Intent intent = new Intent(this, DeckBuilderActivity.class);
-        intent.putExtra(PLAYER_CLASS, selectedClass.toString());
-        startActivity(intent);
+        if(id != -1) {
+            Intent intent = new Intent(this, DeckBuilderActivity.class);
+            intent.putExtra(DECK_ID, Long.toString(id));
+            startActivity(intent);
+        }
     }
 
     @Override
