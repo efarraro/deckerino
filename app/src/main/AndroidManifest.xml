@@ -48,6 +48,10 @@
             android:name=".activities.DeckManagementActivity"
             android:label="@string/title_activity_deck_management" >
         </activity>
+        <activity
+            android:name=".activities.ViewDeckActivity"
+            android:label="@string/title_activity_view_deck" >
+        </activity>
     </application>
 
 </manifest>

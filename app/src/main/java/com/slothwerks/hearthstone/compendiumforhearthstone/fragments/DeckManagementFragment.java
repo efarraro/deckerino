@@ -1,14 +1,17 @@
 package com.slothwerks.hearthstone.compendiumforhearthstone.fragments;
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.slothwerks.hearthstone.compendiumforhearthstone.R;
+import com.slothwerks.hearthstone.compendiumforhearthstone.activities.ViewDeckActivity;
 import com.slothwerks.hearthstone.compendiumforhearthstone.adapters.DeckManagerCursorAdapter;
 import com.slothwerks.hearthstone.compendiumforhearthstone.data.database.DeckDbAdapter;
 
@@ -38,6 +41,19 @@ public class DeckManagementFragment extends Fragment {
 
             ListView listView = (ListView)rootView.findViewById(R.id.deck_management_list_view);
             listView.setAdapter(new DeckManagerCursorAdapter(getActivity(), cursor));
+
+            listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+
+                    // TODO get ID of deck to pull from DB
+
+                    // when a user clicks on the deck, allow them to view that deck
+                    Intent intent = new Intent(getActivity(), ViewDeckActivity.class);
+                    startActivity(intent);
+                }
+            });
 
         }  catch(SQLException e) {
             e.printStackTrace();

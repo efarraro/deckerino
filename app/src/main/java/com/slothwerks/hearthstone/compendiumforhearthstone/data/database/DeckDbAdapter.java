@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 
 import com.slothwerks.hearthstone.compendiumforhearthstone.models.PlayerClass;
+import com.slothwerks.hearthstone.compendiumforhearthstone.util.Utility;
 
 /**
  * Created by Eric on 9/22/2014.
@@ -18,6 +19,7 @@ public class DeckDbAdapter extends DbAdapter {
     public static final String NAME = "name";
     public static final String VERSION = "version";
     public static final String CARD_DATA = "card_data";
+    // TODO add date
 
     public DeckDbAdapter(Context context) {
         super(context);
@@ -25,9 +27,12 @@ public class DeckDbAdapter extends DbAdapter {
 
     public long createEmptyDeck(PlayerClass playerClass) {
 
-
         ContentValues values = new ContentValues();
         values.put(CLASS, playerClass.toString());
+
+        // set a default deck name
+        // TODO localization of class name
+        values.put(NAME, playerClass.toString());
 
         return mDb.insert(TABLE_NAME, null, values);
     }

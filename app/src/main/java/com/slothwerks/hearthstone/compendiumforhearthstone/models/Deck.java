@@ -1,8 +1,14 @@
 package com.slothwerks.hearthstone.compendiumforhearthstone.models;
 
+import android.content.Context;
+import android.util.Log;
+
 import com.slothwerks.hearthstone.compendiumforhearthstone.data.CardManager;
 import com.slothwerks.hearthstone.compendiumforhearthstone.data.database.CardDbAdapter;
 
+import junit.framework.Assert;
+
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -53,29 +59,38 @@ public class Deck {
         return 0;
     }
 
-    public void addToDeck(Card card) {
+    public void addToDeck(Card card, int quantity) {
+        Assert.assertTrue("Quantity must be greater than 0", quantity > 0);
 
-        if(!canAddToDeck(card))
-            return;
+        // not the most efficient approach, but adding the cards 1 by 1 is simpler
+        for(int i = 0; i <  quantity; i++) {
 
-        // find the card/quantity pair, and increment the quantity
-        CardQuantityPair pair = null;
-        for(CardQuantityPair p : mCards) {
-            if(p.getCard().getId().equals(card.getId())) {
-                pair = p;
-                break;
+            if (!canAddToDeck(card))
+                return;
+
+            // find the card/quantity pair, and increment the quantity
+            CardQuantityPair pair = null;
+            for (CardQuantityPair p : mCards) {
+                if (p.getCard().getId().equals(card.getId())) {
+                    pair = p;
+                    break;
+                }
             }
-        }
 
-        // add a new entry (if null), or increment the quantity of the existing entry
-        if(pair == null)
-            mCards.add(new CardQuantityPair(card, 1));
-        else
-            pair.setQuantity(pair.getQuantity() + 1);
+            // add a new entry (if null), or increment the quantity of the existing entry
+            if (pair == null)
+                mCards.add(new CardQuantityPair(card, 1));
+            else
+                pair.setQuantity(pair.getQuantity() + 1);
+        }
 
         // by default, sort by cost
         Collections.sort(mCards, new Card.CostComparator());
+    }
 
+    public void addToDeck(Card card) {
+
+        addToDeck(card, 1);
     }
 
     /**
@@ -94,5 +109,68 @@ public class Deck {
         for(CardQuantityPair pair : toRemove) {
             mCards.remove(pair);
         }
+    }
+
+    /**
+     * Converts the deck into Deckerino format
+     */
+    public String toDeckerinoFormat() {
+        StringBuffer buffer = new StringBuffer();
+
+        // TODO add the actual app version
+        buffer.append("v.1.0#");
+        for(CardQuantityPair pair : mCards) {
+            buffer.append(pair.getCard().getId());
+            buffer.append("^");
+            buffer.append(Integer.toString(pair.getQuantity()));
+            buffer.append("/");
+        }
+
+        return buffer.toString();
+    }
+
+    /**
+     * Returns a deck based on a Deckerino-format string
+     * @param context Context; required to access card database
+     * @param deckerinoString A string representing the deck, in Deckerino format
+     * @return
+     */
+    public static Deck fromDeckerinoFormat(Context context, String deckerinoString) {
+        Deck deck = new Deck();
+
+        String[] tokens = deckerinoString.split("#");
+        String version = tokens[0];
+        // do something with version
+
+        CardDbAdapter adapter = null;
+
+        try {
+
+            adapter = (CardDbAdapter)new CardDbAdapter(context).open();
+
+            String[] cardStrings = tokens[1].split("/");
+            for (String cardString : cardStrings) {
+                tokens = cardString.split("\\^");
+                String cardId = tokens[0];
+                int quantity = Integer.parseInt(tokens[1]);
+
+                Log.d("test", cardId + "x" + quantity);
+
+                Card card = adapter.cardById(cardId);
+
+                deck.addToDeck(card, quantity);
+            }
+        } catch(SQLException e) {
+            e.printStackTrace();
+            // TODO fatal error
+            return null;
+        } finally {
+
+            if(adapter != null) {
+                adapter.close();;
+            }
+        }
+
+        return deck;
     }
 }

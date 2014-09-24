@@ -114,8 +114,16 @@ public class BaseFragmentActivity extends FragmentActivity {
 
         // for now, the only result we expect here is to select a class
         // TODO but at some point, we probably need to check the request code
-        PlayerClass selectedClass =
-                PlayerClass.valueOf(data.getStringExtra(ChooseClassActivity.PLAYER_CLASS));
+
+        // no data -- eg: user hit the back button instead of selecting a class
+        if(data == null)
+            return;
+
+        String playerClassStr = data.getStringExtra(ChooseClassActivity.PLAYER_CLASS);
+        if(playerClassStr == null)
+            return;
+
+        PlayerClass selectedClass = PlayerClass.valueOf(playerClassStr);
 
         // create a deck in the database
         // TODO is this too much for this class?

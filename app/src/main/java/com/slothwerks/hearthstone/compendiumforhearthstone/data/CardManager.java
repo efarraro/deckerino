@@ -7,6 +7,7 @@ import android.util.Log;
 
 import com.slothwerks.hearthstone.compendiumforhearthstone.R;
 import com.slothwerks.hearthstone.compendiumforhearthstone.models.Card;
+import com.slothwerks.hearthstone.compendiumforhearthstone.models.CardType;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -84,12 +85,9 @@ public class CardManager {
 
                     Card card = Card.fromJson(cardObject, set);
 
-                    if(card == null)
-                    {
-                        Log.d("test", cardObject.toString());
-                    }
-
-                    if(card.isCollectible())
+                    if(card.isCollectible() &&
+                            card.getType() != CardType.Hero &&
+                            card.getType() != CardType.Unknown)
                         mAllCards.add(card);
 
                 } catch(JSONException e) { e.printStackTrace(); }

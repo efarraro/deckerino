@@ -128,4 +128,18 @@ public class DeckBuilderActivity extends BaseFragmentActivity {
 
         mDeckDrawerLayout.openDrawer(mDeckDrawer);
     }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        String deckerino = mDeck.toDeckerinoFormat();
+        Log.d("deckerino", deckerino);
+
+        Deck d = Deck.fromDeckerinoFormat(this, deckerino);
+        for(CardQuantityPair pair : d.getCards())
+        {
+            Log.d("TEST", pair.getCard().getName() + " " + pair.getQuantity());
+        }
+    }
 }

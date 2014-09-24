@@ -242,6 +242,14 @@ public class Card {
             card.setText(text);
         }
 
+        if(o.has("type")) {
+            try {
+                card.setType(CardType.valueOf(o.getString("type")));
+            } catch(Exception e) {
+                card.setType(CardType.Unknown);
+            }
+        }
+
         if(o.has("elite"))
             card.setElite(o.getBoolean("elite"));
         else
