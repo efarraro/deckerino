@@ -28,22 +28,27 @@ import com.slothwerks.hearthstone.compendiumforhearthstone.data.database.CardDbA
 import com.slothwerks.hearthstone.compendiumforhearthstone.models.Card;
 import com.slothwerks.hearthstone.compendiumforhearthstone.models.CardType;
 import com.slothwerks.hearthstone.compendiumforhearthstone.models.Rarity;
+import com.slothwerks.hearthstone.compendiumforhearthstone.view.CardItemViewHolder;
 
 import java.util.HashMap;
 import java.util.List;
 
+import se.emilsjolander.stickylistheaders.StickyListHeadersAdapter;
+
 /**
  * Created by Eric on 9/9/2014.
  */
-public class CardListCursorAdapter extends CursorAdapter {
+public class CardListCursorAdapter extends CursorAdapter implements StickyListHeadersAdapter {
 
     public static final String TAG = "CardListCursorAdapter";
     protected HashMap<String, Integer> mCardIdToQuantityMap;
+    protected LayoutInflater mInflater;
 
     public CardListCursorAdapter(Context context, Cursor c)
     {
         super(context, c, 0);
         mCardIdToQuantityMap = new HashMap<String, Integer>();
+        mInflater = LayoutInflater.from(context);
     }
 
     public void updateQuantityForCard(Card card, int newQuantity) {
@@ -58,17 +63,41 @@ public class CardListCursorAdapter extends CursorAdapter {
         LayoutInflater inflater =
                 (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
-        //return inflater.inflate(R.layout.card_image_item, parent, false);
-        return inflater.inflate(R.layout.card_list_item, parent, false);
+        View view = inflater.inflate(R.layout.card_list_item, parent, false);
+
+        TextView nameTextView = (TextView)view.findViewById(R.id.card_list_item_name);
+        FrameLayout rarityGem = (FrameLayout)view.findViewById(R.id.card_list_item_rarity_gem);
+        TextView infoTextView = (TextView)view.findViewById(R.id.card_list_item_text);
+        TextView attackTextView = (TextView)view.findViewById(R.id.card_list_item_attack);
+        TextView healthTextView = (TextView)view.findViewById(R.id.card_list_item_health);
+        TextView costTextView = (TextView)view.findViewById(R.id.card_list_item_cost);
+        FrameLayout attackLayout =
+                (FrameLayout)view.findViewById(R.id.card_list_item_attack_container);
+        FrameLayout healthLayout =
+                (FrameLayout)view.findViewById(R.id.card_list_item_health_container);
+
+        CardItemViewHolder viewHolder = new CardItemViewHolder(
+                nameTextView,
+                rarityGem,
+                infoTextView,
+                costTextView,
+                attackTextView,
+                healthTextView,
+                attackLayout,
+                healthLayout);
+
+        view.setTag(viewHolder);
+
+        return view;
     }
 
     @Override
     public void bindView(View view, Context context, Cursor cursor) {
 
         Card card = CardDbAdapter.cursorToCard(cursor);
+        CardItemViewHolder viewHolder = (CardItemViewHolder)view.getTag();
 
-        // TODO use view holder
-        TextView listItemName = (TextView)view.findViewById(R.id.card_list_item_name);
+        TextView listItemName = viewHolder.nameTextView;
         String name = card.getName();
         int quantity = mCardIdToQuantityMap.containsKey(card.getId()) ?
                 mCardIdToQuantityMap.get(card.getId()) : 0;
@@ -82,8 +111,7 @@ public class CardListCursorAdapter extends CursorAdapter {
         listItemName.setText(name);
 
         // get the rarity indicator (vertical colored bar)
-        FrameLayout rarityGem =
-                (FrameLayout)view.findViewById(R.id.card_list_item_rarity_gem);
+        FrameLayout rarityGem = viewHolder.rarityGem;
 
         // set the color of the card's rarity indicator depending on rarity
         if(card.getRarity() == Rarity.Epic)
@@ -98,7 +126,7 @@ public class CardListCursorAdapter extends CursorAdapter {
             rarityGem.setBackgroundColor(Color.TRANSPARENT);
 
         // set the info for the card
-        TextView listItemText = (TextView) view.findViewById(R.id.card_list_item_text);
+        TextView listItemText = viewHolder.cardTextView;
         if(card.getText() != null) {
             listItemText.setText(Html.fromHtml(card.getText()));
         } else {
@@ -106,23 +134,21 @@ public class CardListCursorAdapter extends CursorAdapter {
         }
 
         // set the cost
-        TextView costText = (TextView)view.findViewById(R.id.card_list_item_cost);
+        TextView costText = viewHolder.costText;
         costText.setText(String.valueOf(card.getCost()));
 
         // set attack
-        TextView attackText = (TextView)view.findViewById(R.id.card_list_item_attack);
+        TextView attackText = viewHolder.attackText;
         attackText.setText(String.valueOf(card.getAttack()));
 
         // set health
-        TextView healthText = (TextView)view.findViewById(R.id.card_list_item_health);
+        TextView healthText = viewHolder.healthCost;
         healthText.setText(String.valueOf(card.getHealth()));
 
 
         // determine if we should hide the attack/health sections
-        FrameLayout attackLayout =
-                (FrameLayout)view.findViewById(R.id.card_list_item_attack_container);
-        FrameLayout healthLayout =
-                (FrameLayout)view.findViewById(R.id.card_list_item_health_container);
+        FrameLayout attackLayout = viewHolder.attackLayout;
+        FrameLayout healthLayout = viewHolder.healthLayout;
 
         if(card.getHealth() == 0 && card.getAttack() == 0) {
 
@@ -134,5 +160,29 @@ public class CardListCursorAdapter extends CursorAdapter {
             attackLayout.setVisibility(View.VISIBLE);
             healthLayout.setVisibility(View.VISIBLE);
         }
+    }
+
+    @Override
+    public View getHeaderView(int i, View view, ViewGroup viewGroup) {
+       if(view == null) {
+           view = mInflater.inflate(R.layout.list_item_cost_header, viewGroup, false);
+       }
+
+        // TODO efficient?
+        Cursor c = (Cursor)getItem(i);
+        int cost = c.getInt(c.getColumnIndex(CardDbAdapter.COST));
+
+        TextView costTextView = (TextView)view.findViewById(R.id.list_item_cost_header_cost);
+        costTextView.setText(Integer.toString(cost));
+
+        return view;
+    }
+
+    @Override
+    public long getHeaderId(int i) {
+        Cursor c = (Cursor)getItem(i);
+        int cost = c.getInt(c.getColumnIndex(CardDbAdapter.COST));
+
+        return cost;
     }
 }

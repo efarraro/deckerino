@@ -33,7 +33,6 @@ import de.greenrobot.event.EventBus;
  */
 public class DeckBuilderFragment extends Fragment implements IntentConstants {
 
-    protected PlayerClass mCurrentClass;
     protected Deck mDeck;
     protected long mDeckId;
 
@@ -55,14 +54,11 @@ public class DeckBuilderFragment extends Fragment implements IntentConstants {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        // TODO placeholder
-        mCurrentClass = PlayerClass.Hunter;
-
         View rootView = inflater.inflate(R.layout.fragment_deck_builder, container, false);
 
         ViewPager pager = (ViewPager)rootView.findViewById(R.id.deck_list_pager);
         pager.setAdapter(new DeckBuilderPagerAdapter(
-                getActivity().getSupportFragmentManager(), mCurrentClass));
+                getActivity().getSupportFragmentManager(), mDeck.getPlayerClass()));
 
         PagerSlidingTabStrip tabs =
                 (PagerSlidingTabStrip)rootView.findViewById(R.id.deck_builder_tab_strip);

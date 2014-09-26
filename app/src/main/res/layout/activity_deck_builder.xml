@@ -13,14 +13,13 @@
         tools:ignore="MergeRootFrame" >
 
         <!-- deck summary widget at the top of the page -->
-        <FrameLayout
+        <!--<FrameLayout
             android:id="@+id/activity_deck_summary"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content" />-->
 
         <FrameLayout
             android:id="@+id/container"
-            android:layout_below="@id/activity_deck_summary"
             android:layout_width="match_parent"
             android:layout_height="match_parent"></FrameLayout>
 

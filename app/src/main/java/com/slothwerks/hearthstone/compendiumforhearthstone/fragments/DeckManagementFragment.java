@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import com.slothwerks.hearthstone.compendiumforhearthstone.IntentConstants;
 import com.slothwerks.hearthstone.compendiumforhearthstone.R;
 import com.slothwerks.hearthstone.compendiumforhearthstone.activities.ViewDeckActivity;
 import com.slothwerks.hearthstone.compendiumforhearthstone.adapters.DeckManagerCursorAdapter;
@@ -20,7 +21,9 @@ import java.sql.SQLException;
 /**
  * Created by Eric on 9/22/2014.
  */
-public class DeckManagementFragment extends Fragment {
+public class DeckManagementFragment extends Fragment implements IntentConstants, AdapterView.OnItemClickListener {
+
+    protected DeckManagerCursorAdapter mAdapter;
 
     public DeckManagementFragment() {
     }
@@ -40,20 +43,10 @@ public class DeckManagementFragment extends Fragment {
             Cursor cursor = adapter.getAllDecks();
 
             ListView listView = (ListView)rootView.findViewById(R.id.deck_management_list_view);
-            listView.setAdapter(new DeckManagerCursorAdapter(getActivity(), cursor));
+            mAdapter = new DeckManagerCursorAdapter(getActivity(), cursor);
+            listView.setAdapter(mAdapter);
 
-            listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                @Override
-                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-
-                    // TODO get ID of deck to pull from DB
-
-                    // when a user clicks on the deck, allow them to view that deck
-                    Intent intent = new Intent(getActivity(), ViewDeckActivity.class);
-                    startActivity(intent);
-                }
-            });
+            listView.setOnItemClickListener(this);
 
         }  catch(SQLException e) {
             e.printStackTrace();
@@ -63,5 +56,19 @@ public class DeckManagementFragment extends Fragment {
         }
 
         return rootView;
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+        // when a user clicks on the deck, allow them to view that deck
+        Intent intent = new Intent(getActivity(), ViewDeckActivity.class);
+
+        // get the selected deck ID and pass
+        Cursor c = (Cursor)mAdapter.getItem(position);
+        long deckId = c.getLong(c.getColumnIndex(DeckDbAdapter.ROW_ID));
+        intent.putExtra(DECK_ID, deckId);
+
+        startActivity(intent);
     }
 }

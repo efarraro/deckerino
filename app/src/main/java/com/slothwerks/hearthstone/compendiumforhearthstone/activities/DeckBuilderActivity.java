@@ -19,6 +19,7 @@ import android.widget.ListView;
 import com.slothwerks.hearthstone.compendiumforhearthstone.IntentConstants;
 import com.slothwerks.hearthstone.compendiumforhearthstone.R;
 import com.slothwerks.hearthstone.compendiumforhearthstone.adapters.DeckListArrayAdapter;
+import com.slothwerks.hearthstone.compendiumforhearthstone.data.database.DeckDbAdapter;
 import com.slothwerks.hearthstone.compendiumforhearthstone.events.EventCardQuantityUpdated;
 import com.slothwerks.hearthstone.compendiumforhearthstone.events.EventCardTapped;
 import com.slothwerks.hearthstone.compendiumforhearthstone.events.EventDeckUpdated;
@@ -39,8 +40,8 @@ import de.greenrobot.event.EventBus;
 public class DeckBuilderActivity extends BaseFragmentActivity implements IntentConstants {
 
     protected DrawerLayout mDeckDrawerLayout;
-    protected PlayerClass mCurrentClass;
     protected long mDeckId;
+    protected Deck mCurrentDeck;
     protected ListView mDeckDrawer;
     protected ArrayAdapter<CardQuantityPair> mListAdapter;
 
@@ -50,22 +51,19 @@ public class DeckBuilderActivity extends BaseFragmentActivity implements IntentC
         setContentView(R.layout.activity_deck_builder);
 
         // check to see if we have a deck ID for this deck
-        String deckIdString = getIntent().getStringExtra((DECK_ID));
-        if(deckIdString != null)
-            mDeckId = Long.parseLong(deckIdString);
+        mDeckId = getIntent().getLongExtra(DECK_ID, -1);
 
-        Assert.assertTrue("Expects deck_id", deckIdString != null);
+        Assert.assertTrue("Expects deck_id", mDeckId != -1);
 
-        // TODO debug, for now
-        mCurrentClass = PlayerClass.Hunter;
+        Deck deck = new DeckDbAdapter(this.getApplicationContext()).getDeckById(mDeckId);
 
         // TODO understand savedInstanceState better
         if (savedInstanceState == null) {
 
             // add the deck summary at the top of the page (card count etc... )
-            getSupportFragmentManager().beginTransaction()
+            /*getSupportFragmentManager().beginTransaction()
                     .add(R.id.activity_deck_summary, new DeckSummaryFragment())
-                    .commit();
+                    .commit();*/
 
             // add the rest of the deck builder
             DeckBuilderFragment deckBuilderFragment = new DeckBuilderFragment();
@@ -86,7 +84,8 @@ public class DeckBuilderActivity extends BaseFragmentActivity implements IntentC
                     new DeckListArrayAdapter(this, deckBuilderFragment.getDeck().getCards());
             mDeckDrawer.setAdapter(mListAdapter);
 
-            setTitle(String.format(getString(R.string.activity_deck_builder), mCurrentClass));
+            // TODO localize class name
+            setTitle(String.format(getString(R.string.activity_deck_builder), deck.getPlayerClass().toString()));
         }
 
         // TODO testing class specific color header
@@ -118,6 +117,14 @@ public class DeckBuilderActivity extends BaseFragmentActivity implements IntentC
      * Updates the deck list, whenever the deck is updated
      */
     public void onEventMainThread(EventDeckUpdated e) {
+
+        if(mCurrentDeck != e.getDeck()) {
+            mListAdapter =
+                    new DeckListArrayAdapter(getApplicationContext(), e.getDeck().getCards());
+
+            mCurrentDeck = e.getDeck();
+            mDeckDrawer.setAdapter(mListAdapter);
+        }
 
         mListAdapter.notifyDataSetChanged();
     }

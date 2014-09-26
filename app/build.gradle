@@ -24,4 +24,5 @@ dependencies {
     compile "com.android.support:support-v4:20.0.+"
     compile 'com.astuetz:pagerslidingtabstrip:1.0.1'
     compile 'de.greenrobot:eventbus:2.2.+'
+    compile 'se.emilsjolander:stickylistheaders:2.5.1'
 }

@@ -39,6 +39,9 @@
     <string name="card_list_search_hint">Search %s cards</string>
     <string name="title_activity_choose_class">ChooseClassActivity</string>
 
+    <!-- view deck -->
+    <string name="view_deck_edit_button">Edit Deck</string>
+
     <!-- activity titles -->
     <string name="activity_deck_builder">Building a %s deck</string>
     <string name="activity_choose_class">Choose a class</string>

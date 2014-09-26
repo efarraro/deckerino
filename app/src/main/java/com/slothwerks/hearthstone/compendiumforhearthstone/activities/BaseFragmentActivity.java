@@ -52,9 +52,9 @@ public class BaseFragmentActivity extends FragmentActivity implements IntentCons
         items.add(new NavDrawerItem("Deck", NavDrawerItemType.Title));
         items.add(new NavDrawerItem("Create", NavDrawerItemType.Nav));
         items.add(new NavDrawerItem("Manage", NavDrawerItemType.Nav));
-        items.add(new NavDrawerItem("Utilities", NavDrawerItemType.Title));
+        /*items.add(new NavDrawerItem("Utilities", NavDrawerItemType.Title));
         items.add(new NavDrawerItem("Deck Tracker", NavDrawerItemType.Nav));
-        items.add(new NavDrawerItem("About", NavDrawerItemType.Nav));
+        items.add(new NavDrawerItem("About", NavDrawerItemType.Nav));*/
         NavDrawerListAdapter ad = new NavDrawerListAdapter(this, items);
         drawer.setAdapter(ad);
 
@@ -156,7 +156,7 @@ public class BaseFragmentActivity extends FragmentActivity implements IntentCons
 
         if(id != -1) {
             Intent intent = new Intent(this, DeckBuilderActivity.class);
-            intent.putExtra(DECK_ID, Long.toString(id));
+            intent.putExtra(DECK_ID, id);
             startActivity(intent);
         }
     }

@@ -6,8 +6,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CursorAdapter;
+import android.widget.ListView;
+import android.widget.TextView;
 
 import com.slothwerks.hearthstone.compendiumforhearthstone.R;
+import com.slothwerks.hearthstone.compendiumforhearthstone.models.Deck;
 
 /**
  * Created by Eric on 9/22/2014.
@@ -29,5 +32,9 @@ public class DeckManagerCursorAdapter extends CursorAdapter {
     @Override
     public void bindView(View view, Context context, Cursor cursor) {
 
+        Deck deck = Deck.fromCursor(context, cursor);
+
+        TextView classText = (TextView)view.findViewById(R.id.list_item_deck_management_class);
+        classText.setText(deck.getPlayerClass().toString());
     }
 }

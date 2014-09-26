@@ -20,7 +20,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
 
-        <ListView
+        <se.emilsjolander.stickylistheaders.StickyListHeadersListView
             android:id="@+id/main_list_view"
             android:layout_below="@id/card_list_search_box"
             android:divider="@android:color/transparent"

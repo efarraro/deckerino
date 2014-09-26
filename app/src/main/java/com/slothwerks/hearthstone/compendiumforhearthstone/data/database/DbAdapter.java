@@ -43,6 +43,7 @@ public abstract class DbAdapter {
             "create table " + DeckDbAdapter.TABLE_NAME +
                     "(" + DeckDbAdapter.ROW_ID + " INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, " +
                     DeckDbAdapter.NAME + " TEXT, " +
+                    DeckDbAdapter.DATE + " DATETIME DEFAULT CURRENT_TIMESTAMP, " +
                     DeckDbAdapter.CLASS + " TEXT, " +
                     DeckDbAdapter.VERSION + " TEXT, "  +
                     DeckDbAdapter.CARD_DATA + " TEXT);";

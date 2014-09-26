@@ -1,10 +1,12 @@
 package com.slothwerks.hearthstone.compendiumforhearthstone.models;
 
 import android.content.Context;
+import android.database.Cursor;
 import android.util.Log;
 
 import com.slothwerks.hearthstone.compendiumforhearthstone.data.CardManager;
 import com.slothwerks.hearthstone.compendiumforhearthstone.data.database.CardDbAdapter;
+import com.slothwerks.hearthstone.compendiumforhearthstone.data.database.DeckDbAdapter;
 
 import junit.framework.Assert;
 
@@ -19,6 +21,8 @@ import java.util.HashMap;
 public class Deck {
 
     protected long mId;
+    protected PlayerClass mPlayerClass;
+
     protected ArrayList<CardQuantityPair> mCards;
 
     public Deck() {
@@ -179,11 +183,29 @@ public class Deck {
         return deck;
     }
 
+    public static Deck fromCursor(Context context, Cursor cursor) {
+
+        Deck deck = Deck.fromDeckerinoFormat(
+                context, cursor.getString(cursor.getColumnIndex(DeckDbAdapter.CARD_DATA)));
+        deck.setPlayerClass(
+                PlayerClass.valueOf(cursor.getString(cursor.getColumnIndex(DeckDbAdapter.CLASS))));
+
+        return deck;
+    }
+
     public long getId() {
         return mId;
     }
 
     public void setId(long id) {
         mId = id;
+    }
+
+    public PlayerClass getPlayerClass() {
+        return mPlayerClass;
+    }
+
+    public void setPlayerClass(PlayerClass playerClass) {
+        mPlayerClass = playerClass;
     }
 }

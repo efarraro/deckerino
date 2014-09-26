@@ -31,6 +31,7 @@ import com.slothwerks.hearthstone.compendiumforhearthstone.models.PlayerClass;
 import java.sql.SQLException;
 
 import de.greenrobot.event.EventBus;
+import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
 
 public class CardListFragment extends Fragment {
 
@@ -39,7 +40,7 @@ public class CardListFragment extends Fragment {
     public static final String PLAYER_CLASS = "PLAYER_CLASS";
 
     protected CardDbAdapter mCardDbAdapter;
-    protected ListView mListView;
+    protected StickyListHeadersListView mListView;
     protected PlayerClass mPlayerClass;
 
     public CardListFragment() {
@@ -101,7 +102,7 @@ public class CardListFragment extends Fragment {
             }
         });
 
-        mListView = (ListView)v.findViewById(R.id.main_list_view);
+        mListView = (StickyListHeadersListView)v.findViewById(R.id.main_list_view);
         mListView.setAdapter(adapter);
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override

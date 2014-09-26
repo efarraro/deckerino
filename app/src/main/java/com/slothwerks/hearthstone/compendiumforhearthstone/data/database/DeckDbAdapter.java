@@ -20,6 +20,7 @@ public class DeckDbAdapter extends DbAdapter {
     public static final String TABLE_NAME = "decks";
 
     public static final String ROW_ID = "_id";
+    public static final String DATE = "date";
     public static final String CLASS = "class";
     public static final String NAME = "name";
     public static final String VERSION = "version";
@@ -45,7 +46,7 @@ public class DeckDbAdapter extends DbAdapter {
     }
 
     public Cursor getAllDecks() {
-        return mDb.rawQuery("select * from " + TABLE_NAME, null);
+        return mDb.rawQuery("select * from " + TABLE_NAME + " order by " + DATE + " DESC", null);
     }
 
     public void updateDeckName(String name) {
@@ -80,8 +81,10 @@ public class DeckDbAdapter extends DbAdapter {
             Deck deck = Deck.fromDeckerinoFormat(mContext,
                     cursor.getString(cursor.getColumnIndex(CARD_DATA)));
             deck.setId(cursor.getLong(cursor.getColumnIndex(ROW_ID)));
+            deck.setPlayerClass(
+                    PlayerClass.valueOf(cursor.getString(cursor.getColumnIndex(CLASS))));
 
-            // TODO get player class'
+            // TODO get player class
             return deck;
 
         } catch(SQLException e) {
