@@ -30,6 +30,7 @@ import com.slothwerks.hearthstone.compendiumforhearthstone.models.Card;
 import com.slothwerks.hearthstone.compendiumforhearthstone.models.CardQuantityPair;
 import com.slothwerks.hearthstone.compendiumforhearthstone.models.Deck;
 import com.slothwerks.hearthstone.compendiumforhearthstone.models.PlayerClass;
+import com.slothwerks.hearthstone.compendiumforhearthstone.util.Utility;
 
 import junit.framework.Assert;
 
@@ -84,8 +85,8 @@ public class DeckBuilderActivity extends BaseFragmentActivity implements IntentC
                     new DeckListArrayAdapter(this, deckBuilderFragment.getDeck().getCards());
             mDeckDrawer.setAdapter(mListAdapter);
 
-            // TODO localize class name
-            setTitle(String.format(getString(R.string.activity_deck_builder), deck.getPlayerClass().toString()));
+            // set the title ("Deck Builder (0/30)")
+            setTitle(String.format(getString(R.string.activity_deck_builder), 0, 30));
         }
 
         // TODO testing class specific color header
@@ -125,6 +126,10 @@ public class DeckBuilderActivity extends BaseFragmentActivity implements IntentC
             mCurrentDeck = e.getDeck();
             mDeckDrawer.setAdapter(mListAdapter);
         }
+
+        // set the title ("Deck Builder (0/30)")
+        setTitle(String.format(getString(R.string.activity_deck_builder),
+                 mCurrentDeck.getCardCount(), 30));
 
         mListAdapter.notifyDataSetChanged();
     }

@@ -1,13 +1,21 @@
 package com.slothwerks.hearthstone.compendiumforhearthstone.fragments;
 
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.astuetz.PagerSlidingTabStrip;
 import com.slothwerks.hearthstone.compendiumforhearthstone.IntentConstants;
@@ -48,6 +56,8 @@ public class DeckBuilderFragment extends Fragment implements IntentConstants {
         Assert.assertTrue("Expected deck_id bundle arg", getArguments().containsKey(DECK_ID));
         mDeckId = getArguments().getLong(DECK_ID);
         mDeck = new DeckDbAdapter(getActivity().getApplicationContext()).getDeckById(mDeckId);
+
+        setHasOptionsMenu(true);
     }
 
     @Override
@@ -58,7 +68,7 @@ public class DeckBuilderFragment extends Fragment implements IntentConstants {
 
         ViewPager pager = (ViewPager)rootView.findViewById(R.id.deck_list_pager);
         pager.setAdapter(new DeckBuilderPagerAdapter(
-                getActivity().getSupportFragmentManager(), mDeck.getPlayerClass()));
+                getActivity().getSupportFragmentManager(), mDeck.getPlayerClass(), mDeckId));
 
         PagerSlidingTabStrip tabs =
                 (PagerSlidingTabStrip)rootView.findViewById(R.id.deck_builder_tab_strip);
@@ -110,6 +120,9 @@ public class DeckBuilderFragment extends Fragment implements IntentConstants {
         super.onResume();
 
         EventBus.getDefault().register(this);
+
+        // let listeners know that we've resumed, and that they should update their deck pointer
+        EventBus.getDefault().post(new EventDeckUpdated(mDeck));
     }
 
     @Override
@@ -131,5 +144,59 @@ public class DeckBuilderFragment extends Fragment implements IntentConstants {
         {
             Log.d("TEST", pair.getCard().getName() + " " + pair.getQuantity());
         }
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.deck_builder, menu);
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        LayoutInflater inflater = getActivity().getLayoutInflater();
+
+        if(item.getItemId() == R.id.deck_builder_action_name_deck) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+
+            View view = inflater.inflate(R.layout.popup_name_deck, null, false);
+            final TextView deckNameText = (TextView)view.findViewById(R.id.popup_name_deck_text);
+            deckNameText.setText(mDeck.getName());
+
+            final AlertDialog dialog =
+                    builder.setTitle(getString(R.string.deck_builder_menu_name_deck)).
+                            setView(view).
+                            setNegativeButton(R.string.button_cancel, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.cancel();
+                                }
+                            }).
+                            setPositiveButton(R.string.button_ok, new DialogInterface.OnClickListener() {
+
+                                // user clicked OK, save the deck
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    mDeck.setName(deckNameText.getText().toString());
+
+                                    try {
+                                        new DeckDbAdapter(getActivity()).updateDeckName(mDeck);
+                                    } catch (SQLException e) {
+                                        e.printStackTrace();
+                                        Toast.makeText(getActivity(),
+                                                getString(R.string.error_unable_to_save),
+                                                Toast.LENGTH_SHORT);
+                                    }
+
+                                    dialog.dismiss();
+                                }
+                            }).
+                            create();
+
+            dialog.show();
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 }

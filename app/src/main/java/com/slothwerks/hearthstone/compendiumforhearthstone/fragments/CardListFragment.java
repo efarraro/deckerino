@@ -20,12 +20,16 @@ import android.widget.FilterQueryProvider;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.slothwerks.hearthstone.compendiumforhearthstone.IntentConstants;
 import com.slothwerks.hearthstone.compendiumforhearthstone.R;
 import com.slothwerks.hearthstone.compendiumforhearthstone.adapters.CardListCursorAdapter;
 import com.slothwerks.hearthstone.compendiumforhearthstone.data.database.CardDbAdapter;
+import com.slothwerks.hearthstone.compendiumforhearthstone.data.database.DeckDbAdapter;
 import com.slothwerks.hearthstone.compendiumforhearthstone.events.EventCardQuantityUpdated;
 import com.slothwerks.hearthstone.compendiumforhearthstone.events.EventCardTapped;
 import com.slothwerks.hearthstone.compendiumforhearthstone.models.Card;
+import com.slothwerks.hearthstone.compendiumforhearthstone.models.CardQuantityPair;
+import com.slothwerks.hearthstone.compendiumforhearthstone.models.Deck;
 import com.slothwerks.hearthstone.compendiumforhearthstone.models.PlayerClass;
 
 import java.sql.SQLException;
@@ -33,7 +37,7 @@ import java.sql.SQLException;
 import de.greenrobot.event.EventBus;
 import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
 
-public class CardListFragment extends Fragment {
+public class CardListFragment extends Fragment implements IntentConstants {
 
     public static final String TAG = "MainFragment";
 
@@ -85,6 +89,8 @@ public class CardListFragment extends Fragment {
         mPlayerClass = PlayerClass.Neutral;
         if(playerClassStr != null)
             mPlayerClass = PlayerClass.valueOf(playerClassStr);
+
+        long deckId = args.getLong(DECK_ID, -1);
 
         //cursor = mCardDbAdapter.getAllCards();
         cursor = mCardDbAdapter.getCardsByClass(mPlayerClass);
@@ -142,6 +148,14 @@ public class CardListFragment extends Fragment {
                 // do nothing
             }
         });
+
+        // highlight the cards, if we're loading this card list with a deck
+        if(deckId != -1) {
+            Deck deck = new DeckDbAdapter(getActivity()).getDeckById(deckId);
+            for(CardQuantityPair pair : deck.getCards()) {
+                adapter.updateQuantityForCard(pair.getCard(), pair.getQuantity());
+            }
+        }
 
         return v;
     }

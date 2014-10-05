@@ -14,6 +14,7 @@ import android.widget.ListView;
 import com.slothwerks.hearthstone.compendiumforhearthstone.IntentConstants;
 import com.slothwerks.hearthstone.compendiumforhearthstone.R;
 import com.slothwerks.hearthstone.compendiumforhearthstone.activities.DeckBuilderActivity;
+import com.slothwerks.hearthstone.compendiumforhearthstone.activities.TrackDeckActivity;
 import com.slothwerks.hearthstone.compendiumforhearthstone.adapters.CardListCursorAdapter;
 import com.slothwerks.hearthstone.compendiumforhearthstone.adapters.DeckListArrayAdapter;
 import com.slothwerks.hearthstone.compendiumforhearthstone.data.database.DeckDbAdapter;
@@ -52,6 +53,17 @@ public class ViewDeckFragment extends Fragment implements IntentConstants {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), DeckBuilderActivity.class);
+                intent.putExtra(DECK_ID, mDeck.getId());
+                startActivity(intent);
+            }
+        });
+
+        // set up track deck button
+        Button trackDeckButton = (Button)view.findViewById(R.id.view_deck_track_button);
+        trackDeckButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), TrackDeckActivity.class);
                 intent.putExtra(DECK_ID, mDeck.getId());
                 startActivity(intent);
             }

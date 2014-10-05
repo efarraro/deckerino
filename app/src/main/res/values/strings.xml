@@ -7,6 +7,12 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_card_detail">CardDetail</string>
 
+    <string name="button_ok">OK</string>
+    <string name="button_cancel">CANCEL</string>
+
+    <!-- error -->
+    <string name="error_unable_to_save">Error occurred when saving deck</string>
+
     <!-- card detail -->
     <string name="set">Set</string>
     <string name="quantity_owned">Quantity owned</string>
@@ -35,18 +41,25 @@
     <!-- deck summary -->
     <string name="show_deck">Show Deck</string>
 
+    <!-- deck builder -->
+    <string name="name_this_deck">Name this deck</string>
+    <string name="deck_builder_menu_name_deck">Edit name</string>
+
     <!-- card list -->
     <string name="card_list_search_hint">Search %s cards</string>
     <string name="title_activity_choose_class">ChooseClassActivity</string>
 
     <!-- view deck -->
     <string name="view_deck_edit_button">Edit Deck</string>
+    <string name="view_deck_track_button">Track Deck</string>
+    <string name="view_deck_card_and_quantity">(%1$d) %2$s</string>
 
     <!-- activity titles -->
-    <string name="activity_deck_builder">Building a %s deck</string>
+    <string name="activity_deck_builder">Deck Builder (%1$d/%2$d)</string>
     <string name="activity_choose_class">Choose a class</string>
     <string name="title_activity_choose_deck">ChooseDeckActivity</string>
     <string name="title_activity_deck_management">DeckManagementActivity</string>
     <string name="title_activity_view_deck">ViewDeckActivity</string>
+    <string name="title_activity_track_deck">TrackDeckActivity</string>
 
 </resources>

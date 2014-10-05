@@ -22,6 +22,7 @@ public class Deck {
 
     protected long mId;
     protected PlayerClass mPlayerClass;
+    protected String mName;
 
     protected ArrayList<CardQuantityPair> mCards;
 
@@ -62,6 +63,19 @@ public class Deck {
         }
 
         return 0;
+    }
+
+
+    /**
+     * Gets the card count (taking into account quantity of each card, including multiple)
+     */
+    public int getCardCount() {
+        int count = 0;
+        for(CardQuantityPair pair : mCards) {
+            count += pair.getQuantity();
+        }
+
+        return count;
     }
 
     public void addToDeck(Card card, int quantity) {
@@ -189,6 +203,7 @@ public class Deck {
                 context, cursor.getString(cursor.getColumnIndex(DeckDbAdapter.CARD_DATA)));
         deck.setPlayerClass(
                 PlayerClass.valueOf(cursor.getString(cursor.getColumnIndex(DeckDbAdapter.CLASS))));
+        deck.setName(cursor.getString(cursor.getColumnIndex(DeckDbAdapter.NAME)));
 
         return deck;
     }
@@ -207,5 +222,13 @@ public class Deck {
 
     public void setPlayerClass(PlayerClass playerClass) {
         mPlayerClass = playerClass;
+    }
+
+    public String getName() {
+        return mName;
+    }
+
+    public void setName(String name) {
+        mName = name;
     }
 }

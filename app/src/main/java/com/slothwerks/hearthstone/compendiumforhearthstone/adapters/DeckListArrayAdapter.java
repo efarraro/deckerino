@@ -33,10 +33,20 @@ public class DeckListArrayAdapter extends ArrayAdapter<CardQuantityPair> {
 
         Card card = getItem(position).getCard();
 
-        // TODO localize properly
+        // show the card name as "(2) Card Name"
         TextView name = (TextView)convertView.findViewById(R.id.list_item_deck_list_name);
-        name.setText(card.getName() + " (" + getItem(position).getQuantity() + ")");
+        name.setText(String.format(
+                        convertView.getContext().getString(R.string.view_deck_card_and_quantity),
+                        getItem(position).getQuantity(), card.getName()));
 
+        // cards with 0 quantity show as 'disabled'
+        if(getItem(position).getQuantity() == 0) {
+            name.setTextColor(getContext().getResources().getColor(R.color.disabled));
+        } else {
+            name.setTextColor(getContext().getResources().getColor(R.color.default_text));
+        }
+
+        // show the cost for this card
         TextView cost = (TextView)convertView.findViewById(R.id.list_item_deck_list_cost);
         cost.setText(Integer.toString(card.getCost()));
 

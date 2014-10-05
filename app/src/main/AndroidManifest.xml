@@ -52,6 +52,10 @@
             android:name=".activities.ViewDeckActivity"
             android:label="@string/title_activity_view_deck" >
         </activity>
+        <activity
+            android:name=".activities.TrackDeckActivity"
+            android:label="@string/title_activity_track_deck" >
+        </activity>
     </application>
 
 </manifest>

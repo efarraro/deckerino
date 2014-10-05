@@ -1,8 +1,9 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context="com.slothwerks.hearthstone.compendiumforhearthstone.activities.DeckBuilderActivity" >
-    <item android:id="@+id/action_settings"
-        android:title="@string/action_settings"
+    tools:context="com.slothwerks.hearthstone.compendiumforhearthstone.activities.DeckBuilderActivity">
+
+    <item android:id="@+id/deck_builder_action_name_deck"
+        android:title="@string/deck_builder_menu_name_deck"
         android:orderInCategory="100"
         android:showAsAction="never" />
 </menu>

@@ -7,6 +7,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.util.Log;
 
+import com.slothwerks.hearthstone.compendiumforhearthstone.IntentConstants;
 import com.slothwerks.hearthstone.compendiumforhearthstone.events.EventCardTapped;
 import com.slothwerks.hearthstone.compendiumforhearthstone.events.EventDeckUpdated;
 import com.slothwerks.hearthstone.compendiumforhearthstone.fragments.CardListFragment;
@@ -19,15 +20,17 @@ import de.greenrobot.event.EventBus;
 /**
  * Created by Eric on 9/17/2014.
  */
-public class DeckBuilderPagerAdapter extends FragmentPagerAdapter {
+public class DeckBuilderPagerAdapter extends FragmentPagerAdapter implements IntentConstants {
 
     //protected Deck mCurrentDeck;
     protected PlayerClass mCurrentClass;
+    protected  long mDeckId;
 
-    public DeckBuilderPagerAdapter(FragmentManager fm, PlayerClass playerClass) {
+    public DeckBuilderPagerAdapter(FragmentManager fm, PlayerClass playerClass, long deckId) {
         super(fm);
 
         mCurrentClass = playerClass;
+        mDeckId = deckId;
 
         //EventBus.getDefault().register(this);
     }
@@ -42,6 +45,7 @@ public class DeckBuilderPagerAdapter extends FragmentPagerAdapter {
 
             Bundle args = new Bundle();
             args.putString(CardListFragment.PLAYER_CLASS, mCurrentClass.toString());
+            args.putLong(DECK_ID, mDeckId);
             fragment.setArguments(args);
             return fragment;
         }
@@ -61,7 +65,7 @@ public class DeckBuilderPagerAdapter extends FragmentPagerAdapter {
     @Override
     public CharSequence getPageTitle(int position) {
 
-        // 3 tabs -- cards for current class, neutral cards, current deck under construction
+        // 2 tabs -- cards for current class & neutral cards
         if(position == 0) {
             return PlayerClass.Druid.toString();
         }

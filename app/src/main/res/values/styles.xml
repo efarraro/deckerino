@@ -15,6 +15,16 @@
         <item name="android:textColor">#444444</item>
     </style>
 
+    <!-- app base -->
+    <color name="default_text">#444444</color>
+    <color name="disabled">#bbbbbb</color>
+    <color name="background">#eeeeee</color>
+    <color name="textMedium">#777777</color>
+    <dimen name="smallestText">10sp</dimen>
+    <dimen name="smallText">14sp</dimen>
+    <dimen name="normalText">18sp</dimen>
+    <dimen name="bigText">24sp</dimen>
+
     <!-- card colors -->
     <color name="common">#cfd8dc</color>
     <color name="rare">#304ffe</color>
@@ -47,6 +57,5 @@
     <color name="primary_dark">#ffab00</color>
     <color name="accent">#03a9f4</color>-->
 
-    <color name="background">#EEEEEE</color>
 
 </resources>

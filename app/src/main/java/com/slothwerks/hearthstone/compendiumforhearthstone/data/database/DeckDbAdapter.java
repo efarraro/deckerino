@@ -49,10 +49,6 @@ public class DeckDbAdapter extends DbAdapter {
         return mDb.rawQuery("select * from " + TABLE_NAME + " order by " + DATE + " DESC", null);
     }
 
-    public void updateDeckName(String name) {
-
-    }
-
     public void updateCardData(Deck deck) {
         updateCardData(deck.getId(), deck.toDeckerinoFormat());
     }
@@ -63,6 +59,23 @@ public class DeckDbAdapter extends DbAdapter {
         values.put(CARD_DATA, cardData);
 
         mDb.update(TABLE_NAME, values, ROW_ID + "= ?", new String[] { Long.toString(deckId) });
+    }
+
+    public void updateDeckName(Deck deck) throws SQLException {
+
+        try {
+            open();
+
+            ContentValues values = new ContentValues();
+            values.put(NAME, deck.getName());
+            mDb.update(
+                    TABLE_NAME, values, ROW_ID + "= ?", new String[]{Long.toString(deck.getId())});
+
+        } catch(SQLException e) {
+            throw e;
+        } finally {
+         close();
+        }
     }
 
     public Deck getDeckById(long id) {
@@ -83,6 +96,7 @@ public class DeckDbAdapter extends DbAdapter {
             deck.setId(cursor.getLong(cursor.getColumnIndex(ROW_ID)));
             deck.setPlayerClass(
                     PlayerClass.valueOf(cursor.getString(cursor.getColumnIndex(CLASS))));
+            deck.setName(cursor.getString(cursor.getColumnIndex(NAME)));
 
             // TODO get player class
             return deck;

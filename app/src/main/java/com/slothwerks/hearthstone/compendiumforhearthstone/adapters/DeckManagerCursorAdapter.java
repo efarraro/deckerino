@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.slothwerks.hearthstone.compendiumforhearthstone.R;
 import com.slothwerks.hearthstone.compendiumforhearthstone.models.Deck;
+import com.slothwerks.hearthstone.compendiumforhearthstone.util.Utility;
 
 /**
  * Created by Eric on 9/22/2014.
@@ -34,7 +35,13 @@ public class DeckManagerCursorAdapter extends CursorAdapter {
 
         Deck deck = Deck.fromCursor(context, cursor);
 
+        // set the name of the player class
         TextView classText = (TextView)view.findViewById(R.id.list_item_deck_management_class);
-        classText.setText(deck.getPlayerClass().toString());
+        classText.setText(Utility.localizedStringForPlayerClass(
+                deck.getPlayerClass(), context).toUpperCase());
+
+        // set the deck name
+        TextView deckNameText = (TextView)view.findViewById(R.id.list_item_deck_management_title);
+        deckNameText.setText(deck.getName());
     }
 }

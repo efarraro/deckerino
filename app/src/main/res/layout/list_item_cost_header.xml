@@ -4,10 +4,15 @@
               android:orientation="vertical"
               android:background="@color/mana_crystal_blue"
               android:layout_width="match_parent"
-              android:layout_height="match_parent">
+              android:layout_height="46dp">
 
     <TextView
         android:id="@+id/list_item_cost_header_cost"
+        android:textColor="@android:color/white"
+        android:textSize="@dimen/headline"
+        android:textStyle="bold"
+        android:text="0"
+        android:padding="6dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 

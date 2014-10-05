@@ -13,6 +13,10 @@ public class CardQuantityPair {
         mQuantity = quantity;
     }
 
+    public void updateQuantity(int quantity) {
+        mQuantity = Math.max(0, mQuantity + quantity);
+    }
+
     public Card getCard() {
         return mCard;
     }

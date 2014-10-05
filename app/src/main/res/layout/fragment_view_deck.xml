@@ -14,6 +14,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
 
+    <Button
+        android:id="@+id/view_deck_track_button"
+        android:text="@string/view_deck_track_button"
+        android:layout_toRightOf="@id/view_deck_edit_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
     <ListView
         android:id="@+id/view_deck_listview"
         android:layout_below="@id/view_deck_edit_button"
