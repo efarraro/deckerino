@@ -1,6 +1,8 @@
 package com.slothwerks.hearthstone.compendiumforhearthstone.util;
 
 import android.content.Context;
+import android.content.res.Resources;
+import android.graphics.Color;
 
 import com.slothwerks.hearthstone.compendiumforhearthstone.R;
 import com.slothwerks.hearthstone.compendiumforhearthstone.models.CardSet;
@@ -42,6 +44,32 @@ public class Utility {
         }
 
         return PlayerClass.Neutral;
+    }
+
+    public static int getPrimaryColorForClass(PlayerClass playerClass, Resources resources) {
+
+        switch(playerClass) {
+            case Druid:
+                return resources.getColor(R.color.druid_primary);
+            case Mage:
+                return resources.getColor(R.color.mage_primary);
+            case Priest:
+                return resources.getColor(R.color.priest_primary);
+            case Rogue:
+                return resources.getColor(R.color.rogue_primary);
+            case Paladin:
+                return resources.getColor(R.color.paladin_primary);
+            case Warrior:
+                return resources.getColor(R.color.warrior_primary);
+            case Warlock:
+                return resources.getColor(R.color.warlock_primary);
+            case Shaman:
+                return resources.getColor(R.color.shaman_primary);
+            case Hunter:
+                return resources.getColor(R.color.hunter_primary);
+            default:
+                return 0;
+        }
     }
 
     public static String localizedStringForPlayerClass(PlayerClass playerClass, Context context) {

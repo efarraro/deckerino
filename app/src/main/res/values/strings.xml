@@ -38,6 +38,13 @@
     <string name="title_activity_card_list">CardListActivity</string>
     <string name="title_activity_deck_builder">DeckBuilderActivity</string>
 
+    <!-- nav -->
+    <string name="nav_main">MAIN</string>
+    <string name="nav_browse_cards">Browse cards</string>
+    <string name="nav_deck">DECK</string>
+    <string name="nav_create">Create</string>
+    <string name="nav_manage">Manage</string>
+
     <!-- deck summary -->
     <string name="show_deck">Show Deck</string>
 

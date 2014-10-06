@@ -14,6 +14,7 @@ import com.slothwerks.hearthstone.compendiumforhearthstone.fragments.CardListFra
 import com.slothwerks.hearthstone.compendiumforhearthstone.fragments.DeckListFragment;
 import com.slothwerks.hearthstone.compendiumforhearthstone.models.Deck;
 import com.slothwerks.hearthstone.compendiumforhearthstone.models.PlayerClass;
+import com.slothwerks.hearthstone.compendiumforhearthstone.util.Utility;
 
 import de.greenrobot.event.EventBus;
 
@@ -66,8 +67,9 @@ public class DeckBuilderPagerAdapter extends FragmentPagerAdapter implements Int
     public CharSequence getPageTitle(int position) {
 
         // 2 tabs -- cards for current class & neutral cards
+        // TODO localization?
         if(position == 0) {
-            return PlayerClass.Druid.toString();
+            return mCurrentClass.toString();
         }
         else {
             return PlayerClass.Neutral.toString();

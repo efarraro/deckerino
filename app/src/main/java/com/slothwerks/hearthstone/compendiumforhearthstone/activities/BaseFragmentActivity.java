@@ -47,11 +47,11 @@ public class BaseFragmentActivity extends FragmentActivity implements IntentCons
         Assert.assertTrue("Expected View with ID R.id.left_drawer!", drawer != null);
 
         ArrayList<NavDrawerItem> items = new ArrayList<NavDrawerItem>();
-        items.add(new NavDrawerItem("Main", NavDrawerItemType.Title));
-        items.add(new NavDrawerItem("Browse Cards", NavDrawerItemType.Nav));
-        items.add(new NavDrawerItem("Deck", NavDrawerItemType.Title));
-        items.add(new NavDrawerItem("Create", NavDrawerItemType.Nav));
-        items.add(new NavDrawerItem("Manage", NavDrawerItemType.Nav));
+        items.add(new NavDrawerItem(getString(R.string.nav_main), NavDrawerItemType.Title));
+        items.add(new NavDrawerItem(getString(R.string.nav_browse_cards), NavDrawerItemType.Nav));
+        items.add(new NavDrawerItem(getString(R.string.nav_deck), NavDrawerItemType.Title));
+        items.add(new NavDrawerItem(getString(R.string.nav_create), NavDrawerItemType.Nav));
+        items.add(new NavDrawerItem(getString(R.string.nav_manage), NavDrawerItemType.Nav));
         /*items.add(new NavDrawerItem("Utilities", NavDrawerItemType.Title));
         items.add(new NavDrawerItem("Deck Tracker", NavDrawerItemType.Nav));
         items.add(new NavDrawerItem("About", NavDrawerItemType.Nav));*/
@@ -69,12 +69,16 @@ public class BaseFragmentActivity extends FragmentActivity implements IntentCons
 
                 NavDrawerItem item = (NavDrawerItem)drawer.getAdapter().getItem(position);
 
-                // TODO consider effect of localization
-                if(item.getTitle().equals("Create")) {
+                if(item.getTitle().equals(getString(R.string.nav_browse_cards))) {
+                    Intent intent = new Intent(getBaseContext(), CardListActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                    startActivity(intent);
+                }
+                if(item.getTitle().equals(getString(R.string.nav_create))) {
                     Intent intent = new Intent(getBaseContext(), ChooseClassActivity.class);
                     startActivityForResult(intent, 0);
                 }
-                else if(item.getTitle().equals("Manage")) {
+                else if(item.getTitle().equals(getString(R.string.nav_manage))) {
                     Intent intent = new Intent(getBaseContext(), DeckManagementActivity.class);
                     startActivity(intent);
                 }

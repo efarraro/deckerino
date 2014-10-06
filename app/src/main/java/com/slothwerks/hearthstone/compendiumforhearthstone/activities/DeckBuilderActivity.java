@@ -89,8 +89,12 @@ public class DeckBuilderActivity extends BaseFragmentActivity implements IntentC
             setTitle(String.format(getString(R.string.activity_deck_builder), 0, 30));
         }
 
-        // TODO testing class specific color header
-        getActionBar().setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.warlock_primary)));
+        // theme the action bar header to match the class
+        getActionBar().setBackgroundDrawable(
+                new ColorDrawable(Utility.getPrimaryColorForClass(
+                        deck.getPlayerClass(), getResources())));
+
+        // I believe this is required, or the color would not show up for some reason
         getActionBar().setDisplayShowTitleEnabled(false);
         getActionBar().setDisplayShowTitleEnabled(true);
     }
