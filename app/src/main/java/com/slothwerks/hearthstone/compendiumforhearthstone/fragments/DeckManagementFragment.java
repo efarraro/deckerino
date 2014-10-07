@@ -4,9 +4,12 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
+import android.view.ActionMode;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
@@ -15,17 +18,26 @@ import com.slothwerks.hearthstone.compendiumforhearthstone.R;
 import com.slothwerks.hearthstone.compendiumforhearthstone.activities.ViewDeckActivity;
 import com.slothwerks.hearthstone.compendiumforhearthstone.adapters.DeckManagerCursorAdapter;
 import com.slothwerks.hearthstone.compendiumforhearthstone.data.database.DeckDbAdapter;
+import com.slothwerks.hearthstone.compendiumforhearthstone.events.EventDeleteSelectedDeck;
+import com.slothwerks.hearthstone.compendiumforhearthstone.handlers.DeckContextBarHandler;
 
 import java.sql.SQLException;
+
+import de.greenrobot.event.EventBus;
 
 /**
  * Created by Eric on 9/22/2014.
  */
-public class DeckManagementFragment extends Fragment implements IntentConstants, AdapterView.OnItemClickListener {
+public class DeckManagementFragment extends Fragment implements
+        IntentConstants, AdapterView.OnItemClickListener, AdapterView.OnItemLongClickListener {
 
     protected DeckManagerCursorAdapter mAdapter;
+    protected DeckContextBarHandler mContextBarHandler;
+    protected ActionMode mActionMode;
+    protected ListView mListView;
 
     public DeckManagementFragment() {
+        mContextBarHandler = new DeckContextBarHandler();
     }
 
     @Override
@@ -42,11 +54,12 @@ public class DeckManagementFragment extends Fragment implements IntentConstants,
 
             Cursor cursor = adapter.getAllDecks();
 
-            ListView listView = (ListView)rootView.findViewById(R.id.deck_management_list_view);
+            mListView = (ListView)rootView.findViewById(R.id.deck_management_list_view);
             mAdapter = new DeckManagerCursorAdapter(getActivity(), cursor);
-            listView.setAdapter(mAdapter);
-
-            listView.setOnItemClickListener(this);
+            mListView.setAdapter(mAdapter);
+            mListView.setChoiceMode(AbsListView.CHOICE_MODE_SINGLE);
+            mListView.setOnItemClickListener(this);
+            mListView.setOnItemLongClickListener(this);
 
         }  catch(SQLException e) {
             e.printStackTrace();
@@ -70,5 +83,32 @@ public class DeckManagementFragment extends Fragment implements IntentConstants,
         intent.putExtra(DECK_ID, deckId);
 
         startActivity(intent);
+    }
+
+    @Override
+    public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+
+        mActionMode = getActivity().startActionMode(mContextBarHandler);
+
+        return true;
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+
+        EventBus.getDefault().unregister(this);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        EventBus.getDefault().register(this);
+    }
+
+    public void onEventMainThread(EventDeleteSelectedDeck e) {
+
+        Log.d("TEST",mListView.getSelectedItem() + " here");
     }
 }
