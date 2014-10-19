@@ -93,7 +93,7 @@ public class CardDbAdapter extends DbAdapter {
     public Cursor getCardsByClass(PlayerClass c)
     {
         Cursor cursor = mDb.rawQuery(
-                "select * from " + TABLE_NAME +" where " + CLASS + " = ? order by cost",
+                "select * from " + TABLE_NAME +" where " + CLASS + " = ? order by " + COST + ", " + NAME,
                 new String[]{ c.toString() });
 
         return cursor;
@@ -102,7 +102,7 @@ public class CardDbAdapter extends DbAdapter {
     public Cursor getCardsLike(String query)
     {
         Cursor cursor = mDb.rawQuery(
-                "select * from " + TABLE_NAME + " where " + NAME + " like ? ",
+                "select * from " + TABLE_NAME + " where " + NAME + " like ? order by " + COST + ", " + NAME,
                 new String[] { "%" + query + "%" }
         );
 
@@ -112,7 +112,7 @@ public class CardDbAdapter extends DbAdapter {
     public Cursor getCardsLike(String query, PlayerClass playerClass)
     {
         Cursor cursor = mDb.rawQuery(
-                "select * from " + TABLE_NAME + " where " + NAME + " like ? and class = ?",
+                "select * from " + TABLE_NAME + " where " + NAME + " like ? and class = ? order by " + COST + ", " + NAME,
                 new String[] { "%" + query + "%", playerClass.toString() }
         );
 

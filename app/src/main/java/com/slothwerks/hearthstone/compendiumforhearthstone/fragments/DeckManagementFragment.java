@@ -1,9 +1,14 @@
 package com.slothwerks.hearthstone.compendiumforhearthstone.fragments;
 
+
+import android.content.CursorLoader;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.Loader;
 import android.util.Log;
 import android.view.ActionMode;
 import android.view.LayoutInflater;
@@ -20,6 +25,7 @@ import com.slothwerks.hearthstone.compendiumforhearthstone.adapters.DeckManagerC
 import com.slothwerks.hearthstone.compendiumforhearthstone.data.database.DeckDbAdapter;
 import com.slothwerks.hearthstone.compendiumforhearthstone.events.EventDeleteSelectedDeck;
 import com.slothwerks.hearthstone.compendiumforhearthstone.handlers.DeckContextBarHandler;
+import com.slothwerks.hearthstone.compendiumforhearthstone.models.Deck;
 
 import java.sql.SQLException;
 
@@ -38,6 +44,11 @@ public class DeckManagementFragment extends Fragment implements
 
     public DeckManagementFragment() {
         mContextBarHandler = new DeckContextBarHandler();
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
     }
 
     @Override
@@ -82,11 +93,17 @@ public class DeckManagementFragment extends Fragment implements
         long deckId = c.getLong(c.getColumnIndex(DeckDbAdapter.ROW_ID));
         intent.putExtra(DECK_ID, deckId);
 
+        // clear the selection
+        mListView.clearChoices();
+        mAdapter.notifyDataSetChanged();
+
         startActivity(intent);
     }
 
     @Override
     public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+
+        mListView.setItemChecked(position, true);
 
         mActionMode = getActivity().startActionMode(mContextBarHandler);
 
@@ -109,6 +126,38 @@ public class DeckManagementFragment extends Fragment implements
 
     public void onEventMainThread(EventDeleteSelectedDeck e) {
 
-        Log.d("TEST",mListView.getSelectedItem() + " here");
+        // figure out what the selected item is, and delete it
+        Deck deck = Deck.fromCursor(
+                getActivity(),
+                (Cursor)mAdapter.getItem(mListView.getCheckedItemPosition()));
+
+        try {
+            new DeckDbAdapter(getActivity()).deleteDeck(deck);
+        } catch(SQLException ex) {
+            ex.printStackTrace();
+            // TODO show error
+            return;
+        }
+
+        // get rid of any highlighted item
+        mListView.clearChoices();
+
+        // TODO test
+
+        DeckDbAdapter adapter = new DeckDbAdapter(getActivity());
+
+        // get and display a list of the all the decks to choose from
+        try {
+
+            adapter = (DeckDbAdapter) adapter.open();
+
+            Cursor cursor = adapter.getAllDecks();
+            mAdapter.swapCursor(cursor);
+
+            // notify the adapter that we've removed an item
+            mAdapter.notifyDataSetChanged();
+        } catch(SQLException ex) {
+            ex.printStackTrace();
+        }
     }
 }

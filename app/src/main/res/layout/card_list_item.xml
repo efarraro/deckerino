@@ -74,7 +74,7 @@
         <TextView
             android:id="@+id/card_list_item_text"
             android:text="Battlecry: Deal 3 damage to target minion"
-            android:textSize="16sp"
+            android:textSize="@dimen/smallText"
             android:textColor="#666666"
             android:layout_alignLeft="@id/card_list_item_name"
             android:layout_below="@id/card_list_item_name"

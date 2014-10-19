@@ -1,5 +1,6 @@
 package com.slothwerks.hearthstone.compendiumforhearthstone.handlers;
 
+import android.os.Debug;
 import android.view.ActionMode;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -7,6 +8,8 @@ import android.view.MenuItem;
 
 import com.slothwerks.hearthstone.compendiumforhearthstone.R;
 import com.slothwerks.hearthstone.compendiumforhearthstone.events.EventDeleteSelectedDeck;
+
+import junit.framework.Assert;
 
 import de.greenrobot.event.EventBus;
 
@@ -30,16 +33,14 @@ public class DeckContextBarHandler implements ActionMode.Callback {
 
     @Override
     public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
-        /*switch(item.getItemId()) {
-            // case R
-            return true;
-        }*/
+        switch(item.getItemId()) {
+            case R.id.menu_deck_management_delete_deck:
+                EventBus.getDefault().post(new EventDeleteSelectedDeck());
+                mode.finish();
+                return true;
+        }
 
-        EventBus.getDefault().post(new EventDeleteSelectedDeck());
-
-        mode.finish();
-
-        return false;
+        throw new UnsupportedOperationException("Unexpected action");
     }
 
     @Override

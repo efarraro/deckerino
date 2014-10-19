@@ -15,8 +15,13 @@
         <item name="android:textColor">#444444</item>
     </style>
 
+    <style name="activated" parent="AppTheme">
+        <item name="android:background">?android:attr/activatedBackgroundIndicator</item>
+    </style>
+
     <!-- app base -->
     <color name="default_text">#444444</color>
+    <color name="light_gray">#dddddd</color>
     <color name="disabled">#bbbbbb</color>
     <color name="background">#eeeeee</color>
     <color name="textMedium">#777777</color>

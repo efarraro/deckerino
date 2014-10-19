@@ -57,15 +57,15 @@
     <string name="title_activity_choose_class">ChooseClassActivity</string>
 
     <!-- view deck -->
-    <string name="view_deck_edit_button">Edit Deck</string>
-    <string name="view_deck_track_button">Track Deck</string>
+    <string name="view_deck_edit_button">EDIT DECK</string>
+    <string name="view_deck_track_button">TRACK DECK</string>
     <string name="view_deck_card_and_quantity">(%1$d) %2$s</string>
 
     <!-- activity titles -->
     <string name="activity_deck_builder">Deck Builder (%1$d/%2$d)</string>
     <string name="activity_choose_class">Choose a class</string>
     <string name="title_activity_choose_deck">ChooseDeckActivity</string>
-    <string name="title_activity_deck_management">DeckManagementActivity</string>
+    <string name="title_activity_deck_management">Choose a deck</string>
     <string name="title_activity_view_deck">ViewDeckActivity</string>
     <string name="title_activity_track_deck">TrackDeckActivity</string>
 

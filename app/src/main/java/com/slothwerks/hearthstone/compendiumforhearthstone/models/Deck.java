@@ -204,6 +204,7 @@ public class Deck {
         deck.setPlayerClass(
                 PlayerClass.valueOf(cursor.getString(cursor.getColumnIndex(DeckDbAdapter.CLASS))));
         deck.setName(cursor.getString(cursor.getColumnIndex(DeckDbAdapter.NAME)));
+        deck.setId(cursor.getLong(cursor.getColumnIndex(DeckDbAdapter.ROW_ID)));
 
         return deck;
     }

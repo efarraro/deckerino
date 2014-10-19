@@ -61,6 +61,18 @@ public class DeckDbAdapter extends DbAdapter {
         mDb.update(TABLE_NAME, values, ROW_ID + "= ?", new String[] { Long.toString(deckId) });
     }
 
+    public void deleteDeck(Deck deck) throws SQLException {
+        try {
+            open();
+            mDb.delete(TABLE_NAME, ROW_ID + " = ?", new String[] { Long.toString(deck.getId()) });
+
+        } catch(SQLException e) {
+            throw e;
+        } finally {
+            close();
+        }
+    }
+
     public void updateDeckName(Deck deck) throws SQLException {
 
         try {

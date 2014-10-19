@@ -33,11 +33,9 @@ public class DeckListArrayAdapter extends ArrayAdapter<CardQuantityPair> {
 
         Card card = getItem(position).getCard();
 
-        // show the card name as "(2) Card Name"
+        // show the card name
         TextView name = (TextView)convertView.findViewById(R.id.list_item_deck_list_name);
-        name.setText(String.format(
-                        convertView.getContext().getString(R.string.view_deck_card_and_quantity),
-                        getItem(position).getQuantity(), card.getName()));
+        name.setText(card.getName());
 
         // cards with 0 quantity show as 'disabled'
         if(getItem(position).getQuantity() == 0) {
@@ -49,6 +47,12 @@ public class DeckListArrayAdapter extends ArrayAdapter<CardQuantityPair> {
         // show the cost for this card
         TextView cost = (TextView)convertView.findViewById(R.id.list_item_deck_list_cost);
         cost.setText(Integer.toString(card.getCost()));
+
+        // show the quantity
+        TextView quantityText = (TextView)convertView.
+                findViewById(R.id.list_item_deck_list_quantity);
+        quantityText.setText(Integer.toString(getItem(position).getQuantity()));
+
 
         return convertView;
     }
