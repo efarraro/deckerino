@@ -56,5 +56,7 @@ public class CardListPagerAdapter extends FragmentPagerAdapter {
         return mPlayerClasses.get(position).toString();
     }
 
-
+    public PlayerClass getPlayerClassAtPosition(int i) {
+        return mPlayerClasses.get(i);
+    }
 }

@@ -66,15 +66,18 @@ public class CardListCursorAdapter extends CursorAdapter implements StickyListHe
         View view = inflater.inflate(R.layout.card_list_item, parent, false);
 
         TextView nameTextView = (TextView)view.findViewById(R.id.card_list_item_name);
-        FrameLayout rarityGem = (FrameLayout)view.findViewById(R.id.card_list_item_rarity_gem);
+        //FrameLayout rarityGem = (FrameLayout)view.findViewById(R.id.card_list_item_rarity_gem);
         TextView infoTextView = (TextView)view.findViewById(R.id.card_list_item_text);
         TextView attackTextView = (TextView)view.findViewById(R.id.card_list_item_attack);
         TextView healthTextView = (TextView)view.findViewById(R.id.card_list_item_health);
         TextView costTextView = (TextView)view.findViewById(R.id.card_list_item_cost);
-        FrameLayout attackLayout =
+        /*FrameLayout attackLayout =
                 (FrameLayout)view.findViewById(R.id.card_list_item_attack_container);
         FrameLayout healthLayout =
-                (FrameLayout)view.findViewById(R.id.card_list_item_health_container);
+                (FrameLayout)view.findViewById(R.id.card_list_item_health_container);*/
+        FrameLayout rarityGem = null;
+        FrameLayout attackLayout = null;
+        FrameLayout healthLayout = null;
 
         CardItemViewHolder viewHolder = new CardItemViewHolder(
                 nameTextView,
@@ -98,7 +101,7 @@ public class CardListCursorAdapter extends CursorAdapter implements StickyListHe
         CardItemViewHolder viewHolder = (CardItemViewHolder)view.getTag();
 
         TextView listItemName = viewHolder.nameTextView;
-        String name = card.getName();
+        String name = card.getName().toUpperCase();
         int quantity = mCardIdToQuantityMap.containsKey(card.getId()) ?
                 mCardIdToQuantityMap.get(card.getId()) : 0;
         if(quantity > 0) {
@@ -111,7 +114,7 @@ public class CardListCursorAdapter extends CursorAdapter implements StickyListHe
         listItemName.setText(name);
 
         // get the rarity indicator (vertical colored bar)
-        FrameLayout rarityGem = viewHolder.rarityGem;
+        /*FrameLayout rarityGem = viewHolder.rarityGem;
 
         // set the color of the card's rarity indicator depending on rarity
         if(card.getRarity() == Rarity.Epic)
@@ -123,7 +126,7 @@ public class CardListCursorAdapter extends CursorAdapter implements StickyListHe
         else if(card.getRarity() == Rarity.Common)
             rarityGem.setBackground(context.getResources().getDrawable(R.drawable.gem_common));
         else
-            rarityGem.setBackgroundColor(Color.TRANSPARENT);
+            rarityGem.setBackgroundColor(Color.TRANSPARENT);*/
 
         // set the info for the card
         TextView listItemText = viewHolder.cardTextView;
@@ -147,7 +150,7 @@ public class CardListCursorAdapter extends CursorAdapter implements StickyListHe
 
 
         // determine if we should hide the attack/health sections
-        FrameLayout attackLayout = viewHolder.attackLayout;
+        /*FrameLayout attackLayout = viewHolder.attackLayout;
         FrameLayout healthLayout = viewHolder.healthLayout;
 
         if(card.getHealth() == 0 && card.getAttack() == 0) {
@@ -159,7 +162,7 @@ public class CardListCursorAdapter extends CursorAdapter implements StickyListHe
 
             attackLayout.setVisibility(View.VISIBLE);
             healthLayout.setVisibility(View.VISIBLE);
-        }
+        }*/
     }
 
     @Override
@@ -172,8 +175,9 @@ public class CardListCursorAdapter extends CursorAdapter implements StickyListHe
         Cursor c = (Cursor)getItem(i);
         int cost = c.getInt(c.getColumnIndex(CardDbAdapter.COST));
 
-        TextView costTextView = (TextView)view.findViewById(R.id.list_item_cost_header_cost);
-        costTextView.setText(Integer.toString(cost));
+        //TODO remove?
+        /*TextView costTextView = (TextView)view.findViewById(R.id.list_item_cost_header_cost);
+        costTextView.setText(Integer.toString(cost));*/
 
         return view;
     }

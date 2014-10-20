@@ -3,6 +3,8 @@ package com.slothwerks.hearthstone.compendiumforhearthstone.fragments;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -29,6 +31,7 @@ import com.slothwerks.hearthstone.compendiumforhearthstone.events.EventDeckUpdat
 import com.slothwerks.hearthstone.compendiumforhearthstone.models.CardQuantityPair;
 import com.slothwerks.hearthstone.compendiumforhearthstone.models.Deck;
 import com.slothwerks.hearthstone.compendiumforhearthstone.models.PlayerClass;
+import com.slothwerks.hearthstone.compendiumforhearthstone.util.Utility;
 
 import junit.framework.Assert;
 
@@ -72,6 +75,10 @@ public class DeckBuilderFragment extends Fragment implements IntentConstants {
 
         PagerSlidingTabStrip tabs =
                 (PagerSlidingTabStrip)rootView.findViewById(R.id.deck_builder_tab_strip);
+        tabs.setBackground(new ColorDrawable(Utility.getPrimaryColorForClass(
+                mDeck.getPlayerClass(), getResources())));
+        tabs.setTextColor(Color.WHITE);
+        tabs.setIndicatorColor(Color.WHITE);
         tabs.setViewPager(pager);
 
         return rootView;

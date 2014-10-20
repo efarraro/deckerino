@@ -67,6 +67,8 @@ public class Utility {
                 return resources.getColor(R.color.shaman_primary);
             case Hunter:
                 return resources.getColor(R.color.hunter_primary);
+            case Neutral:
+                return resources.getColor(R.color.neutral_primary);
             default:
                 return 0;
         }
