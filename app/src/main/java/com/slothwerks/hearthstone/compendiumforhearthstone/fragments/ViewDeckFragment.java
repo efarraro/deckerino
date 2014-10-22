@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -20,8 +21,11 @@ import com.slothwerks.hearthstone.compendiumforhearthstone.activities.TrackDeckA
 import com.slothwerks.hearthstone.compendiumforhearthstone.adapters.CardListCursorAdapter;
 import com.slothwerks.hearthstone.compendiumforhearthstone.adapters.DeckListArrayAdapter;
 import com.slothwerks.hearthstone.compendiumforhearthstone.data.database.DeckDbAdapter;
+import com.slothwerks.hearthstone.compendiumforhearthstone.events.EventUpdateClassTheme;
 import com.slothwerks.hearthstone.compendiumforhearthstone.models.Deck;
 import com.slothwerks.hearthstone.compendiumforhearthstone.util.Utility;
+
+import de.greenrobot.event.EventBus;
 
 /**
  * Created by Eric on 9/23/2014.
@@ -90,5 +94,13 @@ public class ViewDeckFragment extends Fragment implements IntentConstants {
             text.setVisibility(View.GONE);
 
         return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        // request any additional theme work required
+        EventBus.getDefault().post(new EventUpdateClassTheme(mDeck.getPlayerClass()));
     }
 }

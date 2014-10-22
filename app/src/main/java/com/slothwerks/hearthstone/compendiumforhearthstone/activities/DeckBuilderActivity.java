@@ -38,7 +38,7 @@ import java.util.ArrayList;
 
 import de.greenrobot.event.EventBus;
 
-public class DeckBuilderActivity extends BaseFragmentActivity implements IntentConstants {
+public class DeckBuilderActivity extends FragmentActivity implements IntentConstants {
 
     protected DrawerLayout mDeckDrawerLayout;
     protected long mDeckId;

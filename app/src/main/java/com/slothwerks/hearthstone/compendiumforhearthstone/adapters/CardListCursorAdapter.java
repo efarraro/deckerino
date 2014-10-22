@@ -20,6 +20,7 @@ import android.widget.FilterQueryProvider;
 import android.widget.Filterable;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.slothwerks.hearthstone.compendiumforhearthstone.R;
@@ -76,8 +77,7 @@ public class CardListCursorAdapter extends CursorAdapter implements StickyListHe
         FrameLayout healthLayout =
                 (FrameLayout)view.findViewById(R.id.card_list_item_health_container);*/
         FrameLayout rarityGem = null;
-        FrameLayout attackLayout = null;
-        FrameLayout healthLayout = null;
+        LinearLayout statLayout = (LinearLayout)view.findViewById(R.id.card_list_item_stat_block);
 
         CardItemViewHolder viewHolder = new CardItemViewHolder(
                 nameTextView,
@@ -86,8 +86,7 @@ public class CardListCursorAdapter extends CursorAdapter implements StickyListHe
                 costTextView,
                 attackTextView,
                 healthTextView,
-                attackLayout,
-                healthLayout);
+                statLayout);
 
         view.setTag(viewHolder);
 
@@ -148,21 +147,17 @@ public class CardListCursorAdapter extends CursorAdapter implements StickyListHe
         TextView healthText = viewHolder.healthCost;
         healthText.setText(String.valueOf(card.getHealth()));
 
-
         // determine if we should hide the attack/health sections
-        /*FrameLayout attackLayout = viewHolder.attackLayout;
-        FrameLayout healthLayout = viewHolder.healthLayout;
+        LinearLayout statLayout = viewHolder.statBlockLayout;
 
         if(card.getHealth() == 0 && card.getAttack() == 0) {
 
-            attackLayout.setVisibility(View.GONE);
-            healthLayout.setVisibility(View.GONE);
+            statLayout.setVisibility(View.GONE);
         }
         else {
 
-            attackLayout.setVisibility(View.VISIBLE);
-            healthLayout.setVisibility(View.VISIBLE);
-        }*/
+            statLayout.setVisibility(View.VISIBLE);
+        }
     }
 
     @Override

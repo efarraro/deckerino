@@ -14,6 +14,7 @@ import com.slothwerks.hearthstone.compendiumforhearthstone.R;
 import com.slothwerks.hearthstone.compendiumforhearthstone.adapters.DeckListArrayAdapter;
 import com.slothwerks.hearthstone.compendiumforhearthstone.data.database.DeckDbAdapter;
 import com.slothwerks.hearthstone.compendiumforhearthstone.events.EventCardTapped;
+import com.slothwerks.hearthstone.compendiumforhearthstone.events.EventUpdateClassTheme;
 import com.slothwerks.hearthstone.compendiumforhearthstone.models.CardQuantityPair;
 import com.slothwerks.hearthstone.compendiumforhearthstone.models.Deck;
 
@@ -57,6 +58,14 @@ public class TrackDeckFragment extends Fragment implements IntentConstants {
         });
 
         return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        // request any additional theme work required
+        EventBus.getDefault().post(new EventUpdateClassTheme(mDeck.getPlayerClass()));
     }
 
     /*@Override

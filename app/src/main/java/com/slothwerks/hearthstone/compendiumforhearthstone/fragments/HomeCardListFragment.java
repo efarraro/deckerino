@@ -12,8 +12,11 @@ import android.view.ViewGroup;
 import com.astuetz.PagerSlidingTabStrip;
 import com.slothwerks.hearthstone.compendiumforhearthstone.R;
 import com.slothwerks.hearthstone.compendiumforhearthstone.adapters.CardListPagerAdapter;
+import com.slothwerks.hearthstone.compendiumforhearthstone.events.EventUpdateClassTheme;
 import com.slothwerks.hearthstone.compendiumforhearthstone.models.PlayerClass;
 import com.slothwerks.hearthstone.compendiumforhearthstone.util.Utility;
+
+import de.greenrobot.event.EventBus;
 
 /**
  * Created by Eric on 9/16/2014.
@@ -58,6 +61,9 @@ public class HomeCardListFragment extends Fragment {
                     Utility.getPrimaryColorForClass(playerClass, getResources())));
             getActivity().getActionBar().setBackgroundDrawable(new ColorDrawable(
                     Utility.getPrimaryColorForClass(playerClass, getResources())));
+
+            // send an event to notify listeners to update the class theme as needed (colors etc..)
+            EventBus.getDefault().post(new EventUpdateClassTheme(playerClass));
         }
         @Override
         public void onPageScrollStateChanged(int i) {}

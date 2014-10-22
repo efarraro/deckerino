@@ -28,6 +28,7 @@ import com.slothwerks.hearthstone.compendiumforhearthstone.data.database.DeckDbA
 import com.slothwerks.hearthstone.compendiumforhearthstone.events.EventCardQuantityUpdated;
 import com.slothwerks.hearthstone.compendiumforhearthstone.events.EventCardTapped;
 import com.slothwerks.hearthstone.compendiumforhearthstone.events.EventDeckUpdated;
+import com.slothwerks.hearthstone.compendiumforhearthstone.events.EventUpdateClassTheme;
 import com.slothwerks.hearthstone.compendiumforhearthstone.models.CardQuantityPair;
 import com.slothwerks.hearthstone.compendiumforhearthstone.models.Deck;
 import com.slothwerks.hearthstone.compendiumforhearthstone.models.PlayerClass;
@@ -130,6 +131,9 @@ public class DeckBuilderFragment extends Fragment implements IntentConstants {
 
         // let listeners know that we've resumed, and that they should update their deck pointer
         EventBus.getDefault().post(new EventDeckUpdated(mDeck));
+
+        // request any additional theme work required
+        EventBus.getDefault().post(new EventUpdateClassTheme(mDeck.getPlayerClass()));
     }
 
     @Override

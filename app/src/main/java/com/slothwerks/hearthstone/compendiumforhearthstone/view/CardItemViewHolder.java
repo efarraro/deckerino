@@ -1,6 +1,7 @@
 package com.slothwerks.hearthstone.compendiumforhearthstone.view;
 
 import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 /**
@@ -13,12 +14,11 @@ public class CardItemViewHolder {
     public final TextView costText;
     public final TextView attackText;
     public final TextView healthCost;
-    public final FrameLayout attackLayout;
-    public final FrameLayout healthLayout;
+    public final LinearLayout statBlockLayout;
 
     public CardItemViewHolder(TextView name, FrameLayout gem, TextView text, TextView cost,
                               TextView attack, TextView health,
-                              FrameLayout atkLayout, FrameLayout hLayout) {
+                              LinearLayout statLayout) {
 
         nameTextView = name;
         rarityGem = gem;
@@ -26,7 +26,6 @@ public class CardItemViewHolder {
         costText = cost;
         attackText = attack;
         healthCost = health;
-        attackLayout = atkLayout;
-        healthLayout = hLayout;
+        statBlockLayout = statLayout;
     }
 }

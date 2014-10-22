@@ -1,11 +1,15 @@
 package com.slothwerks.hearthstone.compendiumforhearthstone.activities;
 
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.widget.DrawerLayout;
+import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -16,15 +20,19 @@ import com.slothwerks.hearthstone.compendiumforhearthstone.IntentConstants;
 import com.slothwerks.hearthstone.compendiumforhearthstone.R;
 import com.slothwerks.hearthstone.compendiumforhearthstone.adapters.nav.NavDrawerListAdapter;
 import com.slothwerks.hearthstone.compendiumforhearthstone.data.database.DeckDbAdapter;
+import com.slothwerks.hearthstone.compendiumforhearthstone.events.EventUpdateClassTheme;
 import com.slothwerks.hearthstone.compendiumforhearthstone.fragments.CardListFragment;
 import com.slothwerks.hearthstone.compendiumforhearthstone.models.PlayerClass;
 import com.slothwerks.hearthstone.compendiumforhearthstone.models.nav.NavDrawerItem;
 import com.slothwerks.hearthstone.compendiumforhearthstone.models.nav.NavDrawerItemType;
+import com.slothwerks.hearthstone.compendiumforhearthstone.util.Utility;
 
 import junit.framework.Assert;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+
+import de.greenrobot.event.EventBus;
 
 /**
  * Created by Eric on 9/21/2014.
@@ -32,6 +40,7 @@ import java.util.ArrayList;
 public class BaseFragmentActivity extends FragmentActivity implements IntentConstants {
 
     protected ActionBarDrawerToggle mToggle;
+    protected ListView mNavListView;
 
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
@@ -42,9 +51,9 @@ public class BaseFragmentActivity extends FragmentActivity implements IntentCons
 
         // TODO localize these
         // expects a ListView called left_drawer to be present
-        final ListView drawer = (ListView)findViewById(R.id.left_drawer);
+        mNavListView = (ListView)findViewById(R.id.left_drawer);
 
-        Assert.assertTrue("Expected View with ID R.id.left_drawer!", drawer != null);
+        Assert.assertTrue("Expected View with ID R.id.left_drawer!", mNavListView != null);
 
         ArrayList<NavDrawerItem> items = new ArrayList<NavDrawerItem>();
         items.add(new NavDrawerItem(getString(R.string.nav_main), NavDrawerItemType.Title));
@@ -52,22 +61,19 @@ public class BaseFragmentActivity extends FragmentActivity implements IntentCons
         items.add(new NavDrawerItem(getString(R.string.nav_deck), NavDrawerItemType.Title));
         items.add(new NavDrawerItem(getString(R.string.nav_create), NavDrawerItemType.Nav));
         items.add(new NavDrawerItem(getString(R.string.nav_manage), NavDrawerItemType.Nav));
-        /*items.add(new NavDrawerItem("Utilities", NavDrawerItemType.Title));
-        items.add(new NavDrawerItem("Deck Tracker", NavDrawerItemType.Nav));
-        items.add(new NavDrawerItem("About", NavDrawerItemType.Nav));*/
         NavDrawerListAdapter ad = new NavDrawerListAdapter(this, items);
-        drawer.setAdapter(ad);
+        mNavListView.setAdapter(ad);
 
         // listen to clicks for navigation
-        drawer.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        mNavListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-                drawer.setItemChecked(position, true);
-                drawerLayout.closeDrawer(drawer);
+                mNavListView.setItemChecked(position, true);
+                drawerLayout.closeDrawer(mNavListView);
 
-                NavDrawerItem item = (NavDrawerItem)drawer.getAdapter().getItem(position);
+                NavDrawerItem item = (NavDrawerItem)mNavListView.getAdapter().getItem(position);
 
                 if(item.getTitle().equals(getString(R.string.nav_browse_cards))) {
                     Intent intent = new Intent(getBaseContext(), CardListActivity.class);
@@ -109,6 +115,11 @@ public class BaseFragmentActivity extends FragmentActivity implements IntentCons
         // this was required to get the proper icon to show
         //http://stackoverflow.com/questions/17825629/android-drawerlayout-doesnt-show-the-right-indicator-icon
         mToggle.syncState();
+    }
+
+    @Override
+    public View onCreateView(String name, @NonNull Context context, @NonNull AttributeSet attrs) {
+        return super.onCreateView(name, context, attrs);
     }
 
     @Override
@@ -163,6 +174,25 @@ public class BaseFragmentActivity extends FragmentActivity implements IntentCons
             intent.putExtra(DECK_ID, id);
             startActivity(intent);
         }
+    }
+
+    public void onEventMainThread(EventUpdateClassTheme e) {
+        mNavListView.setBackground(new ColorDrawable(Utility.getPrimaryColorForClass(
+                e.getPlayerClass(), getResources())));
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        EventBus.getDefault().unregister(this);
     }
 
     @Override
