@@ -35,7 +35,7 @@ public class DeckManagerCursorAdapter extends CursorAdapter {
     @Override
     public void bindView(View view, Context context, Cursor cursor) {
 
-        Deck deck = Deck.fromCursor(context, cursor);
+        Deck deck = Deck.fromCursor(context, cursor, true);
 
         // change the color of the square based on the class
         FrameLayout classSquare =

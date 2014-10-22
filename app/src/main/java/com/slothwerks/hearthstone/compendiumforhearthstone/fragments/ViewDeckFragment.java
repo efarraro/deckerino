@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.slothwerks.hearthstone.compendiumforhearthstone.IntentConstants;
 import com.slothwerks.hearthstone.compendiumforhearthstone.R;
@@ -78,6 +79,15 @@ public class ViewDeckFragment extends Fragment implements IntentConstants {
                 startActivity(intent);
             }
         });
+
+        // if there are no cards, show the message that there are no cards
+        TextView text = (TextView)view.findViewById(R.id.view_deck_no_card_text);
+        if(mDeck.getCardCount() == 0) {
+            text.setVisibility(View.VISIBLE);
+            trackDeckButton.setEnabled(false);
+        }
+        else
+            text.setVisibility(View.GONE);
 
         return view;
     }

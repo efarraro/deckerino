@@ -142,15 +142,6 @@ public class DeckBuilderFragment extends Fragment implements IntentConstants {
     @Override
     public void onDestroy() {
         super.onDestroy();
-
-        String deckerino = mDeck.toDeckerinoFormat();
-        Log.d("deckerino", deckerino);
-
-        Deck d = Deck.fromDeckerinoFormat(getActivity(), deckerino);
-        for(CardQuantityPair pair : d.getCards())
-        {
-            Log.d("TEST", pair.getCard().getName() + " " + pair.getQuantity());
-        }
     }
 
     @Override

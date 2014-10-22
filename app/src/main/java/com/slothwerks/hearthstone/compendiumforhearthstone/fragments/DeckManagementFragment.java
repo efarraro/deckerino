@@ -122,6 +122,7 @@ public class DeckManagementFragment extends Fragment implements
         super.onResume();
 
         EventBus.getDefault().register(this);
+        refreshListCursor();
     }
 
     public void onEventMainThread(EventDeleteSelectedDeck e) {
@@ -129,7 +130,8 @@ public class DeckManagementFragment extends Fragment implements
         // figure out what the selected item is, and delete it
         Deck deck = Deck.fromCursor(
                 getActivity(),
-                (Cursor)mAdapter.getItem(mListView.getCheckedItemPosition()));
+                (Cursor)mAdapter.getItem(mListView.getCheckedItemPosition()),
+                false);
 
         try {
             new DeckDbAdapter(getActivity()).deleteDeck(deck);
@@ -142,11 +144,13 @@ public class DeckManagementFragment extends Fragment implements
         // get rid of any highlighted item
         mListView.clearChoices();
 
-        // TODO test
+        // get and display a list of the all the decks to choose from
+        refreshListCursor();
+    }
+
+    protected void refreshListCursor()  {
 
         DeckDbAdapter adapter = new DeckDbAdapter(getActivity());
-
-        // get and display a list of the all the decks to choose from
         try {
 
             adapter = (DeckDbAdapter) adapter.open();
@@ -158,6 +162,8 @@ public class DeckManagementFragment extends Fragment implements
             mAdapter.notifyDataSetChanged();
         } catch(SQLException ex) {
             ex.printStackTrace();
+        } finally {
+            adapter.close();
         }
     }
 }

@@ -136,8 +136,10 @@ public class Deck {
     public String toDeckerinoFormat() {
         StringBuffer buffer = new StringBuffer();
 
-        // TODO add the actual app version
-        // TODO add player class?
+        // v1.0#2.5.4.2#druid#E_103^2/D_103^4
+        // TODO deckerino version
+        // TODO data version
+        // TODO player class
         buffer.append("v.1.0#");
         for(CardQuantityPair pair : mCards) {
             buffer.append(pair.getCard().getId());
@@ -177,7 +179,7 @@ public class Deck {
                 String cardId = tokens[0];
                 int quantity = Integer.parseInt(tokens[1]);
 
-                Log.d("test", cardId + "x" + quantity);
+                //Log.d("test", cardId + "x" + quantity);
 
                 Card card = adapter.cardById(cardId);
 
@@ -197,10 +199,12 @@ public class Deck {
         return deck;
     }
 
-    public static Deck fromCursor(Context context, Cursor cursor) {
+    public static Deck fromCursor(Context context, Cursor cursor, boolean skipCardData) {
 
-        Deck deck = Deck.fromDeckerinoFormat(
-                context, cursor.getString(cursor.getColumnIndex(DeckDbAdapter.CARD_DATA)));
+        Deck deck = new Deck();
+        if(!skipCardData)
+                deck = Deck.fromDeckerinoFormat(
+                    context, cursor.getString(cursor.getColumnIndex(DeckDbAdapter.CARD_DATA)));
         deck.setPlayerClass(
                 PlayerClass.valueOf(cursor.getString(cursor.getColumnIndex(DeckDbAdapter.CLASS))));
         deck.setName(cursor.getString(cursor.getColumnIndex(DeckDbAdapter.NAME)));

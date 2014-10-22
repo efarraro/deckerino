@@ -60,6 +60,7 @@
     <string name="view_deck_edit_button">EDIT DECK</string>
     <string name="view_deck_track_button">TRACK DECK</string>
     <string name="view_deck_card_and_quantity">(%1$d) %2$s</string>
+    <string name="view_deck_no_cards">You don\'t have any cards in this deck yet.  You can edit the deck to add more cards.</string>
 
     <!-- activity titles -->
     <string name="activity_deck_builder">Deck Builder (%1$d/%2$d)</string>
