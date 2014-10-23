@@ -4,6 +4,27 @@
     android:layout_height="match_parent"
     tools:context="com.slothwerks.hearthstone.compendiumforhearthstone.activities.DeckManagementActivity$PlaceholderFragment">
 
+    <TextView
+        android:id="@+id/deck_management_no_decks"
+        android:visibility="gone"
+        android:layout_centerVertical="true"
+        android:layout_margin="16dp"
+        android:text="@string/deck_mangagement_no_decks"
+        android:textColor="@color/textMedium"
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <Button
+        android:id="@+id/deck_management_create_deck_button"
+        android:visibility="gone"
+        android:background="@drawable/background_tab"
+        android:layout_below="@id/deck_management_no_decks"
+        android:text="@string/deck_management_create_deck"
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
     <ListView
         android:id="@+id/deck_management_list_view"
         android:layout_width="match_parent"

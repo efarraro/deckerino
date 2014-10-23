@@ -16,10 +16,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.slothwerks.hearthstone.compendiumforhearthstone.IntentConstants;
 import com.slothwerks.hearthstone.compendiumforhearthstone.R;
+import com.slothwerks.hearthstone.compendiumforhearthstone.activities.ChooseClassActivity;
 import com.slothwerks.hearthstone.compendiumforhearthstone.activities.ViewDeckActivity;
 import com.slothwerks.hearthstone.compendiumforhearthstone.adapters.DeckManagerCursorAdapter;
 import com.slothwerks.hearthstone.compendiumforhearthstone.data.database.DeckDbAdapter;
@@ -41,6 +44,8 @@ public class DeckManagementFragment extends Fragment implements
     protected DeckContextBarHandler mContextBarHandler;
     protected ActionMode mActionMode;
     protected ListView mListView;
+    protected TextView mNoDecksTextView;
+    protected Button mCreateDeckButton;
 
     public DeckManagementFragment() {
         mContextBarHandler = new DeckContextBarHandler();
@@ -71,6 +76,18 @@ public class DeckManagementFragment extends Fragment implements
             mListView.setChoiceMode(AbsListView.CHOICE_MODE_SINGLE);
             mListView.setOnItemClickListener(this);
             mListView.setOnItemLongClickListener(this);
+
+            mNoDecksTextView = (TextView)rootView.findViewById(R.id.deck_management_no_decks);
+            mCreateDeckButton =
+                    (Button)rootView.findViewById(R.id.deck_management_create_deck_button);
+
+            mCreateDeckButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(getActivity(), ChooseClassActivity.class);
+                    startActivityForResult(intent, 0);
+                }
+            });
 
         }  catch(SQLException e) {
             e.printStackTrace();
@@ -122,7 +139,7 @@ public class DeckManagementFragment extends Fragment implements
         super.onResume();
 
         EventBus.getDefault().register(this);
-        refreshListCursor();
+        refresh();
     }
 
     public void onEventMainThread(EventDeleteSelectedDeck e) {
@@ -145,11 +162,12 @@ public class DeckManagementFragment extends Fragment implements
         mListView.clearChoices();
 
         // get and display a list of the all the decks to choose from
-        refreshListCursor();
+        refresh();
     }
 
-    protected void refreshListCursor()  {
+    protected void refresh()  {
 
+        // refresh the list of decks
         DeckDbAdapter adapter = new DeckDbAdapter(getActivity());
         try {
 
@@ -164,6 +182,17 @@ public class DeckManagementFragment extends Fragment implements
             ex.printStackTrace();
         } finally {
             adapter.close();
+        }
+
+        // if there are no decks, show special messaging telling the user to create one
+        if(mAdapter.getCount() > 0) {
+            mNoDecksTextView.setVisibility(View.GONE);
+            mCreateDeckButton.setVisibility(View.GONE);
+            mListView.setVisibility(View.VISIBLE);
+        } else {
+            mNoDecksTextView.setVisibility(View.VISIBLE);
+            mCreateDeckButton.setVisibility(View.VISIBLE);
+            mListView.setVisibility(View.GONE);
         }
     }
 }

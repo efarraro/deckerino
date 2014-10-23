@@ -102,5 +102,7 @@ public class ViewDeckFragment extends Fragment implements IntentConstants {
 
         // request any additional theme work required
         EventBus.getDefault().post(new EventUpdateClassTheme(mDeck.getPlayerClass()));
+
+        // TODO refresh cursor after resuming
     }
 }

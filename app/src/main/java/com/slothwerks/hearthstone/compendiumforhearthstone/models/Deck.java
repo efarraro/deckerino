@@ -134,6 +134,10 @@ public class Deck {
      * Converts the deck into Deckerino format
      */
     public String toDeckerinoFormat() {
+
+        if(getCardCount() == 0)
+            return null;
+
         StringBuffer buffer = new StringBuffer();
 
         // v1.0#2.5.4.2#druid#E_103^2/D_103^4

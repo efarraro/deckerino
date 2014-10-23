@@ -62,6 +62,10 @@
     <string name="view_deck_card_and_quantity">(%1$d) %2$s</string>
     <string name="view_deck_no_cards">You don\'t have any cards in this deck yet.  You can edit the deck to add more cards.</string>
 
+    <!-- deck management -->
+    <string name="deck_mangagement_no_decks">You don\'t have any decks yet.  Create a deck now to add cards to it.</string>
+    <string name="deck_management_create_deck">CREATE DECK</string>
+
     <!-- activity titles -->
     <string name="activity_deck_builder">Deck Builder (%1$d/%2$d)</string>
     <string name="activity_choose_class">Choose a class</string>

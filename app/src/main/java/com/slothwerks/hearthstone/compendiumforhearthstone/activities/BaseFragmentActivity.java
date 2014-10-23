@@ -86,6 +86,7 @@ public class BaseFragmentActivity extends FragmentActivity implements IntentCons
                 }
                 else if(item.getTitle().equals(getString(R.string.nav_manage))) {
                     Intent intent = new Intent(getBaseContext(), DeckManagementActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                     startActivity(intent);
                 }
             }
