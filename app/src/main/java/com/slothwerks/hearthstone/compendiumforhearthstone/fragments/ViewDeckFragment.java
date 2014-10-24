@@ -51,6 +51,7 @@ public class ViewDeckFragment extends Fragment implements IntentConstants {
         // set the name for this activity to that of the deck
         getActivity().setTitle(mDeck.getName());
 
+        // set the color of the action bar based on class
         getActivity().getActionBar().
                 setBackgroundDrawable(new ColorDrawable(
                         Utility.getPrimaryColorForClass(
