@@ -5,6 +5,7 @@ import android.app.ActionBar;
 import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -16,7 +17,7 @@ import com.slothwerks.hearthstone.compendiumforhearthstone.IntentConstants;
 import com.slothwerks.hearthstone.compendiumforhearthstone.R;
 import com.slothwerks.hearthstone.compendiumforhearthstone.fragments.ViewDeckFragment;
 
-public class ViewDeckActivity extends BaseFragmentActivity implements IntentConstants {
+public class ViewDeckActivity extends FragmentActivity implements IntentConstants {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -51,6 +51,7 @@
     <!-- deck builder -->
     <string name="name_this_deck">Name this deck</string>
     <string name="deck_builder_menu_name_deck">Edit name</string>
+    <string name="deck_builder_too_many_cards">Can\'t add more than 30 cards to a deck</string>
 
     <!-- card list -->
     <string name="card_list_search_hint">Search %s cards</string>

@@ -99,6 +99,12 @@ public class DeckBuilderFragment extends Fragment implements IntentConstants {
             // if we couldn't add the card due to quantity constraints, set the quantity to 0
             // allows the user to repeatedly tap a card to add/remove to get the quanity they want
             mDeck.removeAllCopies(e.getCard());
+
+            // show a toast if the user tries to add too many cards
+            if(mDeck.getCardCount() == 30) {
+                Toast.makeText(getActivity(),
+                        R.string.deck_builder_too_many_cards, Toast.LENGTH_SHORT).show();
+            }
         }
 
         // notify listeners that the current deck has been updated

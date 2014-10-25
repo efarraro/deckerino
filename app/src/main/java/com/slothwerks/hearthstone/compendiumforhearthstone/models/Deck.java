@@ -41,7 +41,8 @@ public class Deck {
 
         // can add 1 copy if card is Legendary, and 2 otherwise
         if((getCountForCard(card) == 0 && card.getElite()) ||
-            getCountForCard(card) < 2 && !card.getElite()) {
+            getCountForCard(card) < 2 && !card.getElite() &&
+            getCardCount() < 30) {
 
             return true;
         }

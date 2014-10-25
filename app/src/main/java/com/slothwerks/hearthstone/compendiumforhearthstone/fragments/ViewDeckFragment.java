@@ -8,6 +8,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -37,6 +38,11 @@ public class ViewDeckFragment extends Fragment implements IntentConstants {
     public ViewDeckFragment() {
     }
 
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -74,6 +80,8 @@ public class ViewDeckFragment extends Fragment implements IntentConstants {
             }
         });
 
+        getActivity().getActionBar().setDisplayHomeAsUpEnabled(true);
+
         // set up track deck button
         Button trackDeckButton = (Button)view.findViewById(R.id.view_deck_track_button);
         trackDeckButton.setOnClickListener(new View.OnClickListener() {
@@ -105,5 +113,16 @@ public class ViewDeckFragment extends Fragment implements IntentConstants {
         EventBus.getDefault().post(new EventUpdateClassTheme(mDeck.getPlayerClass()));
 
         // TODO refresh cursor after resuming
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch(item.getItemId()) {
+            case android.R.id.home:
+                getActivity().finish();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 }

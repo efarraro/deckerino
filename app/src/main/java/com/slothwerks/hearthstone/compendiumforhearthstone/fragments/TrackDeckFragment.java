@@ -1,5 +1,6 @@
 package com.slothwerks.hearthstone.compendiumforhearthstone.fragments;
 
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -17,6 +18,7 @@ import com.slothwerks.hearthstone.compendiumforhearthstone.events.EventCardTappe
 import com.slothwerks.hearthstone.compendiumforhearthstone.events.EventUpdateClassTheme;
 import com.slothwerks.hearthstone.compendiumforhearthstone.models.CardQuantityPair;
 import com.slothwerks.hearthstone.compendiumforhearthstone.models.Deck;
+import com.slothwerks.hearthstone.compendiumforhearthstone.util.Utility;
 
 import de.greenrobot.event.EventBus;
 
@@ -45,6 +47,15 @@ public class TrackDeckFragment extends Fragment implements IntentConstants {
         final DeckListArrayAdapter adapter =
                 new DeckListArrayAdapter(getActivity().getApplicationContext(), mDeck.getCards());
         listView.setAdapter(adapter);
+
+        // set the name for this activity to that of the deck
+        getActivity().setTitle(mDeck.getName());
+
+        // set the color of the action bar based on class
+        getActivity().getActionBar().
+                setBackgroundDrawable(new ColorDrawable(
+                        Utility.getPrimaryColorForClass(
+                                mDeck.getPlayerClass(), getActivity().getResources())));
 
         // tapping on one of the cards should decrement the number of remaining cards in the deck
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
