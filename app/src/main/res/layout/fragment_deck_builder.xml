@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.slothwerks.hearthstone.compendiumforhearthstone.activities.DeckBuilderActivity.DeckBuilderFragment">
+    tools:context="com.slothwerks.hearthstone.compendiumforhearthstone.ui.edit.DeckBuilderActivity.DeckBuilderFragment">
 
     <com.astuetz.PagerSlidingTabStrip
         android:id="@+id/deck_builder_tab_strip"

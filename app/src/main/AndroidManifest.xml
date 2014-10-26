@@ -24,7 +24,7 @@
                 android:value="com.slothwerks.hearthstone.compendiumforhearthstone.MainActivity" />
         </activity>
         <activity
-            android:name=".activities.CardListActivity"
+            android:name=".ui.browse.CardListActivity"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -33,11 +33,11 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activities.DeckBuilderActivity"
+            android:name=".ui.edit.DeckBuilderActivity"
             android:label="@string/title_activity_deck_builder" >
         </activity>
         <activity
-            android:name=".activities.ChooseClassActivity"
+            android:name=".ui.edit.ChooseClassActivity"
             android:label="@string/title_activity_choose_class" >
         </activity>
         <activity
@@ -45,15 +45,15 @@
             android:label="@string/title_activity_choose_deck" >
         </activity>
         <activity
-            android:name=".activities.DeckManagementActivity"
+            android:name=".ui.decks.DeckManagementActivity"
             android:label="@string/title_activity_deck_management" >
         </activity>
         <activity
-            android:name=".activities.ViewDeckActivity"
+            android:name=".ui.view.ViewDeckActivity"
             android:label="@string/title_activity_view_deck" >
         </activity>
         <activity
-            android:name=".activities.TrackDeckActivity"
+            android:name=".ui.track.TrackDeckActivity"
             android:label="@string/title_activity_track_deck" >
         </activity>
     </application>

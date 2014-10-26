@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.slothwerks.hearthstone.compendiumforhearthstone.activities.DeckManagementActivity$PlaceholderFragment">
+    tools:context="com.slothwerks.hearthstone.compendiumforhearthstone.ui.decks.DeckManagementActivity$PlaceholderFragment">
 
     <TextView
         android:id="@+id/deck_management_no_decks"

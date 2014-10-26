@@ -1,34 +1,33 @@
-package com.slothwerks.hearthstone.compendiumforhearthstone;
-
+package com.slothwerks.hearthstone.compendiumforhearthstone.ui.edit;
 
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.view.Menu;
+import android.view.MenuItem;
 
-import com.slothwerks.hearthstone.compendiumforhearthstone.ui.shared.CardListFragment;
+import com.slothwerks.hearthstone.compendiumforhearthstone.R;
 
+public class ChooseClassActivity extends FragmentActivity {
 
-public class MainActivity extends FragmentActivity {
+    public final static String PLAYER_CLASS = "PlayerClass";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.fragment_home_card_list);
+        setContentView(R.layout.activity_choose_class);
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
-                    .add(R.id.container, new CardListFragment())
+                    .add(R.id.container, new ChooseClassFragment())
                     .commit();
         }
 
-        /*DrawerLayout drawerLayout = (DrawerLayout)findViewById(R.id.drawer_layout);
-        drawerLayout.openDrawer(View.LAYOUT_DIRECTION_RTL);*/
-
-
+        setTitle(getString(R.string.activity_choose_class));
     }
 
-    /* @Override
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
+        getMenuInflater().inflate(R.menu.choose_class, menu);
         return true;
     }
 
@@ -42,5 +41,5 @@ public class MainActivity extends FragmentActivity {
             return true;
         }
         return super.onOptionsItemSelected(item);
-    }*/
+    }
 }

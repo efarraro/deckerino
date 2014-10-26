@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.slothwerks.hearthstone.compendiumforhearthstone.activities.ViewDeckActivity$PlaceholderFragment">
+    tools:context="com.slothwerks.hearthstone.compendiumforhearthstone.ui.view.ViewDeckActivity$PlaceholderFragment">
 
     <LinearLayout
         android:id="@+id/view_deck_button_container"

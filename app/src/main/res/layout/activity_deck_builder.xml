@@ -9,7 +9,7 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context="com.slothwerks.hearthstone.compendiumforhearthstone.activities.DeckBuilderActivity"
+        tools:context="com.slothwerks.hearthstone.compendiumforhearthstone.ui.edit.DeckBuilderActivity"
         tools:ignore="MergeRootFrame" >
 
         <include android:id="@+id/toolbar" layout="@layout/toolbar" />
