@@ -22,10 +22,10 @@ import de.greenrobot.event.EventBus;
 /**
  * Created by Eric on 9/16/2014.
  */
-public class HomeCardListFragment extends Fragment {
+public class BrowseFragment extends Fragment {
 
     ViewPager mViewPager;
-    CardListPagerAdapter mPagerAdapter;
+    BrowsePagerAdapter mPagerAdapter;
     protected PagerSlidingTabStrip mTabs;
 
     @Override
@@ -34,7 +34,7 @@ public class HomeCardListFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_home_card_list, container, false);
 
         mViewPager = (ViewPager)rootView.findViewById(R.id.card_list_pager);
-        mPagerAdapter = new CardListPagerAdapter(getActivity().getSupportFragmentManager());
+        mPagerAdapter = new BrowsePagerAdapter(getActivity().getSupportFragmentManager());
         mViewPager.setAdapter(mPagerAdapter);
 
         mTabs =

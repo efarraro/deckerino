@@ -8,7 +8,8 @@ import android.support.v7.widget.Toolbar;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
-import com.slothwerks.hearthstone.compendiumforhearthstone.IntentConstants;
+import com.slothwerks.hearthstone.compendiumforhearthstone.ui.BaseActivity;
+import com.slothwerks.hearthstone.compendiumforhearthstone.ui.IntentConstants;
 import com.slothwerks.hearthstone.compendiumforhearthstone.R;
 import com.slothwerks.hearthstone.compendiumforhearthstone.ui.shared.DeckListArrayAdapter;
 import com.slothwerks.hearthstone.compendiumforhearthstone.data.database.DeckDbAdapter;
@@ -22,7 +23,7 @@ import junit.framework.Assert;
 
 import de.greenrobot.event.EventBus;
 
-public class DeckBuilderActivity extends ActionBarActivity implements IntentConstants {
+public class DeckBuilderActivity extends BaseActivity implements IntentConstants {
 
     protected DrawerLayout mDeckDrawerLayout;
     protected long mDeckId;

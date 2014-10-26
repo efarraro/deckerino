@@ -13,11 +13,11 @@ import java.util.ArrayList;
 /**
  * Created by Eric on 9/16/2014.
  */
-public class CardListPagerAdapter extends FragmentPagerAdapter {
+public class BrowsePagerAdapter extends FragmentPagerAdapter {
 
     protected ArrayList<PlayerClass> mPlayerClasses;
 
-    public CardListPagerAdapter(FragmentManager fm) {
+    public BrowsePagerAdapter(FragmentManager fm) {
 
         super(fm);
 

@@ -57,10 +57,6 @@ public class CardListCursorAdapter extends CursorAdapter implements StickyListHe
         TextView attackTextView = (TextView)view.findViewById(R.id.card_list_item_attack);
         TextView healthTextView = (TextView)view.findViewById(R.id.card_list_item_health);
         TextView costTextView = (TextView)view.findViewById(R.id.card_list_item_cost);
-        /*FrameLayout attackLayout =
-                (FrameLayout)view.findViewById(R.id.card_list_item_attack_container);
-        FrameLayout healthLayout =
-                (FrameLayout)view.findViewById(R.id.card_list_item_health_container);*/
         FrameLayout rarityGem = null;
         LinearLayout statLayout = (LinearLayout)view.findViewById(R.id.card_list_item_stat_block);
 

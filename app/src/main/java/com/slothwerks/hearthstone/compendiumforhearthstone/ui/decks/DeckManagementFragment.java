@@ -16,7 +16,7 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.slothwerks.hearthstone.compendiumforhearthstone.IntentConstants;
+import com.slothwerks.hearthstone.compendiumforhearthstone.ui.IntentConstants;
 import com.slothwerks.hearthstone.compendiumforhearthstone.R;
 import com.slothwerks.hearthstone.compendiumforhearthstone.ui.edit.ChooseClassActivity;
 import com.slothwerks.hearthstone.compendiumforhearthstone.ui.view.ViewDeckActivity;

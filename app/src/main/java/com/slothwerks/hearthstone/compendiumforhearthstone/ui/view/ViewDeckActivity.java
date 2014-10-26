@@ -5,10 +5,11 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 
-import com.slothwerks.hearthstone.compendiumforhearthstone.IntentConstants;
+import com.slothwerks.hearthstone.compendiumforhearthstone.ui.BaseActivity;
+import com.slothwerks.hearthstone.compendiumforhearthstone.ui.IntentConstants;
 import com.slothwerks.hearthstone.compendiumforhearthstone.R;
 
-public class ViewDeckActivity extends ActionBarActivity implements IntentConstants {
+public class ViewDeckActivity extends BaseActivity implements IntentConstants {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

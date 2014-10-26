@@ -2,6 +2,7 @@ package com.slothwerks.hearthstone.compendiumforhearthstone.ui.track;
 
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBarActivity;
 import android.view.LayoutInflater;
@@ -10,7 +11,8 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
-import com.slothwerks.hearthstone.compendiumforhearthstone.IntentConstants;
+import com.slothwerks.hearthstone.compendiumforhearthstone.ui.BaseActivity;
+import com.slothwerks.hearthstone.compendiumforhearthstone.ui.IntentConstants;
 import com.slothwerks.hearthstone.compendiumforhearthstone.R;
 import com.slothwerks.hearthstone.compendiumforhearthstone.ui.shared.DeckListArrayAdapter;
 import com.slothwerks.hearthstone.compendiumforhearthstone.data.database.DeckDbAdapter;
@@ -50,12 +52,6 @@ public class TrackDeckFragment extends Fragment implements IntentConstants {
         // set the name for this activity to that of the deck
         getActivity().setTitle(mDeck.getName());
 
-        // set the color of the action bar based on class
-        ((ActionBarActivity)getActivity()).getSupportActionBar().
-                setBackgroundDrawable(new ColorDrawable(
-                        Utility.getPrimaryColorForClass(
-                                mDeck.getPlayerClass(), getActivity().getResources())));
-
         // tapping on one of the cards should decrement the number of remaining cards in the deck
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -73,6 +69,11 @@ public class TrackDeckFragment extends Fragment implements IntentConstants {
     @Override
     public void onResume() {
         super.onResume();
+
+        // set the color of the action bar based on class
+        ((BaseActivity)getActivity()).getSupportActionBar().
+                setBackgroundDrawable(new ColorDrawable(Utility.getPrimaryColorForClass(
+                        mDeck.getPlayerClass(), getActivity().getResources())));
 
         // request any additional theme work required
         EventBus.getDefault().post(new EventUpdateClassTheme(mDeck.getPlayerClass()));

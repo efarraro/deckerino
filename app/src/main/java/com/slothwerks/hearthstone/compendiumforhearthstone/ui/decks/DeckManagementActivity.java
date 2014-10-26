@@ -4,8 +4,9 @@ import android.os.Bundle;
 
 import com.slothwerks.hearthstone.compendiumforhearthstone.R;
 import com.slothwerks.hearthstone.compendiumforhearthstone.ui.BaseActivity;
+import com.slothwerks.hearthstone.compendiumforhearthstone.ui.BaseDrawerActivity;
 
-public class DeckManagementActivity extends BaseActivity {
+public class DeckManagementActivity extends BaseDrawerActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

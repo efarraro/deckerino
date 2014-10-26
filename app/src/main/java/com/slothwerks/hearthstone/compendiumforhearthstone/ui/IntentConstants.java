@@ -1,4 +1,4 @@
-package com.slothwerks.hearthstone.compendiumforhearthstone;
+package com.slothwerks.hearthstone.compendiumforhearthstone.ui;
 
 /**
  * Created by Eric on 9/23/2014.

@@ -5,7 +5,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
-import com.slothwerks.hearthstone.compendiumforhearthstone.IntentConstants;
+import com.slothwerks.hearthstone.compendiumforhearthstone.ui.IntentConstants;
 import com.slothwerks.hearthstone.compendiumforhearthstone.ui.shared.CardListFragment;
 import com.slothwerks.hearthstone.compendiumforhearthstone.models.PlayerClass;
 

@@ -3,10 +3,10 @@ package com.slothwerks.hearthstone.compendiumforhearthstone.ui.browse;
 import android.os.Bundle;
 
 import com.slothwerks.hearthstone.compendiumforhearthstone.R;
-import com.slothwerks.hearthstone.compendiumforhearthstone.ui.browse.HomeCardListFragment;
 import com.slothwerks.hearthstone.compendiumforhearthstone.ui.BaseActivity;
+import com.slothwerks.hearthstone.compendiumforhearthstone.ui.BaseDrawerActivity;
 
-public class CardListActivity extends BaseActivity {
+public class BrowseActivity extends BaseDrawerActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -15,7 +15,7 @@ public class CardListActivity extends BaseActivity {
         setContentView(R.layout.activity_card_list);
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
-                    .add(R.id.container, new HomeCardListFragment())
+                    .add(R.id.container, new BrowseFragment())
                     .commit();
         }
 
