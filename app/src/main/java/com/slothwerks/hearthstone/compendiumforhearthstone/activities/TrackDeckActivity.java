@@ -5,6 +5,8 @@ import android.app.ActionBar;
 import android.app.Fragment;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.support.v7.app.ActionBarActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -17,7 +19,7 @@ import com.slothwerks.hearthstone.compendiumforhearthstone.R;
 import com.slothwerks.hearthstone.compendiumforhearthstone.fragments.TrackDeckFragment;
 import com.slothwerks.hearthstone.compendiumforhearthstone.fragments.ViewDeckFragment;
 
-public class TrackDeckActivity extends FragmentActivity implements IntentConstants {
+public class TrackDeckActivity extends ActionBarActivity implements IntentConstants {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +33,11 @@ public class TrackDeckActivity extends FragmentActivity implements IntentConstan
 
             args.putLong(DECK_ID, deckId);
             viewDeckFragment.setArguments(args);
+
+            Toolbar toolbar = (Toolbar)findViewById(R.id.toolbar);
+            if(toolbar != null) {
+                setSupportActionBar(toolbar);
+            }
 
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.container,viewDeckFragment)

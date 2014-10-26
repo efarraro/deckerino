@@ -1,14 +1,18 @@
 package com.slothwerks.hearthstone.compendiumforhearthstone.activities;
 
+import android.app.ActionBar;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MenuItem;
@@ -37,7 +41,7 @@ import de.greenrobot.event.EventBus;
 /**
  * Created by Eric on 9/21/2014.
  */
-public class BaseFragmentActivity extends FragmentActivity implements IntentConstants {
+public class BaseActivity extends ActionBarActivity implements IntentConstants {
 
     protected ActionBarDrawerToggle mToggle;
     protected ListView mNavListView;
@@ -63,6 +67,12 @@ public class BaseFragmentActivity extends FragmentActivity implements IntentCons
         items.add(new NavDrawerItem(getString(R.string.nav_manage), NavDrawerItemType.Nav));
         NavDrawerListAdapter ad = new NavDrawerListAdapter(this, items);
         mNavListView.setAdapter(ad);
+
+        Toolbar toolbar = (Toolbar)findViewById(R.id.toolbar);
+        if(toolbar != null) {
+            toolbar.setTitleTextColor(Color.WHITE);
+            setSupportActionBar(toolbar);
+        }
 
         // listen to clicks for navigation
         mNavListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -110,8 +120,8 @@ public class BaseFragmentActivity extends FragmentActivity implements IntentCons
 
         drawerLayout.setDrawerListener(mToggle);
 
-        getActionBar().setHomeButtonEnabled(true);
-        getActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeButtonEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         // this was required to get the proper icon to show
         //http://stackoverflow.com/questions/17825629/android-drawerlayout-doesnt-show-the-right-indicator-icon

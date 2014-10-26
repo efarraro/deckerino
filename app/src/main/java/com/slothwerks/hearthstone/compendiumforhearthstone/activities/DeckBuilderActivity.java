@@ -8,6 +8,8 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -38,7 +40,7 @@ import java.util.ArrayList;
 
 import de.greenrobot.event.EventBus;
 
-public class DeckBuilderActivity extends FragmentActivity implements IntentConstants {
+public class DeckBuilderActivity extends ActionBarActivity implements IntentConstants {
 
     protected DrawerLayout mDeckDrawerLayout;
     protected long mDeckId;
@@ -89,14 +91,19 @@ public class DeckBuilderActivity extends FragmentActivity implements IntentConst
             setTitle(String.format(getString(R.string.activity_deck_builder), 0, 30));
         }
 
+        Toolbar toolbar = (Toolbar)findViewById(R.id.toolbar);
+        if(toolbar != null) {
+            setSupportActionBar(toolbar);
+        }
+
         // theme the action bar header to match the class
-        getActionBar().setBackgroundDrawable(
+        getSupportActionBar().setBackgroundDrawable(
                 new ColorDrawable(Utility.getPrimaryColorForClass(
                         deck.getPlayerClass(), getResources())));
 
         // I believe this is required, or the color would not show up for some reason
-        getActionBar().setDisplayShowTitleEnabled(false);
-        getActionBar().setDisplayShowTitleEnabled(true);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        getSupportActionBar().setDisplayShowTitleEnabled(true);
     }
 
     @Override

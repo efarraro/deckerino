@@ -5,9 +5,12 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.ActionBarActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
 
 import com.astuetz.PagerSlidingTabStrip;
 import com.slothwerks.hearthstone.compendiumforhearthstone.R;
@@ -44,7 +47,7 @@ public class HomeCardListFragment extends Fragment {
         mTabs.setIndicatorColor(Color.WHITE);
 
         // force the tabs color to occur on the first view
-        pageChangeListener.onPageSelected(0);
+        //pageChangeListener.onPageSelected(0);
 
         return rootView;
     }
@@ -59,7 +62,8 @@ public class HomeCardListFragment extends Fragment {
             PlayerClass playerClass = mPagerAdapter.getPlayerClassAtPosition(i);
             mTabs.setBackground(new ColorDrawable(
                     Utility.getPrimaryColorForClass(playerClass, getResources())));
-            getActivity().getActionBar().setBackgroundDrawable(new ColorDrawable(
+            ActionBarActivity a = (ActionBarActivity)getActivity();
+            a.getSupportActionBar().setBackgroundDrawable(new ColorDrawable(
                     Utility.getPrimaryColorForClass(playerClass, getResources())));
 
             // send an event to notify listeners to update the class theme as needed (colors etc..)

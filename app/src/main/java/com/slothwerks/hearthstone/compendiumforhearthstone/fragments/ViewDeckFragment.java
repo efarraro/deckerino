@@ -6,6 +6,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -58,7 +59,8 @@ public class ViewDeckFragment extends Fragment implements IntentConstants {
         getActivity().setTitle(mDeck.getName());
 
         // set the color of the action bar based on class
-        getActivity().getActionBar().
+        ActionBarActivity a = (ActionBarActivity)getActivity();
+        a.getSupportActionBar().
                 setBackgroundDrawable(new ColorDrawable(
                         Utility.getPrimaryColorForClass(
                                 mDeck.getPlayerClass(), getActivity().getResources())));
@@ -80,7 +82,7 @@ public class ViewDeckFragment extends Fragment implements IntentConstants {
             }
         });
 
-        getActivity().getActionBar().setDisplayHomeAsUpEnabled(true);
+        ((ActionBarActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         // set up track deck button
         Button trackDeckButton = (Button)view.findViewById(R.id.view_deck_track_button);

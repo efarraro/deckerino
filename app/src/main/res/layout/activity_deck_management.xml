@@ -4,12 +4,25 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                 xmlns:tools="http://schemas.android.com/tools"
-                 android:id="@+id/container"
-                 android:layout_width="match_parent"
-                 android:layout_height="match_parent"
-                 tools:ignore="MergeRootFrame" />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <android.support.v7.widget.Toolbar
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/mana_crystal_blue"/>
+
+        <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                     xmlns:tools="http://schemas.android.com/tools"
+                     android:id="@+id/container"
+                     android:layout_below="@id/toolbar"
+                     android:layout_width="match_parent"
+                     android:layout_height="match_parent"
+                     tools:ignore="MergeRootFrame" />
+    </RelativeLayout>
 
     <ListView android:id="@+id/left_drawer"
               android:layout_width="240dp"
