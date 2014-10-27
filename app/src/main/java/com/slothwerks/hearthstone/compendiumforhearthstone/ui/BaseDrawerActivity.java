@@ -5,7 +5,7 @@ import android.database.Cursor;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.support.v4.app.ActionBarDrawerToggle;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -91,26 +91,12 @@ public class BaseDrawerActivity extends BaseActivity {
             }
         });
 
-        // TODO purpose of open/close strings?  update: accessibility
-        mToggle = new ActionBarDrawerToggle(
-                this, drawerLayout, R.drawable.ic_navigation_drawer,
-                R.string.app_name, R.string.app_name) {
-
-            @Override
-            public void onDrawerClosed(View drawerView) {
-                super.onDrawerClosed(drawerView);
-            }
-
-            @Override
-            public void onDrawerOpened(View drawerView) {
-                super.onDrawerOpened(drawerView);
-            }
-        };
+        mToggle = new ActionBarDrawerToggle(this, drawerLayout, mToolbar, R.string.deck_builder_menu_name_deck, R.string.deck_builder_menu_name_deck);
 
         drawerLayout.setDrawerListener(mToggle);
 
         getSupportActionBar().setHomeButtonEnabled(true);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
 
         // this was required to get the proper icon to show
         //http://stackoverflow.com/questions/17825629/android-drawerlayout-doesnt-show-the-right-indicator-icon

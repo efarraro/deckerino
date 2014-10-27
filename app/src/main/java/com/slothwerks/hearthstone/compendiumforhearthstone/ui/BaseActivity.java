@@ -7,6 +7,7 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.AttributeSet;
+import android.view.MenuItem;
 import android.view.View;
 
 import com.slothwerks.hearthstone.compendiumforhearthstone.R;
@@ -20,16 +21,20 @@ import de.greenrobot.event.EventBus;
  */
 public class BaseActivity extends ActionBarActivity implements IntentConstants {
 
+    protected Toolbar mToolbar;
+
     @Override
-    protected void onStart() {
-        super.onStart();
+    public void setContentView(int layoutResID) {
+        super.setContentView(layoutResID);
 
-        Toolbar toolbar = (Toolbar)findViewById(R.id.toolbar);
-        Assert.assertTrue("Expects R.id.toolbar", toolbar != null);
-        setSupportActionBar(toolbar);
-        toolbar.setTitleTextColor(Color.WHITE);
+        if(mToolbar == null) {
+            mToolbar = (Toolbar)findViewById(R.id.toolbar);
+            Assert.assertTrue("Expects R.id.toolbar", mToolbar != null);
+            setSupportActionBar(mToolbar);
+            mToolbar.setTitleTextColor(Color.WHITE);
 
-        getSupportActionBar().setHomeButtonEnabled(true);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setHomeButtonEnabled(true);
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
     }
 }

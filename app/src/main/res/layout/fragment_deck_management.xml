@@ -30,4 +30,15 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
+    <Button
+        android:text="+"
+        android:background="@drawable/circle_button"
+        android:layout_margin="12dp"
+        android:textSize="32dp"
+        android:textColor="@android:color/white"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_width="64dp"
+        android:layout_height="64dp"/>
+
 </RelativeLayout>

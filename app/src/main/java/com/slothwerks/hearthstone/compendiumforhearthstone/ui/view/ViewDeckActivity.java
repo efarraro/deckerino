@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 
 import com.slothwerks.hearthstone.compendiumforhearthstone.ui.BaseActivity;
 import com.slothwerks.hearthstone.compendiumforhearthstone.ui.IntentConstants;
@@ -20,10 +21,6 @@ public class ViewDeckActivity extends BaseActivity implements IntentConstants {
 
         if (savedInstanceState == null) {
 
-            Toolbar toolbar = (Toolbar)findViewById(R.id.toolbar);
-            if(toolbar != null)
-                setSupportActionBar(toolbar);
-
             ViewDeckFragment viewDeckFragment = new ViewDeckFragment();
             Bundle args = new Bundle();
             long deckId = getIntent().getExtras().getLong(DECK_ID);
@@ -34,6 +31,19 @@ public class ViewDeckActivity extends BaseActivity implements IntentConstants {
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.container,viewDeckFragment)
                     .commit();
+
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch(item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
         }
     }
 }

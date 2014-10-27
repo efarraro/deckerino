@@ -44,9 +44,6 @@ public class BrowseFragment extends Fragment {
         mTabs.setTextColor(Color.WHITE);
         mTabs.setIndicatorColor(Color.WHITE);
 
-        // force the tabs color to occur on the first view
-        //pageChangeListener.onPageSelected(0);
-
         return rootView;
     }
 
@@ -70,4 +67,13 @@ public class BrowseFragment extends Fragment {
         @Override
         public void onPageScrollStateChanged(int i) {}
     };
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        // force the tabs color to occur on the first view
+        pageChangeListener.onPageSelected(0);
+
+    }
 }

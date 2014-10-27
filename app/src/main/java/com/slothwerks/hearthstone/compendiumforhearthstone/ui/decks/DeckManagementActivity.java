@@ -1,6 +1,7 @@
 package com.slothwerks.hearthstone.compendiumforhearthstone.ui.decks;
 
 import android.os.Bundle;
+import android.view.MenuItem;
 
 import com.slothwerks.hearthstone.compendiumforhearthstone.R;
 import com.slothwerks.hearthstone.compendiumforhearthstone.ui.BaseActivity;
@@ -18,5 +19,4 @@ public class DeckManagementActivity extends BaseDrawerActivity {
                     .commit();
         }
     }
-
 }

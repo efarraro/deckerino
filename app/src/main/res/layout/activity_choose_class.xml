@@ -1,7 +1,17 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/container"
-    android:layout_width="match_parent"
+<LinearLayout
+    android:orientation="vertical"
     android:layout_height="match_parent"
-    tools:context="com.slothwerks.hearthstone.compendiumforhearthstone.ui.edit.ChooseClassActivity"
-    tools:ignore="MergeRootFrame" />
+    android:layout_width="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <include android:id="@+id/toolbar" layout="@layout/toolbar" />
+
+    <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                 xmlns:tools="http://schemas.android.com/tools"
+                 android:id="@+id/container"
+                 android:layout_width="match_parent"
+                 android:layout_height="match_parent"
+                 tools:context="com.slothwerks.hearthstone.compendiumforhearthstone.ui.edit.ChooseClassActivity"
+                 tools:ignore="MergeRootFrame" />
+
+</LinearLayout>

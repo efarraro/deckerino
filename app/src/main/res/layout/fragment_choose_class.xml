@@ -4,8 +4,6 @@
     android:layout_height="match_parent"
     tools:context="com.slothwerks.hearthstone.compendiumforhearthstone.ui.edit.ChooseClassActivity$PlaceholderFragment">
 
-    <include android:id="@+id/toolbar" layout="@layout/toolbar" />
-
     <ListView
         android:id="@+id/choose_class_list_view"
         android:layout_below="@id/toolbar"
