@@ -2,6 +2,8 @@ Deckerino
 =============
 Hearthstone tracker/deck builder for Android.
 
+(Deckerino is a work in progress/not yet released, so some things might be missing broken.  Compiled using the latest official beta release of Android Studio)
+
 License
 =============
 Deckerino is copyright (c) 2014 Eric Farraro. See LICENSE for details.
