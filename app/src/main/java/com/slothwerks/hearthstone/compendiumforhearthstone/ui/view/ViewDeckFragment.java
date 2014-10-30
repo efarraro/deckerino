@@ -30,7 +30,12 @@ import de.greenrobot.event.EventBus;
  */
 public class ViewDeckFragment extends Fragment implements IntentConstants {
 
+    protected long mDeckId;
     protected Deck mDeck;
+    protected ListView mListView;
+    protected DeckListArrayAdapter mDeckListArrayAdapter;
+    protected TextView mNoCardsText;
+    protected Button mTrackDeckButton;
 
     public ViewDeckFragment() {
     }
@@ -47,12 +52,10 @@ public class ViewDeckFragment extends Fragment implements IntentConstants {
 
         View view = inflater.inflate(R.layout.fragment_view_deck, container, false);
 
-        // retrieve the deck that we're interested in
-        long deckId = getArguments().getLong(DECK_ID);
-        mDeck = new DeckDbAdapter(getActivity().getApplicationContext()).getDeckById(deckId);
+        mDeckId = getArguments().getLong(DECK_ID);
+        mDeck = new DeckDbAdapter(getActivity()).getDeckById(mDeckId);
 
-        // set the name for this activity to that of the deck
-        getActivity().setTitle(mDeck.getName());
+        mListView = (ListView)view.findViewById(R.id.view_deck_listview);
 
         // set the color of the action bar based on class
         ActionBarActivity a = (ActionBarActivity)getActivity();
@@ -61,44 +64,33 @@ public class ViewDeckFragment extends Fragment implements IntentConstants {
                         Utility.getPrimaryColorForClass(
                                 mDeck.getPlayerClass(), getActivity().getResources())));
 
-        // set up the listview to display the deck
-        ListView listView = (ListView)view.findViewById(R.id.view_deck_listview);
-        DeckListArrayAdapter adapter =
-                new DeckListArrayAdapter(getActivity().getApplicationContext(), mDeck.getCards());
-        listView.setAdapter(adapter);
-
         // set up edit deck button
         Button editDeckButton = (Button)view.findViewById(R.id.view_deck_edit_button);
         editDeckButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), DeckBuilderActivity.class);
-                intent.putExtra(DECK_ID, mDeck.getId());
+                intent.putExtra(DECK_ID, mDeckId);
                 startActivity(intent);
             }
         });
 
         ((ActionBarActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        mNoCardsText = (TextView)view.findViewById(R.id.view_deck_no_card_text);
+
         // set up track deck button
-        Button trackDeckButton = (Button)view.findViewById(R.id.view_deck_track_button);
-        trackDeckButton.setOnClickListener(new View.OnClickListener() {
+        mTrackDeckButton = (Button)view.findViewById(R.id.view_deck_track_button);
+        mTrackDeckButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), TrackDeckActivity.class);
-                intent.putExtra(DECK_ID, mDeck.getId());
+                intent.putExtra(DECK_ID, mDeckId);
                 startActivity(intent);
             }
         });
 
-        // if there are no cards, show the message that there are no cards
-        TextView text = (TextView)view.findViewById(R.id.view_deck_no_card_text);
-        if(mDeck.getCardCount() == 0) {
-            text.setVisibility(View.VISIBLE);
-            trackDeckButton.setEnabled(false);
-        }
-        else
-            text.setVisibility(View.GONE);
+        refresh();
 
         return view;
     }
@@ -110,6 +102,29 @@ public class ViewDeckFragment extends Fragment implements IntentConstants {
         // request any additional theme work required
         EventBus.getDefault().post(new EventUpdateClassTheme(mDeck.getPlayerClass()));
 
-        // TODO refresh cursor after resuming
+        // refresh in case deck has been modified
+        refresh();
+    }
+
+    protected void refresh() {
+
+        mDeck = new DeckDbAdapter(getActivity()).getDeckById(mDeckId);
+
+        // set up the listview to display the deck
+        mDeckListArrayAdapter =
+                new DeckListArrayAdapter(getActivity().getApplicationContext(), mDeck.getCards());
+        mListView.setAdapter(mDeckListArrayAdapter);
+
+        // if there are no cards, show the message that there are no cards
+        if(mDeck.getCardCount() == 0) {
+            mNoCardsText.setVisibility(View.VISIBLE);
+            mTrackDeckButton.setEnabled(false);
+        }
+        else
+            mNoCardsText.setVisibility(View.GONE);
+
+        // update activity title
+        getActivity().setTitle(mDeck.getName());
+
     }
 }

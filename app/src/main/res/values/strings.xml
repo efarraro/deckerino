@@ -41,7 +41,7 @@
     <!-- nav -->
     <string name="nav_main">MAIN</string>
     <string name="nav_browse_cards">Browse cards</string>
-    <string name="nav_deck">DECK</string>
+    <string name="nav_deck">DECKS</string>
     <string name="nav_create">Create</string>
     <string name="nav_manage">Manage</string>
 

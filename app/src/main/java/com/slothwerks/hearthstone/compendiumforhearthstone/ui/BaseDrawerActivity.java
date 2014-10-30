@@ -58,7 +58,6 @@ public class BaseDrawerActivity extends BaseActivity {
         items.add(new NavDrawerItem(getString(R.string.nav_main), NavDrawerItemType.Title));
         items.add(new NavDrawerItem(getString(R.string.nav_browse_cards), NavDrawerItemType.Nav));
         items.add(new NavDrawerItem(getString(R.string.nav_deck), NavDrawerItemType.Title));
-        items.add(new NavDrawerItem(getString(R.string.nav_create), NavDrawerItemType.Nav));
         items.add(new NavDrawerItem(getString(R.string.nav_manage), NavDrawerItemType.Nav));
         NavDrawerListAdapter ad = new NavDrawerListAdapter(this, items);
         mNavListView.setAdapter(ad);
@@ -78,10 +77,6 @@ public class BaseDrawerActivity extends BaseActivity {
                     Intent intent = new Intent(getBaseContext(), BrowseActivity.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                     startActivity(intent);
-                }
-                if(item.getTitle().equals(getString(R.string.nav_create))) {
-                    Intent intent = new Intent(getBaseContext(), ChooseClassActivity.class);
-                    startActivityForResult(intent, 0);
                 }
                 else if(item.getTitle().equals(getString(R.string.nav_manage))) {
                     Intent intent = new Intent(getBaseContext(), DeckManagementActivity.class);

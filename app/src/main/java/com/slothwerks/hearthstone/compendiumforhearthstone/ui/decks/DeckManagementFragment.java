@@ -40,6 +40,7 @@ public class DeckManagementFragment extends Fragment implements
     protected ListView mListView;
     protected TextView mNoDecksTextView;
     protected Button mCreateDeckButton;
+    protected Button mFloatingCreateDeckButton;
 
     public DeckManagementFragment() {
         mContextBarHandler = new DeckContextBarHandler();
@@ -76,6 +77,16 @@ public class DeckManagementFragment extends Fragment implements
                     (Button)rootView.findViewById(R.id.deck_management_create_deck_button);
 
             mCreateDeckButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(getActivity(), ChooseClassActivity.class);
+                    startActivityForResult(intent, 0);
+                }
+            });
+
+            mFloatingCreateDeckButton = (Button)
+                    rootView.findViewById(R.id.button_deck_management_create_deck_floating);
+            mFloatingCreateDeckButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(getActivity(), ChooseClassActivity.class);

@@ -50,16 +50,7 @@ public class CardListFragment extends Fragment implements IntentConstants {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        try {
-            mCardDbAdapter = (CardDbAdapter) new CardDbAdapter(getActivity()).open();
 
-        } catch(SQLException e)
-        {
-            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-            builder.setTitle(getString(R.string.fatal_error));
-            builder.setMessage(getString(R.string.error_sql_unable_to_open_db));
-            builder.show();
-        }
     }
 
     @Override
@@ -78,6 +69,16 @@ public class CardListFragment extends Fragment implements IntentConstants {
         Cursor cursor = null;
 
         // get a list of all the cards from the database
+        // TODO handle this in the DbAdapter class for cards, make it easier to get this data
+        try {
+            mCardDbAdapter = (CardDbAdapter) new CardDbAdapter(getActivity()).open();
+
+        } catch (SQLException e) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+            builder.setTitle(getString(R.string.fatal_error));
+            builder.setMessage(getString(R.string.error_sql_unable_to_open_db));
+            builder.show();
+        }
 
         Bundle args = getArguments();
         String playerClassStr = args.getString(PLAYER_CLASS);
@@ -162,6 +163,19 @@ public class CardListFragment extends Fragment implements IntentConstants {
         Log.d(TAG, mPlayerClass.toString() + getUserVisibleHint());
 
         EventBus.getDefault().register(this);
+
+        // open a DB connection
+        if(mCardDbAdapter == null) {
+            try {
+                mCardDbAdapter = (CardDbAdapter) new CardDbAdapter(getActivity()).open();
+
+            } catch (SQLException e) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                builder.setTitle(getString(R.string.fatal_error));
+                builder.setMessage(getString(R.string.error_sql_unable_to_open_db));
+                builder.show();
+            }
+        }
     }
 
     @Override
@@ -169,6 +183,10 @@ public class CardListFragment extends Fragment implements IntentConstants {
         super.onPause();
 
         EventBus.getDefault().unregister(this);
+
+        // if we have a DB connection, close it on pause
+        if(mCardDbAdapter != null)
+            mCardDbAdapter.close();;
     }
 
     public void onEventMainThread(EventCardQuantityUpdated e) {

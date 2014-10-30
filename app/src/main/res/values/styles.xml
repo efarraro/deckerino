@@ -30,7 +30,11 @@
     <dimen name="normalText">18sp</dimen>
     <dimen name="bigText">24sp</dimen>
 
-    <!-- card colors -->
+    <!-- floating action button -->
+    <color name="floating_button_default">@color/mana_crystal_blue</color>
+    <color name="floating_button_tapped">#999999</color>
+
+    <!-- rarity colors -->
     <color name="common">#cfd8dc</color>
     <color name="rare">#304ffe</color>
     <color name="epic">#9c27b0</color>
@@ -45,25 +49,16 @@
     <color name="hunter_primary">#259b24</color>
     <color name="hunter_dark">#0d5302</color>
     <color name="hunter_light">#a3e9a4</color>
-
     <color name="warlock_primary">#ff673ab7</color>
     <color name="warlock_dark">#311b92</color>
     <color name="warlock_light">#d1c4e9</color>
-
     <color name="druid_primary">#795548</color>
-
     <color name="shaman_primary">#3f51b5</color>
-
     <color name="mage_primary">#03a9f4</color>
-
     <color name="priest_primary">#ffc107</color>
-
     <color name="warrior_primary">#b0120a</color>
-
     <color name="rogue_primary">#424242</color>
-
     <color name="paladin_primary">#fb8c00</color>
-
     <color name="neutral_primary">#999999</color>
 
     <!-- primary theme colors -->

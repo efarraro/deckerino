@@ -3,6 +3,8 @@
     android:shape="oval"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <gradient android:angle="360" android:startColor="@color/warlock_dark" android:endColor="@color/warlock_dark" />
+    <gradient android:angle="360"
+              android:startColor="@color/floating_button_tapped"
+              android:endColor="@color/floating_button_tapped" />
 
     </shape>
