@@ -42,6 +42,7 @@
     <color name="basic">#666</color>
 
     <color name="health_red">#e51c23</color>
+    <color name="durability_gray">#aaaacc</color>
     <color name="attack_gold">#ffc107</color>
     <color name="mana_crystal_blue">#5677fc</color>
 

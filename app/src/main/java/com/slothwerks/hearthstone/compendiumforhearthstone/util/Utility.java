@@ -115,4 +115,18 @@ public class Utility {
                 PlayerClass.Warlock,
                 PlayerClass.Warrior));
     }
+
+    public static ArrayList<String> getClassListAsLocalizedStrings(Context context) {
+        return new ArrayList<String>(Arrays.asList(
+                context.getString(R.string.druid),
+                context.getString(R.string.hunter),
+                context.getString(R.string.mage),
+                context.getString(R.string.paladin),
+                context.getString(R.string.priest),
+                context.getString(R.string.rogue),
+                context.getString(R.string.shaman),
+                context.getString(R.string.warlock),
+                context.getString(R.string.warrior)
+        ));
+    }
 }

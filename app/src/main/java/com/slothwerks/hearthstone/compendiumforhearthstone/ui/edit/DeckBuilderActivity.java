@@ -50,11 +50,6 @@ public class DeckBuilderActivity extends BaseActivity implements IntentConstants
         // TODO understand savedInstanceState better
         if (savedInstanceState == null) {
 
-            // add the deck summary at the top of the page (card count etc... )
-            /*getSupportFragmentManager().beginTransaction()
-                    .add(R.id.activity_deck_summary, new DeckSummaryFragment())
-                    .commit();*/
-
             // add the rest of the deck builder
             DeckBuilderFragment deckBuilderFragment = new DeckBuilderFragment();
             Bundle bundle = new Bundle();
@@ -126,8 +121,8 @@ public class DeckBuilderActivity extends BaseActivity implements IntentConstants
         }
 
         // set the title ("Deck Builder (0/30)")
-        setTitle(String.format(getString(R.string.activity_deck_builder),
-                 mCurrentDeck.getCardCount(), 30));
+        getSupportActionBar().setTitle(String.format(getString(R.string.activity_deck_builder),
+                mCurrentDeck.getCardCount(), 30));
 
         mListAdapter.notifyDataSetChanged();
     }

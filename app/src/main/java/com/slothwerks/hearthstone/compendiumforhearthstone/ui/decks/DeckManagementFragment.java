@@ -16,6 +16,7 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.slothwerks.hearthstone.compendiumforhearthstone.ui.BaseActivity;
 import com.slothwerks.hearthstone.compendiumforhearthstone.ui.IntentConstants;
 import com.slothwerks.hearthstone.compendiumforhearthstone.R;
 import com.slothwerks.hearthstone.compendiumforhearthstone.ui.edit.ChooseClassActivity;
@@ -96,7 +97,9 @@ public class DeckManagementFragment extends Fragment implements
 
         }  catch(SQLException e) {
             e.printStackTrace();
-            // TODO fatal error
+            ((BaseActivity) getActivity()).showToast(
+                    getString(R.string.fatal_error),
+                    e.getMessage());
         } finally {
             adapter.close();
         }
@@ -149,17 +152,19 @@ public class DeckManagementFragment extends Fragment implements
 
     public void onEventMainThread(EventDeleteSelectedDeck e) {
 
-        // figure out what the selected item is, and delete it
-        Deck deck = Deck.fromCursor(
+        try {
+            // figure out what the selected item is, and delete it
+            Deck deck = Deck.fromCursor(
                 getActivity(),
                 (Cursor)mAdapter.getItem(mListView.getCheckedItemPosition()),
                 false);
 
-        try {
             new DeckDbAdapter(getActivity()).deleteDeck(deck);
         } catch(SQLException ex) {
             ex.printStackTrace();
-            // TODO show error
+            ((BaseActivity) getActivity()).showToast(
+                    getString(R.string.fatal_error),
+                    ex.getMessage());
             return;
         }
 

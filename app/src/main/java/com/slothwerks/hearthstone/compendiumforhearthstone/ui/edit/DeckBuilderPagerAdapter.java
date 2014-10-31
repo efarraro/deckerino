@@ -1,5 +1,6 @@
 package com.slothwerks.hearthstone.compendiumforhearthstone.ui.edit;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -8,6 +9,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 import com.slothwerks.hearthstone.compendiumforhearthstone.ui.IntentConstants;
 import com.slothwerks.hearthstone.compendiumforhearthstone.ui.shared.CardListFragment;
 import com.slothwerks.hearthstone.compendiumforhearthstone.models.PlayerClass;
+import com.slothwerks.hearthstone.compendiumforhearthstone.util.Utility;
 
 /**
  * Created by Eric on 9/17/2014.
@@ -17,14 +19,15 @@ public class DeckBuilderPagerAdapter extends FragmentPagerAdapter implements Int
     //protected Deck mCurrentDeck;
     protected PlayerClass mCurrentClass;
     protected  long mDeckId;
+    protected Context mContext;
 
-    public DeckBuilderPagerAdapter(FragmentManager fm, PlayerClass playerClass, long deckId) {
+    public DeckBuilderPagerAdapter(
+            FragmentManager fm, PlayerClass playerClass, long deckId, Context context) {
         super(fm);
 
         mCurrentClass = playerClass;
         mDeckId = deckId;
-
-        //EventBus.getDefault().register(this);
+        mContext = context;
     }
 
     @Override
@@ -32,7 +35,7 @@ public class DeckBuilderPagerAdapter extends FragmentPagerAdapter implements Int
 
         CardListFragment fragment = new CardListFragment();
 
-        // 3 tabs -- cards for current class, neutral cards, current deck under construction
+        // 2 tabs -- cards for current class, neutral cards
         if(i == 0) {
 
             Bundle args = new Bundle();
@@ -58,26 +61,11 @@ public class DeckBuilderPagerAdapter extends FragmentPagerAdapter implements Int
     public CharSequence getPageTitle(int position) {
 
         // 2 tabs -- cards for current class & neutral cards
-        // TODO localization?
         if(position == 0) {
-            return mCurrentClass.toString();
+            return Utility.localizedStringForPlayerClass(mCurrentClass, mContext);
         }
         else {
-            return PlayerClass.Neutral.toString();
+            return Utility.localizedStringForPlayerClass(PlayerClass.Neutral, mContext);
         }
     }
-
-    /*
-    public void onEventMainThread(EventDeckUpdated e) {
-
-        mCurrentDeck = e.getDeck();
-        notifyDataSetChanged();
-    }
-
-    @Override
-    public void unregisterDataSetObserver(DataSetObserver observer) {
-        super.unregisterDataSetObserver(observer);
-    }
-
-    // TODO unregister EventBus - where?*/
 }

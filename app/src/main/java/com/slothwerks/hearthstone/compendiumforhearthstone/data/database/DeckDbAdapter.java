@@ -20,12 +20,12 @@ public class DeckDbAdapter extends DbAdapter {
     public static final String TABLE_NAME = "decks";
 
     public static final String ROW_ID = "_id";
-    public static final String DATE = "date";
     public static final String CLASS = "class";
     public static final String NAME = "name";
     public static final String VERSION = "version";
     public static final String CARD_DATA = "card_data";
-    // TODO add date
+    public static final String CREATED = "created";
+    public static final String LAST_MODIFIED = "last_modified";
 
     public DeckDbAdapter(Context context) {
         super(context);
@@ -33,20 +33,22 @@ public class DeckDbAdapter extends DbAdapter {
 
     public static final String TAG = "DeckDbAdapter";
 
-    public long createEmptyDeck(PlayerClass playerClass) {
+    public long createEmptyDeck(PlayerClass playerClass, String deckName) {
 
         ContentValues values = new ContentValues();
         values.put(CLASS, playerClass.toString());
+        values.put(CREATED, System.currentTimeMillis());
+        values.put(LAST_MODIFIED, System.currentTimeMillis());
 
         // set a default deck name
-        // TODO localization of class name
-        values.put(NAME, playerClass.toString());
+        values.put(NAME, deckName);
 
         return mDb.insert(TABLE_NAME, null, values);
     }
 
     public Cursor getAllDecks() {
-        return mDb.rawQuery("select * from " + TABLE_NAME + " order by " + DATE + " DESC", null);
+        return mDb.rawQuery(
+                "select * from " + TABLE_NAME + " order by " + LAST_MODIFIED + " DESC", null);
     }
 
     public void updateCardData(Deck deck) {
@@ -57,6 +59,7 @@ public class DeckDbAdapter extends DbAdapter {
 
         ContentValues values = new ContentValues();
         values.put(CARD_DATA, cardData);
+        values.put(LAST_MODIFIED, System.currentTimeMillis());
 
         mDb.update(TABLE_NAME, values, ROW_ID + "= ?", new String[] { Long.toString(deckId) });
     }
@@ -99,19 +102,7 @@ public class DeckDbAdapter extends DbAdapter {
 
             cursor.moveToFirst();
 
-            Log.d(TAG, cursor.getCount() + " decks found with that ID");
-            Log.d(TAG, "Getting data for deck ID " + id);
-
-            // TODO move this elsewhere
-            Deck deck = Deck.fromDeckerinoFormat(mContext,
-                    cursor.getString(cursor.getColumnIndex(CARD_DATA)));
-            deck.setId(cursor.getLong(cursor.getColumnIndex(ROW_ID)));
-            deck.setPlayerClass(
-                    PlayerClass.valueOf(cursor.getString(cursor.getColumnIndex(CLASS))));
-            deck.setName(cursor.getString(cursor.getColumnIndex(NAME)));
-
-            // TODO get player class
-            return deck;
+            return Deck.fromCursor(mContext, cursor, false);
 
         } catch(SQLException e) {
             e.printStackTrace();

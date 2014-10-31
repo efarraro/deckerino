@@ -47,9 +47,8 @@ public class DeckSummaryFragment extends Fragment {
 
     public void onEventMainThread(EventDeckUpdated e) {
         TextView cardCountText = (TextView)getView().findViewById(R.id.deck_summary_card_count);
-        cardCountText.setText(e.getDeck().getCards().size() + "/ 30");
-
-        // TODO L10N
+        cardCountText.setText(String.format(getString(
+                R.string.deck_builder_deck_count), e.getDeck().getCardCount()));
     }
 
     @Override

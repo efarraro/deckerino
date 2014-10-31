@@ -32,6 +32,7 @@ public class CardDbAdapter extends DbAdapter {
     public static final String HEALTH = "health";
     public static final String TEXT = "text";
     public static final String FLAVOR = "flavor";
+    public static final String DURABILITY = "durability";
     public static final String ARTIST = "artist";
     public static final String COLLECTIBLE = "collectible";
     public static final String HOWTOGET = "howtoget";
@@ -65,6 +66,7 @@ public class CardDbAdapter extends DbAdapter {
         initialValues.put(ATTACK, card.getAttack());
         initialValues.put(HEALTH, card.getHealth());
         initialValues.put(ELITE, card.getElite());
+        initialValues.put(DURABILITY, card.getDurability());
 
         if(card.getPlayerClass() != null)
             initialValues.put(CLASS, card.getPlayerClass().toString());
@@ -150,6 +152,7 @@ public class CardDbAdapter extends DbAdapter {
         card.setRarity(Rarity.valueOf(c.getString(c.getColumnIndex(RARITY))));
         card.setAttack(c.getInt(c.getColumnIndex(ATTACK)));
         card.setHealth(c.getInt(c.getColumnIndex(HEALTH)));
+        card.setDurability(c.getInt(c.getColumnIndex(DURABILITY)));
         card.setCost(c.getInt(c.getColumnIndex(COST)));
         card.setElite(c.getInt(c.getColumnIndex(ELITE)) > 0);
 

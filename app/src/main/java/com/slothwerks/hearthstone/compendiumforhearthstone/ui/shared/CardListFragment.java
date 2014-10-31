@@ -16,6 +16,7 @@ import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.FilterQueryProvider;
 
+import com.slothwerks.hearthstone.compendiumforhearthstone.ui.BaseActivity;
 import com.slothwerks.hearthstone.compendiumforhearthstone.ui.IntentConstants;
 import com.slothwerks.hearthstone.compendiumforhearthstone.R;
 import com.slothwerks.hearthstone.compendiumforhearthstone.data.database.CardDbAdapter;
@@ -69,7 +70,6 @@ public class CardListFragment extends Fragment implements IntentConstants {
         Cursor cursor = null;
 
         // get a list of all the cards from the database
-        // TODO handle this in the DbAdapter class for cards, make it easier to get this data
         try {
             mCardDbAdapter = (CardDbAdapter) new CardDbAdapter(getActivity()).open();
 
@@ -165,16 +165,14 @@ public class CardListFragment extends Fragment implements IntentConstants {
         EventBus.getDefault().register(this);
 
         // open a DB connection
-        if(mCardDbAdapter == null) {
-            try {
-                mCardDbAdapter = (CardDbAdapter) new CardDbAdapter(getActivity()).open();
+        try {
+            mCardDbAdapter.open();
 
-            } catch (SQLException e) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-                builder.setTitle(getString(R.string.fatal_error));
-                builder.setMessage(getString(R.string.error_sql_unable_to_open_db));
-                builder.show();
-            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            ((BaseActivity) getActivity()).showToast(
+                    getString(R.string.fatal_error),
+                    e.getMessage());
         }
     }
 

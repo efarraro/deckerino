@@ -30,9 +30,9 @@ public class ChooseClassFragment extends Fragment {
 
         final ListView listView = (ListView)rootView.findViewById(R.id.choose_class_list_view);
 
-        // TODO use localized version of class names
-        final ArrayAdapter<PlayerClass> adapter = new ArrayAdapter<PlayerClass>(
-                getActivity(), android.R.layout.simple_list_item_1, Utility.getClassList());
+        final ArrayAdapter<String> adapter = new ArrayAdapter<String>(
+                getActivity(), android.R.layout.simple_list_item_1,
+                Utility.getClassListAsLocalizedStrings(getActivity()));
 
         listView.setAdapter(adapter);
 
@@ -40,7 +40,7 @@ public class ChooseClassFragment extends Fragment {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                String playerClassString = adapter.getItem(position).toString();
+                String playerClassString = adapter.getItem(position);
                 Intent intent = new Intent();
                 intent.putExtra(ChooseClassActivity.PLAYER_CLASS, playerClassString);
                 getActivity().setResult(0, intent);

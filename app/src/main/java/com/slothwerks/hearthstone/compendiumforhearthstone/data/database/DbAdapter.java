@@ -35,6 +35,7 @@ public abstract class DbAdapter {
                     CardDbAdapter.RARITY + " TEXT, " +
                     CardDbAdapter.ATTACK + " INT, " +
                     CardDbAdapter.HEALTH + " INT, " +
+                    CardDbAdapter.DURABILITY + " INT, " +
                     CardDbAdapter.COST + " INT, " +
                     CardDbAdapter.ELITE + " INT, " +
                     CardDbAdapter.NAME + " TEXT);";
@@ -42,8 +43,9 @@ public abstract class DbAdapter {
     private static final String CREATE_TABLE_DECKS =
             "create table " + DeckDbAdapter.TABLE_NAME +
                     "(" + DeckDbAdapter.ROW_ID + " INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, " +
+                    DeckDbAdapter.CREATED + " INT, " +
+                    DeckDbAdapter.LAST_MODIFIED + " INT, " +
                     DeckDbAdapter.NAME + " TEXT, " +
-                    DeckDbAdapter.DATE + " DATETIME DEFAULT CURRENT_TIMESTAMP, " +
                     DeckDbAdapter.CLASS + " TEXT, " +
                     DeckDbAdapter.VERSION + " TEXT, "  +
                     DeckDbAdapter.CARD_DATA + " TEXT);";
@@ -73,7 +75,7 @@ public abstract class DbAdapter {
         @Override
         public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 
-            // TODO upgrade code
+            // TODO code to update DB
         }
 
         /**
@@ -104,7 +106,9 @@ public abstract class DbAdapter {
 
     public DbAdapter open() throws SQLException {
 
-        mDb = mDbHelper.getWritableDatabase();
+        if(mDb == null || !mDb.isOpen())
+            mDb = mDbHelper.getWritableDatabase();
+
         return this;
     }
 

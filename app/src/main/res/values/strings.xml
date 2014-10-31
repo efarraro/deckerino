@@ -34,10 +34,6 @@
     <string name="neutral">Neutral</string>
     <string name="unknown">Unknown</string>
 
-    <!-- TODO remove these? -->
-    <string name="title_activity_card_list">CardListActivity</string>
-    <string name="title_activity_deck_builder">DeckBuilderActivity</string>
-
     <!-- nav -->
     <string name="nav_main">MAIN</string>
     <string name="nav_browse_cards">Browse cards</string>
@@ -49,9 +45,11 @@
     <string name="show_deck">Show Deck</string>
 
     <!-- deck builder -->
+    <string name="deck_builder_untitled_deck">Untitled %1$s</string>
     <string name="name_this_deck">Name this deck</string>
     <string name="deck_builder_menu_name_deck">Edit name</string>
     <string name="deck_builder_too_many_cards">Can\'t add more than 30 cards to a deck</string>
+    <string name="deck_builder_deck_count">%1$d/30</string>
 
     <!-- card list -->
     <string name="card_list_search_hint">Search %s cards</string>
@@ -74,5 +72,6 @@
     <string name="title_activity_deck_management">Decks</string>
     <string name="title_activity_view_deck">ViewDeckActivity</string>
     <string name="title_activity_track_deck">TrackDeckActivity</string>
+    <string name="title_activity_deck_builder">DeckBuilderActivity</string>
 
 </resources>

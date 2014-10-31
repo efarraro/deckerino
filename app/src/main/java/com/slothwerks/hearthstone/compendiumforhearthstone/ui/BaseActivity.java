@@ -1,5 +1,6 @@
 package com.slothwerks.hearthstone.compendiumforhearthstone.ui;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -36,5 +37,12 @@ public class BaseActivity extends ActionBarActivity implements IntentConstants {
             getSupportActionBar().setHomeButtonEnabled(true);
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
+    }
+
+    public void showToast(String title, String message) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(title);
+        builder.setMessage(message);
+        builder.show();
     }
 }

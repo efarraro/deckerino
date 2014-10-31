@@ -5,8 +5,10 @@ import android.database.Cursor;
 import android.util.Log;
 
 import com.slothwerks.hearthstone.compendiumforhearthstone.data.CardManager;
+import com.slothwerks.hearthstone.compendiumforhearthstone.data.IDeckerino;
 import com.slothwerks.hearthstone.compendiumforhearthstone.data.database.CardDbAdapter;
 import com.slothwerks.hearthstone.compendiumforhearthstone.data.database.DeckDbAdapter;
+import com.slothwerks.hearthstone.compendiumforhearthstone.util.Constants;
 
 import junit.framework.Assert;
 
@@ -19,6 +21,8 @@ import java.util.HashMap;
  * Created by Eric on 9/18/2014.
  */
 public class Deck {
+
+    public static final String TAG = "Deck";
 
     protected long mId;
     protected PlayerClass mPlayerClass;
@@ -141,11 +145,13 @@ public class Deck {
 
         StringBuffer buffer = new StringBuffer();
 
-        // v1.0#2.5.4.2#druid#E_103^2/D_103^4
-        // TODO deckerino version
-        // TODO data version
-        // TODO player class
-        buffer.append("v.1.0#");
+        // v1.0/2.5.4.2/druid##E_103^2/D_103^4
+
+        // add Deckerion version, Hearthstone data version, and player class
+        buffer.append("v." + IDeckerino.VERSION + "/");
+        buffer.append(Constants.HEARHTSTONE_DATA_VERSION + "/");
+        buffer.append(mPlayerClass.toString().toLowerCase() + "##");
+
         for(CardQuantityPair pair : mCards) {
             buffer.append(pair.getCard().getId());
             buffer.append("^");
@@ -162,15 +168,17 @@ public class Deck {
      * @param deckerinoString A string representing the deck, in Deckerino format
      * @return
      */
-    public static Deck fromDeckerinoFormat(Context context, String deckerinoString) {
+    public static Deck fromDeckerinoFormat(Context context, String deckerinoString) throws SQLException {
         Deck deck = new Deck();
 
         if(deckerinoString == null)
             return deck;
 
-        String[] tokens = deckerinoString.split("#");
-        String version = tokens[0];
-        // do something with version
+        Log.d(TAG, "Parsing Deckerino format: " + deckerinoString);
+
+        String[] tokens = deckerinoString.split("##");
+        String header = tokens[0];
+        // for now, header is unused
 
         CardDbAdapter adapter = null;
 
@@ -184,27 +192,22 @@ public class Deck {
                 String cardId = tokens[0];
                 int quantity = Integer.parseInt(tokens[1]);
 
-                //Log.d("test", cardId + "x" + quantity);
-
                 Card card = adapter.cardById(cardId);
 
                 deck.addToDeck(card, quantity);
             }
-        } catch(SQLException e) {
-            e.printStackTrace();
-            // TODO fatal error
-            return null;
         } finally {
 
             if(adapter != null) {
-                adapter.close();;
+                adapter.close();
             }
         }
 
         return deck;
     }
 
-    public static Deck fromCursor(Context context, Cursor cursor, boolean skipCardData) {
+    public static Deck fromCursor(Context context, Cursor cursor, boolean skipCardData)
+            throws SQLException {
 
         Deck deck = new Deck();
         if(!skipCardData)

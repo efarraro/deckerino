@@ -2,6 +2,7 @@ package com.slothwerks.hearthstone.compendiumforhearthstone.ui.edit;
 
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -66,7 +67,10 @@ public class DeckBuilderFragment extends Fragment implements IntentConstants {
 
         ViewPager pager = (ViewPager)rootView.findViewById(R.id.deck_list_pager);
         pager.setAdapter(new DeckBuilderPagerAdapter(
-                getActivity().getSupportFragmentManager(), mDeck.getPlayerClass(), mDeckId));
+                getActivity().getSupportFragmentManager(),
+                mDeck.getPlayerClass(),
+                mDeckId,
+                getActivity()));
 
         PagerSlidingTabStrip tabs =
                 (PagerSlidingTabStrip)rootView.findViewById(R.id.deck_builder_tab_strip);

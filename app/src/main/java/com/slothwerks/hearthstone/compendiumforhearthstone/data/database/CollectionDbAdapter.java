@@ -48,13 +48,4 @@ public class CollectionDbAdapter extends DbAdapter {
                 null,
                 null);
     }
-
-    /*public void updateQuantity(Card card, int quantity) {
-        // TODO test
-        ContentValues values = new ContentValues();
-
-        values.put(CARD_ID, "123");
-
-        mDb.insert(CollectionDbAdapter.TABLE_NAME, null, values);
-    }*/
 }

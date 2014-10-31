@@ -48,6 +48,7 @@ public class Card {
     protected int mCost;
     protected int mAttack;
     protected int mHealth;
+    protected int mDurability;
     protected String mText;
     protected String mFlavor;
     protected String mArtist;
@@ -110,6 +111,14 @@ public class Card {
 
     public void setHealth(int health) {
         mHealth = health;
+    }
+
+    public int getDurability() {
+        return mDurability;
+    }
+
+    public void setDurability(int durability) {
+        mDurability = durability;
     }
 
     public String getText() {
@@ -231,6 +240,9 @@ public class Card {
 
         if(o.has("health"))
             card.setHealth(o.getInt("health"));
+
+        if(o.has("durability"))
+            card.setDurability(o.getInt("durability"));
 
         if(o.has("text")) {
 

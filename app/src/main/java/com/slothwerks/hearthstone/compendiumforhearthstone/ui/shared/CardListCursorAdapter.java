@@ -124,9 +124,16 @@ public class CardListCursorAdapter extends CursorAdapter implements StickyListHe
         TextView attackText = viewHolder.attackText;
         attackText.setText(String.valueOf(card.getAttack()));
 
-        // set health
+        // set health (for weapons, durability)
         TextView healthText = viewHolder.healthCost;
-        healthText.setText(String.valueOf(card.getHealth()));
+        if(card.getHealth() > 0) {
+            healthText.setTextColor(context.getResources().getColor(R.color.health_red));
+            healthText.setText(String.valueOf(card.getHealth()));
+        }
+        else if(card.getDurability() > 0) {
+            healthText.setTextColor(context.getResources().getColor(R.color.durability_gray));
+            healthText.setText(String.valueOf(card.getDurability()));
+        }
 
         // determine if we should hide the attack/health sections
         LinearLayout statLayout = viewHolder.statBlockLayout;
@@ -147,13 +154,7 @@ public class CardListCursorAdapter extends CursorAdapter implements StickyListHe
            view = mInflater.inflate(R.layout.list_item_cost_header, viewGroup, false);
        }
 
-        // TODO efficient?
-        Cursor c = (Cursor)getItem(i);
-        int cost = c.getInt(c.getColumnIndex(CardDbAdapter.COST));
-
-        //TODO remove?
-        /*TextView costTextView = (TextView)view.findViewById(R.id.list_item_cost_header_cost);
-        costTextView.setText(Integer.toString(cost));*/
+        // customize sticky header view here, if necessary
 
         return view;
     }

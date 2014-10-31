@@ -41,8 +41,6 @@ public class NavDrawerListAdapter extends ArrayAdapter<NavDrawerItem> {
         // bold any of the drawer items that are 'title' type
         if(item.getItemType() == NavDrawerItemType.Title) {
 
-            // TODO maybe convert this into a style to be applied?
-
             navItemLinkTitle.setTypeface(null, Typeface.BOLD);
 
             // also, show a horizontal divider

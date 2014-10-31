@@ -127,7 +127,9 @@ public class BaseDrawerActivity extends BaseActivity {
         try {
             DeckDbAdapter a = (DeckDbAdapter) new DeckDbAdapter(this).open();
 
-            id = a.createEmptyDeck(selectedClass);
+            String untitledDeck = String.format(getString(R.string.deck_builder_untitled_deck),
+                    Utility.localizedStringForPlayerClass(selectedClass, getApplicationContext()));
+            id = a.createEmptyDeck(selectedClass, untitledDeck);
 
             Log.d("TEST", "new deck " + id);
 
@@ -144,9 +146,10 @@ public class BaseDrawerActivity extends BaseActivity {
             }
 
         } catch(SQLException e) {
-
-            // TODO indicate fatal error
             e.printStackTrace();
+            showToast(
+                    getString(R.string.fatal_error),
+                   e.getMessage());
             finishActivity(0);
         }
 
