@@ -73,7 +73,7 @@ public class BrowseFragment extends Fragment {
         super.onResume();
 
         // force the tabs color to occur on the first view
-        pageChangeListener.onPageSelected(0);
+        pageChangeListener.onPageSelected(mViewPager.getCurrentItem());
 
     }
 }

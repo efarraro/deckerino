@@ -19,6 +19,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.astuetz.PagerSlidingTabStrip;
+import com.slothwerks.hearthstone.compendiumforhearthstone.models.PlayerClass;
+import com.slothwerks.hearthstone.compendiumforhearthstone.ui.BaseActivity;
 import com.slothwerks.hearthstone.compendiumforhearthstone.ui.IntentConstants;
 import com.slothwerks.hearthstone.compendiumforhearthstone.R;
 import com.slothwerks.hearthstone.compendiumforhearthstone.data.database.DeckDbAdapter;
@@ -32,6 +34,7 @@ import com.slothwerks.hearthstone.compendiumforhearthstone.util.Utility;
 import junit.framework.Assert;
 
 import java.sql.SQLException;
+import java.sql.SQLSyntaxErrorException;
 
 import de.greenrobot.event.EventBus;
 
@@ -53,9 +56,19 @@ public class DeckBuilderFragment extends Fragment implements IntentConstants {
         super.onCreate(savedInstanceState);
 
         Assert.assertTrue("Expected deck_id bundle arg", getArguments().containsKey(DECK_ID));
-        mDeckId = getArguments().getLong(DECK_ID);
-        mDeck = new DeckDbAdapter(getActivity().getApplicationContext()).getDeckById(mDeckId);
+        if(!getArguments().getBoolean(CREATE_DECK)) {
+            // edit deck scenario
+            mDeckId = getArguments().getLong(DECK_ID, -1);
+            mDeck = new DeckDbAdapter(getActivity().getApplicationContext()).getDeckById(mDeckId);
+        }
+        else {
+           // we don't have a deck yet; we'll create it after the user adds the first card
+           mDeck = new Deck();
+           mDeck.setPlayerClass(PlayerClass.valueOf(getArguments().getString(PLAYER_CLASS)));
+           mDeck.setId(-1);
+        }
 
+        // add menu for 'edit deck name'
         setHasOptionsMenu(true);
     }
 
@@ -69,7 +82,7 @@ public class DeckBuilderFragment extends Fragment implements IntentConstants {
         pager.setAdapter(new DeckBuilderPagerAdapter(
                 getActivity().getSupportFragmentManager(),
                 mDeck.getPlayerClass(),
-                mDeckId,
+                mDeck.getId(),
                 getActivity()));
 
         PagerSlidingTabStrip tabs =
@@ -87,7 +100,35 @@ public class DeckBuilderFragment extends Fragment implements IntentConstants {
         return mDeck;
     }
 
+    /**
+     * Creates a deck, only if the current deck has ID == -1 (generally, creation of a new deck)
+     */
+    protected void createEmptyDeckIfNeeded() {
+
+        if(mDeck.getId() == -1) {
+            PlayerClass playerClass = PlayerClass.valueOf(getArguments().getString(PLAYER_CLASS));
+            DeckDbAdapter adapter = null;
+            try {
+                adapter = (DeckDbAdapter) new DeckDbAdapter(getActivity()).open();
+                mDeckId = adapter.createEmptyDeck(playerClass, String.format(
+                        getString(R.string.deck_builder_untitled_deck), Utility.
+                                localizedStringForPlayerClass(playerClass, getActivity())));
+                mDeck = adapter.getDeckById(mDeckId);
+
+            } catch (SQLException e) {
+                e.printStackTrace();
+                ((BaseActivity) getActivity()).
+                        showToast(getString(R.string.fatal_error), e.getMessage());
+            } finally {
+                if (adapter != null)
+                    adapter.close();
+            }
+        }
+    }
+
     public void onEventMainThread(EventCardTapped e) {
+
+        createEmptyDeckIfNeeded();
 
         // add card to deck, if possible
         if(mDeck.canAddToDeck(e.getCard())) {
@@ -95,7 +136,7 @@ public class DeckBuilderFragment extends Fragment implements IntentConstants {
         }
         else {
             // if we couldn't add the card due to quantity constraints, set the quantity to 0
-            // allows the user to repeatedly tap a card to add/remove to get the quanity they want
+            // allows the user to repeatedly tap a card to add/remove to get the quantity they want
             mDeck.removeAllCopies(e.getCard());
 
             // show a toast if the user tries to add too many cards

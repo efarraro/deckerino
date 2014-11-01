@@ -47,6 +47,7 @@ public class DeckBuilderPagerAdapter extends FragmentPagerAdapter implements Int
         else {
             Bundle args = new Bundle();
             args.putString(CardListFragment.PLAYER_CLASS, PlayerClass.Neutral.toString());
+            args.putLong(DECK_ID, mDeckId);
             fragment.setArguments(args);
             return fragment;
         }

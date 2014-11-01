@@ -9,6 +9,7 @@ import android.view.MenuItem;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import com.slothwerks.hearthstone.compendiumforhearthstone.models.PlayerClass;
 import com.slothwerks.hearthstone.compendiumforhearthstone.ui.BaseActivity;
 import com.slothwerks.hearthstone.compendiumforhearthstone.ui.IntentConstants;
 import com.slothwerks.hearthstone.compendiumforhearthstone.R;
@@ -40,15 +41,25 @@ public class DeckBuilderActivity extends BaseActivity implements IntentConstants
         getSupportActionBar().setHomeButtonEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        // check to see if we have a deck ID for this deck
-        mDeckId = getIntent().getLongExtra(DECK_ID, -1);
-
-        Assert.assertTrue("Expects deck_id", mDeckId != -1);
-
-        Deck deck = new DeckDbAdapter(this.getApplicationContext()).getDeckById(mDeckId);
+        PlayerClass currentClass = PlayerClass.Unknown;
 
         // TODO understand savedInstanceState better
+        // TODO move this to a fragment?
         if (savedInstanceState == null) {
+
+            // check to see if we have a deck ID for this deck
+            mDeckId = getIntent().getLongExtra(DECK_ID, -1);
+
+            Deck deck = null;
+            if(mDeckId != -1) {
+                mCurrentDeck = new DeckDbAdapter(this.getApplicationContext()).getDeckById(mDeckId);
+                currentClass = mCurrentDeck.getPlayerClass();
+            }
+            else {
+                Assert.assertTrue("Expected player_class in Intent bundle",
+                        getIntent().getStringExtra(PLAYER_CLASS) != null);
+                currentClass = PlayerClass.valueOf(getIntent().getStringExtra(PLAYER_CLASS));
+            }
 
             // add the rest of the deck builder
             DeckBuilderFragment deckBuilderFragment = new DeckBuilderFragment();
@@ -56,6 +67,8 @@ public class DeckBuilderActivity extends BaseActivity implements IntentConstants
 
             // pass in the ID of the deck we're working with
             bundle.putLong(DECK_ID, mDeckId);
+            bundle.putBoolean(CREATE_DECK, getIntent().getBooleanExtra(CREATE_DECK, false));
+            bundle.putString(PLAYER_CLASS, getIntent().getStringExtra(PLAYER_CLASS));
             deckBuilderFragment.setArguments(bundle);
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.container, deckBuilderFragment)
@@ -81,7 +94,7 @@ public class DeckBuilderActivity extends BaseActivity implements IntentConstants
         // theme the action bar header to match the class
         getSupportActionBar().setBackgroundDrawable(
                 new ColorDrawable(Utility.getPrimaryColorForClass(
-                        deck.getPlayerClass(), getResources())));
+                        currentClass, getResources())));
 
         // I believe this is required, or the color would not show up for some reason
         getSupportActionBar().setDisplayShowTitleEnabled(false);

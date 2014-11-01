@@ -118,46 +118,12 @@ public class BaseDrawerActivity extends BaseActivity {
         if(playerClassStr == null)
             return;
 
+        // create a DeckBuilderActivity and indicate that this is a new deck
         PlayerClass selectedClass = PlayerClass.valueOf(playerClassStr);
-        long id = -1;
-
-        // create a deck in the database
-        // TODO is this too much for this class?
-        // TODO refactor this into DeckBuilder and specify 'create deck' action in bundle
-        try {
-            DeckDbAdapter a = (DeckDbAdapter) new DeckDbAdapter(this).open();
-
-            String untitledDeck = String.format(getString(R.string.deck_builder_untitled_deck),
-                    Utility.localizedStringForPlayerClass(selectedClass, getApplicationContext()));
-            id = a.createEmptyDeck(selectedClass, untitledDeck);
-
-            Log.d("TEST", "new deck " + id);
-
-            Cursor allDeckCursor = a.getAllDecks();
-            allDeckCursor.moveToFirst();
-            while(true) {
-
-                Log.d("z", "Z: " + allDeckCursor.getString(allDeckCursor.getColumnIndex(DeckDbAdapter.ROW_ID)) + " " + allDeckCursor.getString(1) + " " + allDeckCursor.getString(2) + " " + allDeckCursor.getString(4));
-
-                if(allDeckCursor.isLast())
-                    break;
-                else
-                    allDeckCursor.moveToNext();
-            }
-
-        } catch(SQLException e) {
-            e.printStackTrace();
-            showToast(
-                    getString(R.string.fatal_error),
-                   e.getMessage());
-            finishActivity(0);
-        }
-
-        if(id != -1) {
-            Intent intent = new Intent(this, DeckBuilderActivity.class);
-            intent.putExtra(DECK_ID, id);
-            startActivity(intent);
-        }
+        Intent intent = new Intent(this, DeckBuilderActivity.class);
+        intent.putExtra(CREATE_DECK, true);
+        intent.putExtra(PLAYER_CLASS, selectedClass.toString());
+        startActivity(intent);
     }
 
     @Override

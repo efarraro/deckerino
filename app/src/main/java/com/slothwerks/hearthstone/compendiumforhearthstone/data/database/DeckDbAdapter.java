@@ -94,6 +94,10 @@ public class DeckDbAdapter extends DbAdapter {
     }
 
     public Deck getDeckById(long id) {
+
+        if(id == -1)
+            return new Deck();
+
         try {
             open();
             Cursor cursor = mDb.rawQuery(

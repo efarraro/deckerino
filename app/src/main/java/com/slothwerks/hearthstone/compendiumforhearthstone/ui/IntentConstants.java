@@ -6,4 +6,5 @@ package com.slothwerks.hearthstone.compendiumforhearthstone.ui;
 public interface IntentConstants {
     public final static String DECK_ID = "deck_id";
     public final static String PLAYER_CLASS = "player_class";
+    public final static String CREATE_DECK = "create_deck";
 }
