@@ -15,6 +15,7 @@ import android.widget.TextView;
 import com.slothwerks.hearthstone.compendiumforhearthstone.R;
 import com.slothwerks.hearthstone.compendiumforhearthstone.data.database.CardDbAdapter;
 import com.slothwerks.hearthstone.compendiumforhearthstone.models.Card;
+import com.slothwerks.hearthstone.compendiumforhearthstone.models.Rarity;
 import com.slothwerks.hearthstone.compendiumforhearthstone.ui.shared.CardItemViewHolder;
 
 import java.util.HashMap;
@@ -95,18 +96,18 @@ public class CardListCursorAdapter extends CursorAdapter implements StickyListHe
 
         // get the rarity indicator (vertical colored bar)
         /*FrameLayout rarityGem = viewHolder.rarityGem;
-
+        */
         // set the color of the card's rarity indicator depending on rarity
         if(card.getRarity() == Rarity.Epic)
-            rarityGem.setBackground(context.getResources().getDrawable(R.drawable.gem_epic));
+            listItemName.setTextColor(context.getResources().getColor(R.color.epic));
         else if(card.getRarity() == Rarity.Rare)
-            rarityGem.setBackground(context.getResources().getDrawable(R.drawable.gem_rare));
+            listItemName.setTextColor(context.getResources().getColor(R.color.rare));
         else if(card.getRarity() == Rarity.Legendary)
-            rarityGem.setBackground(context.getResources().getDrawable(R.drawable.gem_legendary));
+            listItemName.setTextColor(context.getResources().getColor(R.color.legendary));
         else if(card.getRarity() == Rarity.Common)
-            rarityGem.setBackground(context.getResources().getDrawable(R.drawable.gem_common));
+            listItemName.setTextColor(context.getResources().getColor(R.color.common));
         else
-            rarityGem.setBackgroundColor(Color.TRANSPARENT);*/
+            listItemName.setTextColor(context.getResources().getColor(R.color.default_text));
 
         // set the info for the card
         TextView listItemText = viewHolder.cardTextView;

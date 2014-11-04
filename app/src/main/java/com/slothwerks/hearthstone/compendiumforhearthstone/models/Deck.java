@@ -149,7 +149,7 @@ public class Deck {
 
         // add Deckerion version, Hearthstone data version, and player class
         buffer.append("v." + IDeckerino.VERSION + "/");
-        buffer.append(Constants.HEARHTSTONE_DATA_VERSION + "/");
+        buffer.append(Constants.HEARTHSTONE_DATA_VERSION + "/");
         buffer.append(mPlayerClass.toString().toLowerCase() + "##");
 
         for(CardQuantityPair pair : mCards) {

@@ -35,7 +35,7 @@
     <color name="floating_button_tapped">#999999</color>
 
     <!-- rarity colors -->
-    <color name="common">#cfd8dc</color>
+    <color name="common">#259b24</color>
     <color name="rare">#304ffe</color>
     <color name="epic">#9c27b0</color>
     <color name="legendary">#ff9800</color>

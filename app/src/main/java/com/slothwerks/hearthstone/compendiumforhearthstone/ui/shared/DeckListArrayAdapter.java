@@ -31,6 +31,8 @@ public class DeckListArrayAdapter extends ArrayAdapter<CardQuantityPair> {
             convertView = inflater.inflate(R.layout.list_item_deck_list, parent, false);
         }
 
+        TextView cost = (TextView)convertView.findViewById(R.id.list_item_deck_list_cost);
+
         Card card = getItem(position).getCard();
 
         // show the card name
@@ -40,12 +42,13 @@ public class DeckListArrayAdapter extends ArrayAdapter<CardQuantityPair> {
         // cards with 0 quantity show as 'disabled'
         if(getItem(position).getQuantity() == 0) {
             name.setTextColor(getContext().getResources().getColor(R.color.disabled));
+            cost.setTextColor(getContext().getResources().getColor(R.color.disabled));
         } else {
             name.setTextColor(getContext().getResources().getColor(R.color.default_text));
+            cost.setTextColor(getContext().getResources().getColor(R.color.mana_crystal_blue));
         }
 
         // show the cost for this card
-        TextView cost = (TextView)convertView.findViewById(R.id.list_item_deck_list_cost);
         cost.setText(Integer.toString(card.getCost()));
 
         // show the quantity

@@ -15,6 +15,8 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -208,7 +210,7 @@ public class DeckBuilderFragment extends Fragment implements IntentConstants {
             AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 
             View view = inflater.inflate(R.layout.popup_name_deck, null, false);
-            final TextView deckNameText = (TextView)view.findViewById(R.id.popup_name_deck_text);
+            final EditText deckNameText = (EditText)view.findViewById(R.id.popup_name_deck_text);
             deckNameText.setText(mDeck.getName());
 
             final AlertDialog dialog =
@@ -235,6 +237,11 @@ public class DeckBuilderFragment extends Fragment implements IntentConstants {
                                                 getString(R.string.error_unable_to_save),
                                                 Toast.LENGTH_SHORT);
                                     }
+
+                                    // hide the keyboard
+                                    InputMethodManager imm = (InputMethodManager) getActivity().
+                                            getSystemService(Context.INPUT_METHOD_SERVICE);
+                                    imm.hideSoftInputFromWindow(deckNameText.getWindowToken(), 0);
 
                                     dialog.dismiss();
                                 }

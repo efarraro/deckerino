@@ -1,27 +1,22 @@
 package com.slothwerks.hearthstone.compendiumforhearthstone.data;
 
-import android.app.Activity;
 import android.content.Context;
-import android.content.res.AssetManager;
 import android.util.Log;
 
-import com.slothwerks.hearthstone.compendiumforhearthstone.R;
 import com.slothwerks.hearthstone.compendiumforhearthstone.models.Card;
 import com.slothwerks.hearthstone.compendiumforhearthstone.models.CardType;
+import com.slothwerks.hearthstone.compendiumforhearthstone.util.Constants;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.List;
 
 /**
  * Created by Eric on 9/1/2014.
@@ -57,8 +52,7 @@ public class CardManager {
 
     protected void loadCardList() throws IOException, JSONException
     {
-        //AssetManager assetManager = mContext.getAssets();
-        InputStream is = mContext.getResources().openRawResource(R.raw.all_sets);
+        InputStream is = mContext.getResources().openRawResource(Constants.CARD_DATA_FILE);
 
         BufferedReader reader = new BufferedReader(new InputStreamReader(is));
         String line = reader.readLine();

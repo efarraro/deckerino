@@ -78,22 +78,4 @@ public class TrackDeckFragment extends Fragment implements IntentConstants {
         // request any additional theme work required
         EventBus.getDefault().post(new EventUpdateClassTheme(mDeck.getPlayerClass()));
     }
-
-    /*@Override
-    public void onResume() {
-        super.onResume();
-
-        EventBus.getDefault().register(this);
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-
-        EventBus.getDefault().unregister(this);
-    }
-
-    public void onEventMainThread(EventCardTapped e) {
-        Log.d("TEST", "here");
-    }*/
 }

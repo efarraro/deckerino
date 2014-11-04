@@ -91,6 +91,9 @@ public class CardListFragment extends Fragment implements IntentConstants {
         //cursor = mCardDbAdapter.getAllCards();
         cursor = mCardDbAdapter.getCardsByClass(mPlayerClass);
 
+        if(cursor.getCount() == 0)
+            return v;
+
         // set up the adapter for the list view
         final CardListCursorAdapter adapter =
                 new CardListCursorAdapter(getActivity(), cursor);
