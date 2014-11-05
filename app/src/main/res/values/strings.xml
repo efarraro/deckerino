@@ -60,6 +60,10 @@
     <string name="view_deck_track_button">TRACK DECK</string>
     <string name="view_deck_card_and_quantity">(%1$d) %2$s</string>
     <string name="view_deck_no_cards">You don\'t have any cards in this deck yet.  You can edit the deck to add more cards.</string>
+    <string name="view_deck_share">Share</string>
+
+    <!-- track deck -->
+    <string name="track_deck_cards_remaining">Cards remaining: (%1$d/%2$d)</string>
 
     <!-- deck management -->
     <string name="deck_mangagement_no_decks">You don\'t have any decks yet.  Create a deck now to add cards to it.</string>

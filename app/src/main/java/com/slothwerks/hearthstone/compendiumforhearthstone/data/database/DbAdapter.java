@@ -73,7 +73,9 @@ public abstract class DbAdapter {
 
             // store a preference to remind us what version we're using for the data file
             SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(mContext);
-            prefs.edit().putInt("DATA_FILE", Constants.CARD_DATA_FILE).commit();
+            prefs.edit().putString(Constants.PREFS_HEARTHSTONE_DATA_VERSION_KEY,
+                    Constants.HEARTHSTONE_DATA_VERSION).
+                    commit();
 
             db.execSQL(CREATE_TABLE_CARDS);
 
@@ -127,8 +129,9 @@ public abstract class DbAdapter {
             mDb = mDbHelper.getWritableDatabase();
 
         // check if the data file version has changed
-        if(PreferenceManager.getDefaultSharedPreferences(mContext).getInt("DATA_FILE", -1) !=
-                Constants.CARD_DATA_FILE) {
+        if(!PreferenceManager.getDefaultSharedPreferences(mContext).getString(
+                Constants.PREFS_HEARTHSTONE_DATA_VERSION_KEY, null).equals(
+                Constants.HEARTHSTONE_DATA_VERSION)) {
 
             new AsyncTask<Void, Void, Void>() {
                 @Override

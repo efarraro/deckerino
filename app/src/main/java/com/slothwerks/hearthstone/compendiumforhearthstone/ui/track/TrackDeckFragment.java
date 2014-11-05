@@ -6,10 +6,13 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBarActivity;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.slothwerks.hearthstone.compendiumforhearthstone.ui.BaseActivity;
 import com.slothwerks.hearthstone.compendiumforhearthstone.ui.IntentConstants;
@@ -29,8 +32,16 @@ import de.greenrobot.event.EventBus;
 public class TrackDeckFragment extends Fragment implements IntentConstants {
 
     protected Deck mDeck;
+    protected TextView mCardsRemainingTextView;
 
     public TrackDeckFragment() {
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        setHasOptionsMenu(true);
     }
 
     @Override
@@ -49,6 +60,11 @@ public class TrackDeckFragment extends Fragment implements IntentConstants {
                 new DeckListArrayAdapter(getActivity().getApplicationContext(), mDeck.getCards());
         listView.setAdapter(adapter);
 
+        // show the number of cards remaining in the deck
+        mCardsRemainingTextView = (TextView)view.findViewById(R.id.track_deck_cards_left);
+        mCardsRemainingTextView.setText(String.format(getString(
+                R.string.track_deck_cards_remaining), mDeck.getCardCount(), 30));
+
         // set the name for this activity to that of the deck
         getActivity().setTitle(mDeck.getName());
 
@@ -60,6 +76,10 @@ public class TrackDeckFragment extends Fragment implements IntentConstants {
                 CardQuantityPair pair = (CardQuantityPair)parent.getItemAtPosition(position);
                 pair.updateQuantity(-1);
                 adapter.notifyDataSetChanged();
+
+                if(mCardsRemainingTextView != null)
+                    mCardsRemainingTextView.setText(String.format(getString(
+                            R.string.track_deck_cards_remaining), mDeck.getCardCount(), 30));
             }
         });
 
@@ -77,5 +97,11 @@ public class TrackDeckFragment extends Fragment implements IntentConstants {
 
         // request any additional theme work required
         EventBus.getDefault().post(new EventUpdateClassTheme(mDeck.getPlayerClass()));
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+
     }
 }
