@@ -25,8 +25,8 @@
         </activity>
         <activity
             android:name=".ui.browse.BrowseActivity"
-            android:windowSoftInputMode="stateHidden"
-            android:label="@string/app_name" >
+            android:label="@string/app_name"
+            android:windowSoftInputMode="stateHidden" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -35,8 +35,8 @@
         </activity>
         <activity
             android:name=".ui.edit.DeckBuilderActivity"
-            android:windowSoftInputMode="stateHidden"
-            android:label="@string/title_activity_deck_builder" >
+            android:label="@string/title_activity_deck_builder"
+            android:windowSoftInputMode="stateHidden" >
         </activity>
         <activity
             android:name=".ui.edit.ChooseClassActivity"
@@ -57,6 +57,10 @@
         <activity
             android:name=".ui.track.TrackDeckActivity"
             android:label="@string/title_activity_track_deck" >
+        </activity>
+        <activity
+            android:name=".ui.about.AboutActivity"
+            android:label="@string/title_activity_about" >
         </activity>
     </application>
 

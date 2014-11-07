@@ -13,24 +13,6 @@
         tools:context=".MainActivity"
         tools:ignore="MergeRootFrame" />
 
-
-    <ListView android:id="@+id/left_drawer"
-              android:fitsSystemWindows="false"
-              android:layout_width="240dp"
-              android:layout_height="match_parent"
-              android:layout_gravity="start"
-              android:choiceMode="singleChoice"
-              android:divider="@android:color/transparent"
-              android:dividerHeight="0dp"
-              android:background="#ff0000"/>
-
-    <!--
-    <TextView
-        android:id="@+id/left_drawer"
-        android:text="test"
-        android:gravity="left"
-        android:layout_gravity="left"
-        android:layout_width="160dp"
-        android:layout_height="wrap_content"/>-->
+    <include layout="@layout/left_drawer" />
 
 </android.support.v4.widget.DrawerLayout>

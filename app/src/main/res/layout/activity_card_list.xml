@@ -21,14 +21,7 @@
             tools:context="com.slothwerks.hearthstone.compendiumforhearthstone.ui.browse.BrowseActivity"
             tools:ignore="MergeRootFrame" />
 
-        <ListView android:id="@+id/left_drawer"
-              android:layout_width="240dp"
-              android:layout_height="match_parent"
-              android:layout_gravity="left"
-              android:choiceMode="singleChoice"
-              android:divider="@android:color/transparent"
-              android:dividerHeight="0dp"
-              android:background="@color/primary"/>
+        <include layout="@layout/left_drawer" />
 
     </android.support.v4.widget.DrawerLayout>
 

@@ -6,7 +6,6 @@
     <string name="action_settings">Settings</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_card_detail">CardDetail</string>
-
     <string name="button_ok">OK</string>
     <string name="button_cancel">CANCEL</string>
 
@@ -40,6 +39,7 @@
     <string name="nav_deck">DECKS</string>
     <string name="nav_create">Create</string>
     <string name="nav_manage">Manage</string>
+    <string name="nav_about">About</string>
 
     <!-- deck summary -->
     <string name="show_deck">Show Deck</string>
@@ -77,5 +77,6 @@
     <string name="title_activity_view_deck">ViewDeckActivity</string>
     <string name="title_activity_track_deck">TrackDeckActivity</string>
     <string name="title_activity_deck_builder">DeckBuilderActivity</string>
+    <string name="title_activity_about">About</string>
 
 </resources>

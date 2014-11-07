@@ -30,7 +30,7 @@ public class BaseActivity extends ActionBarActivity implements IntentConstants {
 
         if(mToolbar == null) {
             mToolbar = (Toolbar)findViewById(R.id.toolbar);
-            Assert.assertTrue("Expects R.id.toolbar", mToolbar != null);
+            Assert.assertTrue("Expects R.id.toolbar in activity", mToolbar != null);
             setSupportActionBar(mToolbar);
             mToolbar.setTitleTextColor(Color.WHITE);
 

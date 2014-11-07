@@ -18,6 +18,7 @@ import com.slothwerks.hearthstone.compendiumforhearthstone.R;
 import com.slothwerks.hearthstone.compendiumforhearthstone.data.database.DeckDbAdapter;
 import com.slothwerks.hearthstone.compendiumforhearthstone.events.EventUpdateClassTheme;
 import com.slothwerks.hearthstone.compendiumforhearthstone.models.PlayerClass;
+import com.slothwerks.hearthstone.compendiumforhearthstone.ui.about.AboutActivity;
 import com.slothwerks.hearthstone.compendiumforhearthstone.ui.browse.BrowseActivity;
 import com.slothwerks.hearthstone.compendiumforhearthstone.ui.decks.DeckManagementActivity;
 import com.slothwerks.hearthstone.compendiumforhearthstone.ui.edit.ChooseClassActivity;
@@ -55,10 +56,11 @@ public class BaseDrawerActivity extends BaseActivity {
         Assert.assertTrue("Expected View with ID R.id.left_drawer!", mNavListView != null);
 
         ArrayList<NavDrawerItem> items = new ArrayList<NavDrawerItem>();
-        items.add(new NavDrawerItem(getString(R.string.nav_main), NavDrawerItemType.Title));
+        //items.add(new NavDrawerItem(getString(R.string.nav_main), NavDrawerItemType.Title));
         items.add(new NavDrawerItem(getString(R.string.nav_browse_cards), NavDrawerItemType.Nav));
-        items.add(new NavDrawerItem(getString(R.string.nav_deck), NavDrawerItemType.Title));
+        //items.add(new NavDrawerItem(getString(R.string.nav_deck), NavDrawerItemType.Title));
         items.add(new NavDrawerItem(getString(R.string.nav_manage), NavDrawerItemType.Nav));
+        items.add(new NavDrawerItem(getString(R.string.nav_about), NavDrawerItemType.Nav));
         NavDrawerListAdapter ad = new NavDrawerListAdapter(this, items);
         mNavListView.setAdapter(ad);
 
@@ -80,6 +82,11 @@ public class BaseDrawerActivity extends BaseActivity {
                 }
                 else if(item.getTitle().equals(getString(R.string.nav_manage))) {
                     Intent intent = new Intent(getBaseContext(), DeckManagementActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                    startActivity(intent);
+                }
+                else if(item.getTitle().equals(getString(R.string.nav_about))) {
+                    Intent intent = new Intent(getBaseContext(), AboutActivity.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                     startActivity(intent);
                 }
