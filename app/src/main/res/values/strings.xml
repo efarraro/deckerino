@@ -61,6 +61,7 @@
     <string name="view_deck_card_and_quantity">(%1$d) %2$s</string>
     <string name="view_deck_no_cards">You don\'t have any cards in this deck yet.  You can edit the deck to add more cards.</string>
     <string name="view_deck_share">Share</string>
+    <string name="view_deck_make_a_copy">SAVE DECK</string>
 
     <!-- track deck -->
     <string name="track_deck_cards_remaining">Cards remaining: (%1$d/%2$d)</string>

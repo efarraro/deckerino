@@ -6,34 +6,49 @@
 
     <LinearLayout
         android:id="@+id/view_deck_button_container"
-        android:divider="@drawable/vertical_divider"
+        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <Button
-            android:id="@+id/view_deck_edit_button"
+            android:id="@+id/view_deck_make_copy_button"
             android:background="@drawable/background_tab"
-            android:text="@string/view_deck_edit_button"
+            android:text="@string/view_deck_make_a_copy"
             android:textSize="@dimen/smallText"
-            android:layout_weight="1"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
 
-        <View
-            android:background="@color/light_gray"
-            android:layout_width="1dp"
-            android:layout_height="match_parent"></View>
+        <LinearLayout
+            android:id="@+id/view_deck_horizontal_top_button_container"
+            android:divider="@drawable/vertical_divider"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-        <Button
-            android:id="@+id/view_deck_track_button"
-            android:background="@drawable/background_tab"
-            android:text="@string/view_deck_track_button"
-            android:textSize="@dimen/smallText"
-            android:layout_toRightOf="@id/view_deck_edit_button"
-            android:layout_weight="1"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"/>
+            <Button
+                android:id="@+id/view_deck_edit_button"
+                android:background="@drawable/background_tab"
+                android:text="@string/view_deck_edit_button"
+                android:textSize="@dimen/smallText"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"/>
 
+            <View
+                android:background="@color/light_gray"
+                android:layout_width="1dp"
+                android:layout_height="match_parent"></View>
+
+            <Button
+                android:id="@+id/view_deck_track_button"
+                android:background="@drawable/background_tab"
+                android:text="@string/view_deck_track_button"
+                android:textSize="@dimen/smallText"
+                android:layout_toRightOf="@id/view_deck_edit_button"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"/>
+
+        </LinearLayout>
     </LinearLayout>
 
     <TextView

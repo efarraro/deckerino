@@ -15,8 +15,10 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.slothwerks.hearthstone.compendiumforhearthstone.ui.BaseActivity;
 import com.slothwerks.hearthstone.compendiumforhearthstone.ui.IntentConstants;
 import com.slothwerks.hearthstone.compendiumforhearthstone.R;
+import com.slothwerks.hearthstone.compendiumforhearthstone.ui.decks.DeckManagementActivity;
 import com.slothwerks.hearthstone.compendiumforhearthstone.ui.edit.DeckBuilderActivity;
 import com.slothwerks.hearthstone.compendiumforhearthstone.ui.track.TrackDeckActivity;
 import com.slothwerks.hearthstone.compendiumforhearthstone.ui.shared.DeckListArrayAdapter;
@@ -24,6 +26,10 @@ import com.slothwerks.hearthstone.compendiumforhearthstone.data.database.DeckDbA
 import com.slothwerks.hearthstone.compendiumforhearthstone.events.EventUpdateClassTheme;
 import com.slothwerks.hearthstone.compendiumforhearthstone.models.Deck;
 import com.slothwerks.hearthstone.compendiumforhearthstone.util.Utility;
+
+import android.net.Uri;
+
+import java.sql.SQLException;
 
 import de.greenrobot.event.EventBus;
 
@@ -38,6 +44,7 @@ public class ViewDeckFragment extends Fragment implements IntentConstants {
     protected DeckListArrayAdapter mDeckListArrayAdapter;
     protected TextView mNoCardsText;
     protected Button mTrackDeckButton;
+    protected Button mMakeCopyButton;
 
     public ViewDeckFragment() {
     }
@@ -54,8 +61,26 @@ public class ViewDeckFragment extends Fragment implements IntentConstants {
 
         View view = inflater.inflate(R.layout.fragment_view_deck, container, false);
 
-        mDeckId = getArguments().getLong(DECK_ID);
-        mDeck = new DeckDbAdapter(getActivity()).getDeckById(mDeckId);
+        Uri uri = getActivity().getIntent().getData();
+        if(uri != null) {
+            try {
+                mDeckId = -1;
+                mDeck = Deck.fromDeckerinoFormat(getActivity(), uri.toString());
+                // TODO need a better way to define a default name
+                if(mDeck.getName() == "" || mDeck.getName() == null) {
+                    mDeck.setName(String.format(getString(R.string.deck_builder_untitled_deck),
+                            Utility.localizedStringForPlayerClass(
+                                    mDeck.getPlayerClass(), getActivity())));
+                }
+            } catch(SQLException e) {
+                e.printStackTrace();
+                ((BaseActivity)getActivity()).showToast(getString(R.string.fatal_error), e.getMessage());
+            }
+        }
+        else {
+            mDeckId = getArguments().getLong(DECK_ID);
+            mDeck = new DeckDbAdapter(getActivity()).getDeckById(mDeckId);
+        }
 
         mListView = (ListView)view.findViewById(R.id.view_deck_listview);
 
@@ -92,6 +117,41 @@ public class ViewDeckFragment extends Fragment implements IntentConstants {
             }
         });
 
+        // hide edit/track if we've come from a deckerino link, and don't have a deck ID yet
+        if(mDeckId == -1)
+            ((View)view.findViewById(R.id.view_deck_horizontal_top_button_container)).
+                    setVisibility(View.GONE);
+
+        // set up the 'make copy' button (when visiting from a deckerino:// link
+        mMakeCopyButton = (Button)view.findViewById(R.id.view_deck_make_copy_button);
+        if(mDeckId != -1)
+            mMakeCopyButton.setVisibility(View.GONE);
+        mMakeCopyButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // TODO move this, seems weird to put this kind of code in a click handler
+                DeckDbAdapter db = null;
+                try {
+                    db = new DeckDbAdapter(getActivity());
+                    db = (DeckDbAdapter)db.open();
+                    long id = db.createEmptyDeck(mDeck.getPlayerClass(), mDeck.getName());
+                    mDeck.setId(id);
+                    db.updateCardData(mDeck);
+                    Intent intent = new Intent(getActivity(), DeckManagementActivity.class);
+                    intent.putExtra(DECK_ID, id);
+                    startActivity(intent);
+
+                } catch(SQLException e) {
+                    e.printStackTrace();
+                    ((BaseActivity)getActivity()).showToast(
+                            getString(R.string.fatal_error), e.getMessage());
+                } finally {
+                    if(db != null)
+                        db.close();
+                }
+            }
+        });
+
         refresh();
 
         return view;
@@ -110,7 +170,8 @@ public class ViewDeckFragment extends Fragment implements IntentConstants {
 
     protected void refresh() {
 
-        mDeck = new DeckDbAdapter(getActivity()).getDeckById(mDeckId);
+        if(mDeckId != -1)
+            mDeck = new DeckDbAdapter(getActivity()).getDeckById(mDeckId);
 
         // set up the listview to display the deck
         mDeckListArrayAdapter =

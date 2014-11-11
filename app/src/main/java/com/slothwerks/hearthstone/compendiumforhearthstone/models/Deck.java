@@ -2,6 +2,7 @@ package com.slothwerks.hearthstone.compendiumforhearthstone.models;
 
 import android.content.Context;
 import android.database.Cursor;
+import android.net.Uri;
 import android.util.Log;
 
 import com.slothwerks.hearthstone.compendiumforhearthstone.data.CardManager;
@@ -16,6 +17,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.Set;
 
 /**
  * Created by Eric on 9/18/2014.
@@ -143,20 +145,21 @@ public class Deck {
         if(getCardCount() == 0)
             return null;
 
-        StringBuffer buffer = new StringBuffer();
+        StringBuffer buffer = new StringBuffer("http://deckerino.com");
 
         // v1.0/2.5.4.2/druid##E_103^2/D_103^4
+        //http://deckerino.com?v=1.0&patch=2.5.4.2&class=druid&E_103=2
 
         // add Deckerion version, Hearthstone data version, and player class
-        buffer.append("v." + IDeckerino.VERSION + "/");
-        buffer.append(Constants.HEARTHSTONE_DATA_VERSION + "/");
-        buffer.append(mPlayerClass.toString().toLowerCase() + "##");
+        buffer.append("?v=" + IDeckerino.VERSION + "&");
+        buffer.append("patch=" + Constants.HEARTHSTONE_DATA_VERSION + "&");
+        buffer.append("class=" + mPlayerClass.toString() + "&");
 
         for(CardQuantityPair pair : mCards) {
             buffer.append(pair.getCard().getId());
-            buffer.append("^");
+            buffer.append("=");
             buffer.append(Integer.toString(pair.getQuantity()));
-            buffer.append("/");
+            buffer.append("&");
         }
 
         return buffer.toString();
@@ -176,11 +179,47 @@ public class Deck {
 
         Log.d(TAG, "Parsing Deckerino format: " + deckerinoString);
 
+        CardDbAdapter adapter = null;
+        try {
+
+            adapter = (CardDbAdapter) new CardDbAdapter(context).open();
+
+            Uri uri = Uri.parse(deckerinoString);
+            String version = uri.getQueryParameter("v");
+            String patch = uri.getQueryParameter("patch");
+
+            String name = uri.getQueryParameter("name");
+            if(name != null && name != "")
+                deck.setName(name);
+
+            // TODO what if class is invalid?
+            String playerClass = uri.getQueryParameter("class");
+            deck.setPlayerClass(PlayerClass.valueOf(playerClass));
+
+            Set<String> queryParams = uri.getQueryParameterNames();
+            for (String s : queryParams) {
+                // ignore version/header params
+                if (s.equals("v") || s.equals("patch") || s.equals("class")) continue;
+
+                // expected that card ID has an underscore '_'
+                if (!s.contains("_")) continue;
+
+                Card card = adapter.cardById(s);
+                deck.addToDeck(card, Integer.parseInt(uri.getQueryParameter(s)));
+            }
+        } finally {
+
+                if(adapter != null) {
+                    adapter.close();
+                }
+            }
+
+            /*
         String[] tokens = deckerinoString.split("##");
         String header = tokens[0];
         // for now, header is unused
 
-        CardDbAdapter adapter = null;
+
 
         try {
 
@@ -202,7 +241,7 @@ public class Deck {
                 adapter.close();
             }
         }
-
+*/
         return deck;
     }
 
