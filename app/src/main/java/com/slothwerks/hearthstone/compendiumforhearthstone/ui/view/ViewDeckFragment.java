@@ -82,6 +82,13 @@ public class ViewDeckFragment extends Fragment implements IntentConstants {
             mDeck = new DeckDbAdapter(getActivity()).getDeckById(mDeckId);
         }
 
+        //if(mDeckId == -1) {
+
+            /*((BaseActivity) getActivity()).getSupportActionBar().setHomeButtonEnabled(false);
+            ((BaseActivity) getActivity()).getSupportActionBar().setDisplayShowHomeEnabled(false);
+            ((BaseActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+       // }*/
+
         mListView = (ListView)view.findViewById(R.id.view_deck_listview);
 
         // set the color of the action bar based on class
@@ -102,7 +109,11 @@ public class ViewDeckFragment extends Fragment implements IntentConstants {
             }
         });
 
-        ((ActionBarActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        // if coming from a link, there's nothing to go back to
+        if(mDeckId == -1)
+            ((ActionBarActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+        else
+            ((ActionBarActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         mNoCardsText = (TextView)view.findViewById(R.id.view_deck_no_card_text);
 

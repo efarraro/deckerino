@@ -31,8 +31,6 @@ public class ViewDeckActivity extends BaseActivity implements IntentConstants {
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.container,viewDeckFragment)
                     .commit();
-
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
     }
 

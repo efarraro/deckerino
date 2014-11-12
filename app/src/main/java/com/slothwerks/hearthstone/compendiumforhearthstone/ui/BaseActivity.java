@@ -34,8 +34,8 @@ public class BaseActivity extends ActionBarActivity implements IntentConstants {
             setSupportActionBar(mToolbar);
             mToolbar.setTitleTextColor(Color.WHITE);
 
-            getSupportActionBar().setHomeButtonEnabled(true);
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            //getSupportActionBar().setHomeButtonEnabled(true);
+            //getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
     }
 
