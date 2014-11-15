@@ -13,4 +13,6 @@ Screenshots
 <img src = 'http://i.imgur.com/tfLGIE7.png' height='400'/>
 <img src = 'http://i.imgur.com/PZdk2bK.png' height='400' />
 
-http://www.deckerino.com/deck/test
+Sample links
+http://www.deckerino.com?v=1.0&patch=1.2.0.6485&class=Priest&name=Deathrattle%20Priest&EX1_621=1&EX1_332=1&CS1_130=1&CS1_129=1&
+http://www.deckerino.com?v=1.0&patch=1.2.0.6485&class=Priest&EX1_621=1&EX1_332=1&CS1_130=1&CS1_129=1&
