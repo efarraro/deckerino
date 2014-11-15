@@ -106,7 +106,7 @@ public class BaseDrawerActivity extends BaseActivity {
     }
 
     public void onEventMainThread(EventUpdateClassTheme e) {
-        mNavListView.setBackground(new ColorDrawable(Utility.getPrimaryColorForClass(
+        mNavListView.setBackground(new ColorDrawable(Utility.getDarkColorForClass(
                 e.getPlayerClass(), getResources())));
     }
 

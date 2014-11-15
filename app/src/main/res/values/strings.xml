@@ -38,7 +38,7 @@
     <string name="nav_browse_cards">Browse cards</string>
     <string name="nav_deck">DECKS</string>
     <string name="nav_create">Create</string>
-    <string name="nav_manage">Manage</string>
+    <string name="nav_manage">Decks</string>
     <string name="nav_about">About</string>
 
     <!-- deck summary -->

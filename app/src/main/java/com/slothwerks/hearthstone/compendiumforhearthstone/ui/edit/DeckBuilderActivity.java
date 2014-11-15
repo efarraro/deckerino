@@ -43,25 +43,25 @@ public class DeckBuilderActivity extends BaseActivity implements IntentConstants
 
         PlayerClass currentClass = PlayerClass.Unknown;
 
-        // TODO understand savedInstanceState better
+
         // TODO move this to a fragment?
-        if (savedInstanceState == null) {
 
-            // check to see if we have a deck ID for this deck
-            mDeckId = getIntent().getLongExtra(DECK_ID, -1);
+        // check to see if we have a deck ID for this deck
+        mDeckId = getIntent().getLongExtra(DECK_ID, -1);
 
-            Deck deck = null;
-            if(mDeckId != -1) {
-                mCurrentDeck = new DeckDbAdapter(this.getApplicationContext()).getDeckById(mDeckId);
-                currentClass = mCurrentDeck.getPlayerClass();
-            }
-            else {
-                Assert.assertTrue("Expected player_class in Intent bundle",
-                        getIntent().getStringExtra(PLAYER_CLASS) != null);
-                currentClass = PlayerClass.valueOf(getIntent().getStringExtra(PLAYER_CLASS));
-            }
+        Deck deck = null;
+        if(mDeckId != -1) {
+            mCurrentDeck = new DeckDbAdapter(this.getApplicationContext()).getDeckById(mDeckId);
+            currentClass = mCurrentDeck.getPlayerClass();
+        }
+        else {
+            Assert.assertTrue("Expected player_class in Intent bundle",
+                    getIntent().getStringExtra(PLAYER_CLASS) != null);
+            currentClass = PlayerClass.valueOf(getIntent().getStringExtra(PLAYER_CLASS));
+        }
 
-            // add the rest of the deck builder
+        // add the rest of the deck builder
+        if(savedInstanceState == null) {
             DeckBuilderFragment deckBuilderFragment = new DeckBuilderFragment();
             Bundle bundle = new Bundle();
 
@@ -74,24 +74,25 @@ public class DeckBuilderActivity extends BaseActivity implements IntentConstants
                     .add(R.id.container, deckBuilderFragment)
                     .commit();
 
+
             // set up for the right-bar deck list
-            mDeckDrawerLayout = (DrawerLayout)findViewById(R.id.drawer_layout);
-            mDeckDrawer = (ListView)findViewById(R.id.deck_builder_deck_drawer);
+            mDeckDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+            mDeckDrawer = (ListView) findViewById(R.id.deck_builder_deck_drawer);
 
             mListAdapter =
                     new DeckListArrayAdapter(this, deckBuilderFragment.getDeck().getCards());
             mDeckDrawer.setAdapter(mListAdapter);
-
-            // set the title ("Deck Builder (0/30)")
-            setTitle(String.format(getString(R.string.activity_deck_builder), 0, 30));
         }
+
+        // set the title ("Deck Builder (0/30)")
+        setTitle(String.format(getString(R.string.activity_deck_builder), 0, 30));
+
 
         Toolbar toolbar = (Toolbar)findViewById(R.id.toolbar);
         if(toolbar != null) {
             setSupportActionBar(toolbar);
         }
 
-        // theme the action bar header to match the class
         getSupportActionBar().setBackgroundDrawable(
                 new ColorDrawable(Utility.getPrimaryColorForClass(
                         currentClass, getResources())));

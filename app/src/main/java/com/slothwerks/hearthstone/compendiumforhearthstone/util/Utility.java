@@ -46,6 +46,34 @@ public class Utility {
         return PlayerClass.Neutral;
     }
 
+    public static int getDarkColorForClass(PlayerClass playerClass, Resources resources) {
+
+        switch (playerClass) {
+            case Druid:
+                return resources.getColor(R.color.druid_dark);
+            case Mage:
+                return resources.getColor(R.color.mage_dark);
+            case Priest:
+                return resources.getColor(R.color.priest_dark);
+            case Rogue:
+                return resources.getColor(R.color.rogue_dark);
+            case Paladin:
+                return resources.getColor(R.color.paladin_dark);
+            case Warrior:
+                return resources.getColor(R.color.warrior_dark);
+            case Warlock:
+                return resources.getColor(R.color.warlock_dark);
+            case Shaman:
+                return resources.getColor(R.color.shaman_dark);
+            case Hunter:
+                return resources.getColor(R.color.hunter_dark);
+            case Neutral:
+                return resources.getColor(R.color.neutral_dark);
+            default:
+                return 0;
+        }
+    }
+
     public static int getPrimaryColorForClass(PlayerClass playerClass, Resources resources) {
 
         switch(playerClass) {

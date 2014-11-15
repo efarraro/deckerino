@@ -1,9 +1,16 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:deckerino="http://schemas.android.com/apk/res-auto"
     tools:context="com.slothwerks.hearthstone.compendiumforhearthstone.ui.edit.DeckBuilderActivity">
+
+    <item android:id="@+id/deck_builder_view"
+          android:title="View"
+          android:icon="@android:drawable/ic_menu_info_details"
+          android:orderInCategory="90"
+          deckerino:showAsAction="always" />
 
     <item android:id="@+id/deck_builder_action_name_deck"
         android:title="@string/deck_builder_menu_name_deck"
         android:orderInCategory="100"
-        android:showAsAction="never" />
+        deckerino:showAsAction="never" />
 </menu>

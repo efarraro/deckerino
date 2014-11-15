@@ -21,6 +21,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.astuetz.PagerSlidingTabStrip;
+import com.slothwerks.hearthstone.compendiumforhearthstone.events.EventRequestDisplayDeck;
 import com.slothwerks.hearthstone.compendiumforhearthstone.models.PlayerClass;
 import com.slothwerks.hearthstone.compendiumforhearthstone.ui.BaseActivity;
 import com.slothwerks.hearthstone.compendiumforhearthstone.ui.IntentConstants;
@@ -249,6 +250,9 @@ public class DeckBuilderFragment extends Fragment implements IntentConstants {
                             create();
 
             dialog.show();
+        }
+        else if(item.getItemId() == R.id.deck_builder_view) {
+            EventBus.getDefault().post(new EventRequestDisplayDeck());
         }
 
         return super.onOptionsItemSelected(item);
