@@ -61,8 +61,9 @@ public class DeckBuilderActivity extends BaseActivity implements IntentConstants
         }
 
         // add the rest of the deck builder
+        DeckBuilderFragment deckBuilderFragment = null;
         if(savedInstanceState == null) {
-            DeckBuilderFragment deckBuilderFragment = new DeckBuilderFragment();
+            deckBuilderFragment = new DeckBuilderFragment();
             Bundle bundle = new Bundle();
 
             // pass in the ID of the deck we're working with
@@ -73,16 +74,21 @@ public class DeckBuilderActivity extends BaseActivity implements IntentConstants
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.container, deckBuilderFragment)
                     .commit();
-
-
-            // set up for the right-bar deck list
-            mDeckDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-            mDeckDrawer = (ListView) findViewById(R.id.deck_builder_deck_drawer);
-
-            mListAdapter =
-                    new DeckListArrayAdapter(this, deckBuilderFragment.getDeck().getCards());
-            mDeckDrawer.setAdapter(mListAdapter);
         }
+
+        // need to do this to restore the right-drawer deck list
+        if(deckBuilderFragment == null)
+            deckBuilderFragment = (DeckBuilderFragment)
+                getSupportFragmentManager().findFragmentById(R.id.container);
+
+        // set up for the right-bar deck list
+        mDeckDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        mDeckDrawer = (ListView) findViewById(R.id.deck_builder_deck_drawer);
+
+        mListAdapter =
+                new DeckListArrayAdapter(this, deckBuilderFragment.getDeck().getCards());
+        mDeckDrawer.setAdapter(mListAdapter);
+
 
         // set the title ("Deck Builder (0/30)")
         setTitle(String.format(getString(R.string.activity_deck_builder), 0, 30));
