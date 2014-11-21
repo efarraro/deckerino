@@ -1,8 +1,12 @@
 Deckerino
 =============
-Hearthstone tracker/deck builder for Android.
+Deckerino (currently in beta) is a deck/builder manager for Hearthstone. You can use Deckerino to keep track of your decks, share decks easily with friends, and 'track' your deck during play.
+* Create and manage decks with the latest cards, including Curse of Naxxaramas (soon, Goblins vs. Gnomes!)
+* Track your decks during play, helping you to keep track of which cards have been played and which are yet to be drawn
+* Works great for tablet and phone
 
-(Deckerino is a work in progress/not yet released, so some things might be missing broken.  Compiled using the latest official beta release of Android Studio)
+Download it on Google Play
+https://play.google.com/store/apps/details?id=com.slothwerks.hearthstone.compendiumforhearthstone
 
 License
 =============
