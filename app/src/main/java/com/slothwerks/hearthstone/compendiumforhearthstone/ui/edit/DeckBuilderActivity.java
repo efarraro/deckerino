@@ -89,10 +89,8 @@ public class DeckBuilderActivity extends BaseActivity implements IntentConstants
                 new DeckListArrayAdapter(this, deckBuilderFragment.getDeck().getCards());
         mDeckDrawer.setAdapter(mListAdapter);
 
-
-        // set the title ("Deck Builder (0/30)")
+        // set the title (eg: "Deck Builder (0/30)")
         setTitle(String.format(getString(R.string.activity_deck_builder), 0, 30));
-
 
         Toolbar toolbar = (Toolbar)findViewById(R.id.toolbar);
         if(toolbar != null) {

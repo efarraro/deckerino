@@ -283,6 +283,8 @@ public class Card {
                 card.setSet(CardSet.Naxxramas);
             else if(set.equals("Debug"))
                 card.setSet(CardSet.Debug);
+            else if(set.equals("Goblins vs Gnomes"))
+                card.setSet(CardSet.Goblins);
             else
                 card.setSet(CardSet.valueOf(set));
         }
